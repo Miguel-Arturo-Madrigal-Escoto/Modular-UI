@@ -3,13 +3,14 @@ import {
     Routes,
     Route
 } from 'react-router-dom';
-import { ForYou } from '../components/home/ForYou';
-import { Profile } from '../components/home/Profile';
-import { ProfileEdit } from '../components/home/ProfileEdit';
-import { Matches } from '../components/matches/Matches';
-import { Register } from '../components/auth/Register';
-import { Login } from '../components/auth/Login';
-import { Messages } from '../components/messages/Messages';
+import { ForYou } from '../pages/home/ForYou';
+import { Profile } from '../pages/home/Profile';
+import { ProfileEdit } from '../pages/home/ProfileEdit';
+import { Matches } from '../pages/matches/Matches';
+import { Register } from '../pages/auth/Register';
+import { Login } from '../pages/auth/Login';
+import { Messages } from '../pages/messages/Messages';
+
 
 export const AppRouter = () => {
     return (
