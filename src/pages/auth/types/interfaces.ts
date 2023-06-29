@@ -8,3 +8,10 @@ interface IGoogleSucessLogin {
     refresh_token: string;
     user: string;
 }
+
+interface IRegister {
+    email: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+}
