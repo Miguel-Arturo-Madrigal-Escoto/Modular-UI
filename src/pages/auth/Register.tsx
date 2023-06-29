@@ -1,6 +1,11 @@
 
-import "../../styles/index.css"
+import { useNavigate } from 'react-router-dom';
+import "../../styles/auth.css"
+
 export const Register = () => {
+
+  const navigate = useNavigate();
+
   return (
       <>
         <div className="relative min-h-screen flex ">
@@ -15,7 +20,7 @@ export const Register = () => {
                     has?</div>
                 </div>
               </div>
-              <div className="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
+              <div className="md:flex md:items-center md:justify-center sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
                 <div className="max-w-md w-full space-y-8">
                   <div className="text-center">
                     <h2 className="mt-6 text-3xl font-bold text-gray-900">
@@ -72,6 +77,14 @@ export const Register = () => {
                         className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
                         type="password" placeholder="Enter your password"/>
                     </div>
+                    <div className="mt-8 content-center">
+                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                        Confirm password
+                      </label>
+                      <input
+                        className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
+                        type="password" placeholder="Confirm your password"/>
+                    </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <input id="remember_me" name="remember_me" type="checkbox"
@@ -94,9 +107,9 @@ export const Register = () => {
                     </div>
                     <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
                       <span>Already have an account?</span>
-                      <a href="/login"
+                      <button onClick={ () => navigate('/login') }
                         className="text-indigo-400 hover:text-blue-700 no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign
-                        in</a>
+                        in</button>
                     </p>
                   </form>
                 </div>

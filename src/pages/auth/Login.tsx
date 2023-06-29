@@ -1,7 +1,9 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form'
-import '../../styles/index.css'
 import { onGoogleAuthenticate } from './actions/login'
+import { useNavigate } from 'react-router-dom'
+import '../../styles/auth.css'
+
 export const Login = () => {
 
     const {
@@ -9,9 +11,12 @@ export const Login = () => {
       handleSubmit,
     } = useForm<ILogin>()
 
+    const navigate = useNavigate();
+
     const onSubmit: SubmitHandler<ILogin> = (data) => {
       console.log(data)
     }
+    
     return (
         <>
           <div className="relative min-h-screen flex ">
@@ -26,7 +31,7 @@ export const Login = () => {
                     has?</div>
                 </div>
               </div>
-              <div className="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
+              <div className="md:flex md:items-center md:justify-center sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
                 <div className="max-w-md w-full space-y-8">
                   <div className="text-center">
                     <h2 className="mt-6 text-3xl font-bold text-gray-900">
@@ -102,9 +107,9 @@ export const Login = () => {
                     </div>
                     <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
                       <span>Don't have an account?</span>
-                      <a href="/register"
+                      <button onClick={ () => navigate('/register') }
                         className="text-indigo-400 hover:text-blue-700 no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign
-                        up</a>
+                        up</button>
                     </p>
                   </form>
                 </div>
