@@ -1,4 +1,4 @@
-//AQUI
+
 import "../../styles/index.css"
 export const Register = () => {
   return (
@@ -55,6 +55,14 @@ export const Register = () => {
                       <input
                         className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
                         type="email" placeholder="mail@gmail.com"/>
+                    </div>
+                    <div className="mt-8 content-center">
+                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
+                        Username
+                      </label>
+                      <input
+                        className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
+                        type="text" placeholder="Enter your usernam"/>
                     </div>
                     <div className="mt-8 content-center">
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">

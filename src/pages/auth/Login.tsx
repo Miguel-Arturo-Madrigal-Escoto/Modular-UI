@@ -1,16 +1,12 @@
-//AQUI
-import { axios_base } from '../../api/axios_base'
+
 import { useForm, SubmitHandler } from 'react-hook-form'
 import '../../styles/index.css'
 import { onGoogleAuthenticate } from './actions/login'
 export const Login = () => {
 
-   
-
     const {
       register,
       handleSubmit,
-      formState: { errors },
     } = useForm<ILogin>()
 
     const onSubmit: SubmitHandler<ILogin> = (data) => {
