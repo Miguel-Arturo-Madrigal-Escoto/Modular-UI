@@ -4,6 +4,7 @@ import "../../styles/auth.css"
 import { HeaderForm } from './HeaderForm';
 import { SideBarForm } from './SideBarForm';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { IRegister } from './types/interfaces';
 
 export const Register = () => {
 
