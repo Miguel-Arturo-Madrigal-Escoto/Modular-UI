@@ -3,10 +3,17 @@ export interface ILogin {
     password: string;
 }
 
-export interface IGoogleSucessLogin {
+export interface ISocialLoginSuccess {
     access_token: string;
     refresh_token: string;
     user: string;
 }
 
-export type IProviders = 'google' | 'linkedin'
+export type IProviders = 'google' | 'linkedin';
+
+export interface IRegister {
+    email: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+}
