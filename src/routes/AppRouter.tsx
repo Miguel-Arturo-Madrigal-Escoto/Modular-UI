@@ -11,6 +11,7 @@ import { Register } from '../pages/auth/Register';
 import { Login } from '../pages/auth/Login';
 import { Messages } from '../pages/messages/Messages';
 import { GoogleOAuth2 } from '../pages/auth/GoogleOAuth2';
+import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
 
 
 export const AppRouter = () => {
@@ -25,6 +26,7 @@ export const AppRouter = () => {
                 <Route path='/login' element={ <Login /> } />
                 <Route path='/messages' element={ <Messages /> } />
                 <Route path='/auth/oauth2/google' element={ <GoogleOAuth2 /> } />
+                <Route path='/auth/oauth2/linkedin' element={ <LinkedinOAuth2 /> } />
             </Routes>
         </Router>
     )

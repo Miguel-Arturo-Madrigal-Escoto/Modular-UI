@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { onAuthenticate } from '../actions/authenticate'
 import queryString from 'query-string';
+import { IProviders } from '../types/interfaces';
 
-export const useAuthenticate = (params: queryString.ParsedQuery<string>) => {
+export const useOAuth2Authenticate = (params: queryString.ParsedQuery<string>, provider: IProviders) => {
     const query = useQuery(
-        ['authenticate'],
-        () => onAuthenticate(params)
+        ['authenticate', provider],
+        () => onAuthenticate(params, provider)
     )
 
     return query;

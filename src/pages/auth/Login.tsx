@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { onGoogleAuthenticate } from './actions/login'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/auth.css'
+import { ILogin } from './types/interfaces'
 
 export const Login = () => {
 
