@@ -1,23 +1,28 @@
 
 import { useNavigate } from 'react-router-dom';
-import "../../styles/auth.css"
 import { HeaderForm } from './HeaderForm';
 import { SideBarForm } from './SideBarForm';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IRegister } from './types/interfaces';
+import { useEmailValid } from './hooks/useEmailValid';
+import { IsValidEmail } from '../../components/auth/IsValidEmail';
+import "../../styles/auth.css"
 
 export const Register = () => {
 
   const {
     register,
     handleSubmit,
+    watch
   } = useForm<IRegister>()
+
+  const navigate = useNavigate();
+
+  const { isEmailValid } = useEmailValid(watch('email'))
 
   const onSubmit: SubmitHandler<IRegister> = (data) => {
     console.log(data)
   }
-
-  const navigate = useNavigate();
 
   return (
       <>
@@ -34,12 +39,9 @@ export const Register = () => {
                   <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
                     <input type="hidden" name="remember" value="true"/>
                     <div className="relative">
-                      <div className="absolute right-3 mt-4"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500"
-                          fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                      </div>
+                      {
+                        isEmailValid && <IsValidEmail />
+                      }
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">E-mail</label>
                       <input
                         className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"

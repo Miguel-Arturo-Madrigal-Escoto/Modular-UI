@@ -9,7 +9,7 @@ export interface ISocialLoginSuccess {
     user: string;
 }
 
-export type IProviders = 'google' | 'linkedin';
+export type IProviders = 'google' | 'linkedin' | 'github';
 
 export interface IRegister {
     email: string;

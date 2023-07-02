@@ -12,6 +12,7 @@ import { Login } from '../pages/auth/Login';
 import { Messages } from '../pages/messages/Messages';
 import { GoogleOAuth2 } from '../pages/auth/GoogleOAuth2';
 import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
+import { GithubOAuth2 } from '../pages/auth/GithubOAuth2';
 
 
 export const AppRouter = () => {
@@ -27,6 +28,7 @@ export const AppRouter = () => {
                 <Route path='/messages' element={ <Messages /> } />
                 <Route path='/auth/oauth2/google' element={ <GoogleOAuth2 /> } />
                 <Route path='/auth/oauth2/linkedin' element={ <LinkedinOAuth2 /> } />
+                <Route path='/auth/oauth2/github' element={ <GithubOAuth2 /> } />
             </Routes>
         </Router>
     )
