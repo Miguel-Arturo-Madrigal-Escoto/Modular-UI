@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { onGithubAuthenticate, onGoogleAuthenticate, onLinkedinAuthenticate } from './actions/login'
+import { TitleForm } from './TitleForm';
 
 interface Props {
     title: string;
@@ -9,12 +10,7 @@ interface Props {
 export const HeaderForm:FC<Props> = ({title, message}) => {
   return (
     <>
-        <div className="text-center">
-            <h2 className="mt-6 text-3xl font-bold text-gray-900">
-                {title}
-            </h2>
-            <p className="mt-2 text-sm text-gray-500">{message}</p>
-        </div>
+        <TitleForm title={title}  message={message} />
         <div className="flex flex-row justify-center items-center space-x-3">
         
             {/* GITHUB */}

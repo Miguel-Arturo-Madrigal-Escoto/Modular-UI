@@ -13,6 +13,7 @@ import { Messages } from '../pages/messages/Messages';
 import { GoogleOAuth2 } from '../pages/auth/GoogleOAuth2';
 import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
 import { GithubOAuth2 } from '../pages/auth/GithubOAuth2';
+import { ProfileForm } from '../pages/auth/ProfileForm';
 
 
 export const AppRouter = () => {
@@ -29,6 +30,8 @@ export const AppRouter = () => {
                 <Route path='/auth/oauth2/google' element={ <GoogleOAuth2 /> } />
                 <Route path='/auth/oauth2/linkedin' element={ <LinkedinOAuth2 /> } />
                 <Route path='/auth/oauth2/github' element={ <GithubOAuth2 /> } />
+
+                <Route path='/profile/form' element={ <ProfileForm/> } />
             </Routes>
         </Router>
     )
