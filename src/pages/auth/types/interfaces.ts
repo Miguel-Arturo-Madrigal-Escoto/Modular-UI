@@ -15,8 +15,8 @@ export interface ILogin {
 }
 
 export interface ISocialLoginSuccess {
-    access_token: string;
-    refresh_token: string;
+    access: string;
+    refresh: string;
     user: string;
 }
 

@@ -1,6 +1,14 @@
+import { FC } from 'react';
+import { Navigate } from 'react-router-dom';
 
-export const PrivateRoute = () => {
+
+interface Props {
+    children: any;
+    user: string | null;
+}
+
+export const PrivateRoute: FC<Props> = ({ children, user }) => {
     return (
-        <div>PrivateRoute</div>
+        user ? children : <Navigate to="/login" />
     )
 }

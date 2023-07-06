@@ -1,6 +1,14 @@
+import { FC } from 'react';
+import { Navigate } from 'react-router-dom';
 
-export const PublicRoute = () => {
+
+interface Props {
+    children: any;
+    user: string | null;
+}
+
+export const PublicRoute: FC<Props> = ({ children, user }) => {
     return (
-        <div>PublicRoute</div>
+        !user ? children : <Navigate to="/for-you" />
     )
 }
