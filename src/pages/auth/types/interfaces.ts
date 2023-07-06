@@ -5,6 +5,10 @@ export interface IRegister {
     confirmPassword: string;
 }
 
+export interface IAuthorizationRedirect {
+    authorization_url: string;
+} 
+
 export interface ILogin {
     email: string;
     password: string;
