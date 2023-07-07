@@ -1,5 +1,6 @@
-import { onLogout } from "../../app/auth/authSlice";
-import { useAppDispatch } from "../../app/hooks"
+
+import { onLogout } from '../../app/auth/thunks';
+import { useAppDispatch } from '../../app/hooks'
 
 export const ForYou = () => {
 

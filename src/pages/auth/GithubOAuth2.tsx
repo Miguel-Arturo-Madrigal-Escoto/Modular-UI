@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import { LoadingIcon } from '../../components/common/LoadingIcon';
+import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogin } from '../../app/auth/thunks';
@@ -22,6 +22,8 @@ export const GithubOAuth2 = () => {
     
   
     return (
-        <LoadingIcon loading={ loading }/>
+        loading && (
+            <LoadingScreen />
+        )
     )
 }

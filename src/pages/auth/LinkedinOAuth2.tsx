@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogin } from '../../app/auth/thunks';
-import { LoadingIcon } from '../../components/common/LoadingIcon';
+import { LoadingScreen } from '../../components/common/LoadingScreen';
 
 
 
@@ -24,6 +24,8 @@ export const LinkedinOAuth2 = () => {
     
   
     return (
-        <LoadingIcon loading={ loading }/>
+        loading && (
+            <LoadingScreen />
+        )
     )
 }

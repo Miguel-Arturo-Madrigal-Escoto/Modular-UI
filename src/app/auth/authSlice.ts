@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { onLogin } from './thunks';
+import { onLogin, onLogout } from './thunks';
 
 export interface AuthState {
   access: string | null;
@@ -11,9 +10,9 @@ export interface AuthState {
 }
 
 export const initialState: AuthState = {
-  access: null,
-  refresh: null,
-  user: null,
+  access: localStorage.getItem('access'),
+  refresh: localStorage.getItem('refresh'),
+  user: localStorage.getItem('user'),
   error: null,
   loading: false
 }
@@ -21,11 +20,7 @@ export const initialState: AuthState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    onLogout: () => {
-        return initialState;
-    }
-  },
+  reducers: {},
   extraReducers(builder) {
       // when onLogin starts
       builder.addCase(onLogin.pending, (state) => {
@@ -45,6 +40,7 @@ export const authSlice = createSlice({
           loading: false
         }
       }),
+
       // when onLogin ends with an error
       builder.addCase(onLogin.rejected, (state) => {
         return {
@@ -53,10 +49,19 @@ export const authSlice = createSlice({
           loading: false
         }
       })
+
+      // when onLogout ends successfully
+      builder.addCase(onLogout.fulfilled, () => {
+          return {
+            access: null,
+            refresh: null,
+            user: null,
+            error: null,
+            loading: false
+          }
+      })
   },
 })
 
-// Action creators are generated for each case reducer function
-export const { onLogout } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { LoadingIcon } from '../../components/common/LoadingIcon';
+import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { onLogin } from '../../app/auth/thunks';
 
 export const GoogleOAuth2 = () => {
@@ -22,6 +22,8 @@ export const GoogleOAuth2 = () => {
     
   
     return (
-        <LoadingIcon loading={ loading }/>
+        loading && (
+            <LoadingScreen />
+        )
     )
 }

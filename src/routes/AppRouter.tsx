@@ -14,49 +14,53 @@ import { GoogleOAuth2 } from '../pages/auth/GoogleOAuth2';
 import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
 import { GithubOAuth2 } from '../pages/auth/GithubOAuth2';
 import { ProfileForm } from '../pages/auth/ProfileForm';
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppSelector } from '../app/hooks';
 import { useEffect } from 'react';
-import { logout } from '../app/auth/authSlice';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
+import { saveLocalStorageState } from '../app/helpers/saveLocalStorageState';
 
 
 export const AppRouter = () => {
 
-    const authState = useAppSelector(state => state.auth);
-    const dispatch = useAppDispatch();
+    const { user, access, refresh } = useAppSelector(state => state.auth);
 
     useEffect(() => {
 
+        // update the localStorage state
+        console.log('state changed')
+        saveLocalStorageState({ user, access, refresh });
 
-    }, [authState]);
+    }, [user, access, refresh]);
 
     return (
         <Router>
             <Routes>
                 <Route path='/for-you' element={ 
-                    <PrivateRoute user={authState.user}>
+                    <PrivateRoute user={user}>
                         <ForYou />
                     </PrivateRoute>
                 } />
+
                 <Route path='/profile' element={ <Profile /> } />
                 <Route path='/profile/edit' element={ <ProfileEdit /> } />
                 <Route path='/matches' element={ <Matches /> } />
                 <Route path='/register' element={ <Register /> } />
                 <Route path='/login' element={ <Login /> } />
                 <Route path='/messages' element={ <Messages /> } />
+
                 <Route path='/auth/oauth2/google' element={ 
-                    <PublicRoute user={authState.user}>
+                    <PublicRoute user={user}>
                         <GoogleOAuth2 />
                     </PublicRoute>
                 } />
                 <Route path='/auth/oauth2/linkedin' element={ 
-                    <PublicRoute user={authState.user}>
+                    <PublicRoute user={user}>
                         <LinkedinOAuth2 />
                     </PublicRoute>
                 } />
                 <Route path='/auth/oauth2/github' element={ 
-                    <PublicRoute user={authState.user}>
+                    <PublicRoute user={user}>
                         <GithubOAuth2 />
                     </PublicRoute>
                 } />
