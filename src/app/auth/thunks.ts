@@ -18,8 +18,8 @@ export const onLogin = createAsyncThunk(
 export const onLogout = createAsyncThunk(
     'auth/onLogout',
     async () => {
-        localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('access');
+        sessionStorage.removeItem('refresh');
+        sessionStorage.removeItem('user');
     }
 )

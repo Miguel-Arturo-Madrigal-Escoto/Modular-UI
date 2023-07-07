@@ -18,7 +18,7 @@ import { useAppSelector } from '../app/hooks';
 import { useEffect } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
-import { saveLocalStorageState } from '../app/helpers/saveLocalStorageState';
+import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
 
 
 export const AppRouter = () => {
@@ -29,7 +29,7 @@ export const AppRouter = () => {
 
         // update the localStorage state
         console.log('state changed')
-        saveLocalStorageState({ user, access, refresh });
+        saveSessionStorageState({ user, access, refresh });
 
     }, [user, access, refresh]);
 
