@@ -19,7 +19,7 @@ export const Login = () => {
 
     const navigate = useNavigate();
 
-    const { isEmailValid } = useEmailValid(watch('email'))
+    const { isEmailValid } = useEmailValid(watch('email'));
 
 
     const onSubmit: SubmitHandler<ILogin> = data => console.log(data);
@@ -44,12 +44,13 @@ export const Login = () => {
                       {
                         isEmailValid && <IsValidEmail />
                       }
-                      
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">E-mail</label>
                       <input
                         className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
                         type="email" placeholder="mail@gmail.com"
-                        {...register('email')}
+                        {...register('email', {
+                          required: true
+                        })}
                       />
                     </div>
                     <div className="mt-8 content-center">
@@ -59,7 +60,9 @@ export const Login = () => {
                       <input
                         className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
                         type="password" placeholder="Ingresa tu contraseña"
-                        {...register('password')}
+                        {...register('password', {
+                          required: true
+                        })}
                       />
                     </div>
                     <div className="flex items-center justify-between">

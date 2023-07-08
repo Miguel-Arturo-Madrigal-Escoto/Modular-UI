@@ -1,9 +1,11 @@
+//AQUIIIIIIIIIIII
 import { SideBarForm } from "./SideBarForm"
 import { useForm } from 'react-hook-form'
 import { IProfileOrCompany } from "./types/interfaces"
 import { TitleForm } from "./TitleForm"
 import { UserForm } from "./UserForm"
 import { CompanyForm } from "./CompanyForm"
+import { useUserOrCompany } from "./hooks/useUserOrCompany"
 
 export const ProfileForm = () => {
     const {
@@ -11,10 +13,12 @@ export const ProfileForm = () => {
         watch
       } = useForm<IProfileOrCompany>()
 
-    const isCompany = watch('option') === "company";
-    const isUser = watch('option', 'user') === "user";
-    console.log({isCompany});
-    console.log({isUser});
+    // const isCompany = watch('option') === "company";
+    // const isUser = watch('option', 'user') === "user";
+    // console.log({isCompany});
+    // console.log({isUser});
+
+    const { isUser } = useUserOrCompany(watch('option'));
 
     return (
     <>
@@ -34,8 +38,7 @@ export const ProfileForm = () => {
                         </select>
                     </div>
 
-                    { isCompany && <CompanyForm />}
-                    { isUser && <UserForm />}
+                    { isUser ? <UserForm /> : <CompanyForm />}
                     
 
                 </div>
