@@ -1,13 +1,17 @@
 import { FC } from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAppSelector } from '../app/hooks';
 
 
 interface Props {
     children: any;
-    user: string | null;
 }
 
-export const PrivateRoute: FC<Props> = ({ children, user }) => {
+export const PrivateRoute: FC<Props> = ({ children }) => {
+
+    const { user } = useAppSelector(state => state.auth);
+    console.log('state: ', user)
+
     return (
         user ? children : <Navigate to="/login" />
     )

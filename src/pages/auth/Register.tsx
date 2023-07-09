@@ -7,6 +7,10 @@ import { IRegister } from './types/interfaces';
 import { useEmailValid } from './hooks/useEmailValid';
 import { IsValidEmail } from '../../components/auth/IsValidEmail';
 import "../../styles/auth.css"
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { onRegister } from '../../app/auth/thunks';
+import { useEffect } from 'react';
+import { clearSuccess } from '../../app/auth/authSlice';
 
 export const Register = () => {
 
@@ -17,23 +21,40 @@ export const Register = () => {
   } = useForm<IRegister>()
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { success } = useAppSelector(state => state.auth);
 
   const { isEmailValid } = useEmailValid(watch('email'))
 
   const onSubmit: SubmitHandler<IRegister> = (data) => {
-    console.log(data)
+      if (data.password !== data.confirmPassword) return;
+
+      dispatch(onRegister({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      }))
   }
+
+
+  useEffect(() => {
+    if (success) {
+        alert(success);
+        dispatch(clearSuccess())
+    }
+  }, [success]);
+
 
   return (
       <>
         <div className="relative min-h-screen flex ">
             <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
-              <SideBarForm></SideBarForm>
+              <SideBarForm />
               
               <div className="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8  md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white">
                 <div className="max-w-md w-full space-y-8">
                   {/* Header form */}
-                  <HeaderForm title='Regístrate'  message='Regístrate con tu cuenta'></HeaderForm>
+                  <HeaderForm title='Regístrate'  message='Regístrate con tu cuenta' />
 
                   {/* Formulario */}
                   <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>

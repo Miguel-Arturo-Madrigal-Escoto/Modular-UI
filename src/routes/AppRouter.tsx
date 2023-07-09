@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
+import { UserActivation } from '../pages/auth/UserActivation';
 
 
 export const AppRouter = () => {
@@ -26,18 +27,15 @@ export const AppRouter = () => {
     const { user, access, refresh } = useAppSelector(state => state.auth);
 
     useEffect(() => {
-
-        // update the localStorage state
-        console.log('state changed')
         saveSessionStorageState({ user, access, refresh });
-
     }, [user, access, refresh]);
+
 
     return (
         <Router>
             <Routes>
                 <Route path='/for-you' element={ 
-                    <PrivateRoute user={user}>
+                    <PrivateRoute>
                         <ForYou />
                     </PrivateRoute>
                 } />
@@ -45,23 +43,37 @@ export const AppRouter = () => {
                 <Route path='/profile' element={ <Profile /> } />
                 <Route path='/profile/edit' element={ <ProfileEdit /> } />
                 <Route path='/matches' element={ <Matches /> } />
-                <Route path='/register' element={ <Register /> } />
-                <Route path='/login' element={ <Login /> } />
+                <Route path='/register' element={
+                    <PublicRoute>
+                        <Register />
+                    </PublicRoute>
+                } />
+                <Route path='/login' element={
+                    <PublicRoute>
+                        <Login />
+                    </PublicRoute>
+                } />
                 <Route path='/messages' element={ <Messages /> } />
 
                 <Route path='/auth/oauth2/google' element={ 
-                    <PublicRoute user={user}>
+                    <PublicRoute>
                         <GoogleOAuth2 />
                     </PublicRoute>
                 } />
                 <Route path='/auth/oauth2/linkedin' element={ 
-                    <PublicRoute user={user}>
+                    <PublicRoute>
                         <LinkedinOAuth2 />
                     </PublicRoute>
                 } />
                 <Route path='/auth/oauth2/github' element={ 
-                    <PublicRoute user={user}>
+                    <PublicRoute>
                         <GithubOAuth2 />
+                    </PublicRoute>
+                } />
+
+                <Route path='/register/activate/:uid/:token' element={ 
+                    <PublicRoute>
+                        <UserActivation />
                     </PublicRoute>
                 } />
 

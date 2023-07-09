@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { onLogin } from '../../app/auth/thunks';
+import { onSocialLogin } from '../../app/auth/thunks';
 
 export const GithubOAuth2 = () => {
 
@@ -14,7 +14,7 @@ export const GithubOAuth2 = () => {
 
  
     useEffect(() => {
-        dispatch(onLogin({
+        dispatch(onSocialLogin({
             params,
             provider: 'github'
         }));

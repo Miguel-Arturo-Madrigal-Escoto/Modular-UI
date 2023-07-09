@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { onLogin } from '../../app/auth/thunks';
+import { onSocialLogin } from '../../app/auth/thunks';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 
 
@@ -16,7 +16,7 @@ export const LinkedinOAuth2 = () => {
 
  
     useEffect(() => {
-        dispatch(onLogin({
+        dispatch(onSocialLogin({
             params,
             provider: 'linkedin'
         }));

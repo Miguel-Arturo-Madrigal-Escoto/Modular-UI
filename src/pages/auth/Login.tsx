@@ -7,6 +7,8 @@ import { SideBarForm } from './SideBarForm'
 import { IsValidEmail } from '../../components/auth/IsValidEmail';
 import { useEmailValid } from './hooks/useEmailValid'
 import '../../styles/auth.css'
+import { useAppDispatch } from '../../app/hooks'
+import { onLogin } from '../../app/auth/thunks'
 
 
 export const Login = () => {
@@ -18,11 +20,39 @@ export const Login = () => {
     } = useForm<ILogin>()
 
     const navigate = useNavigate();
-
+    const dispatch = useAppDispatch();
     const { isEmailValid } = useEmailValid(watch('email'));
 
+    // Todo: remember (email)
+    /*  
+    useEffect(() => {
+      if (!localStorage.getItem('remember')) localStorage.setItem('remember', 'false'); 
+    }, []);
 
-    const onSubmit: SubmitHandler<ILogin> = data => console.log(data);
+    useEffect(() => {
+        localStorage.setItem('remember', String(watch('remember')));  
+
+        const remember = localStorage.getItem('remember') ? localStorage.getItem('remember') : 'false';
+        const rememberEmail = remember === 'true';
+        if (rememberEmail && watch('email')){
+            localStorage.setItem('email', watch('email'));
+        }
+        else if (!rememberEmail && localStorage.getItem('email')){
+            localStorage.removeItem('email');
+        }
+
+    }, [watch('remember')])*/
+
+    const onSubmit: SubmitHandler<ILogin> = data => {
+        dispatch(onLogin({
+          email: data.email,
+          password: data.password,
+        }));
+
+        navigate('/for-you', {
+          replace: true
+        });
+    }
     
     
     return (
@@ -67,8 +97,9 @@ export const Login = () => {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <input id="remember_me" name="remember_me" type="checkbox"
-                          className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded"/>
+                        <input id="remember_me" type="checkbox"
+                          className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded"
+                          {...register('remember')}/>
                         <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
                           Recuérdame
                         </label>
