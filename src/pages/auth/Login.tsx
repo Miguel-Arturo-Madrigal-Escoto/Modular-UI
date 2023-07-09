@@ -6,9 +6,12 @@ import { HeaderForm } from './HeaderForm'
 import { SideBarForm } from './SideBarForm'
 import { IsValidEmail } from '../../components/auth/IsValidEmail';
 import { useEmailValid } from './hooks/useEmailValid'
-import '../../styles/auth.css'
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { onLogin } from '../../app/auth/thunks'
+import { rememberMe } from './actions/remember-me'
+import { FormErrorMessage } from '../../components/auth/FormErrorMessage'
+import { LoadingScreen } from '../../components/common/LoadingScreen'
+import '../../styles/auth.css'
 
 
 export const Login = () => {
@@ -17,31 +20,17 @@ export const Login = () => {
       register,
       handleSubmit,
       watch
-    } = useForm<ILogin>()
+    } = useForm<ILogin>({
+      defaultValues: {
+        email: localStorage.getItem('email') || '',
+      }
+    })
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { errors, loading } = useAppSelector(state => state.auth);
     const { isEmailValid } = useEmailValid(watch('email'));
 
-    // Todo: remember (email)
-    /*  
-    useEffect(() => {
-      if (!localStorage.getItem('remember')) localStorage.setItem('remember', 'false'); 
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('remember', String(watch('remember')));  
-
-        const remember = localStorage.getItem('remember') ? localStorage.getItem('remember') : 'false';
-        const rememberEmail = remember === 'true';
-        if (rememberEmail && watch('email')){
-            localStorage.setItem('email', watch('email'));
-        }
-        else if (!rememberEmail && localStorage.getItem('email')){
-            localStorage.removeItem('email');
-        }
-
-    }, [watch('remember')])*/
 
     const onSubmit: SubmitHandler<ILogin> = data => {
         dispatch(onLogin({
@@ -49,11 +38,16 @@ export const Login = () => {
           password: data.password,
         }));
 
+        rememberMe(data.remember, data.email);
+
         navigate('/for-you', {
           replace: true
         });
     }
     
+    if (loading) {
+      return <LoadingScreen />
+    }
     
     return (
         <>
@@ -74,7 +68,7 @@ export const Login = () => {
                       {
                         isEmailValid && <IsValidEmail />
                       }
-                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">E-mail</label>
+                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Email</label>
                       <input
                         className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
                         type="email" placeholder="mail@gmail.com"
@@ -82,6 +76,9 @@ export const Login = () => {
                           required: true
                         })}
                       />
+                      {
+                        errors.detail && <FormErrorMessage message={ errors.detail }/>
+                      }
                     </div>
                     <div className="mt-8 content-center">
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">

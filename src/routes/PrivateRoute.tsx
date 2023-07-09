@@ -10,7 +10,6 @@ interface Props {
 export const PrivateRoute: FC<Props> = ({ children }) => {
 
     const { user } = useAppSelector(state => state.auth);
-    console.log('state: ', user)
 
     return (
         user ? children : <Navigate to="/login" />

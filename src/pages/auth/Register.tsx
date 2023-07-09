@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onRegister } from '../../app/auth/thunks';
 import { useEffect } from 'react';
 import { clearSuccess } from '../../app/auth/authSlice';
+import { LoadingScreen } from '../../components/common/LoadingScreen';
+import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
 
 export const Register = () => {
 
@@ -22,7 +24,7 @@ export const Register = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { success } = useAppSelector(state => state.auth);
+  const { success, loading, errors } = useAppSelector(state => state.auth);
 
   const { isEmailValid } = useEmailValid(watch('email'))
 
@@ -44,6 +46,9 @@ export const Register = () => {
     }
   }, [success]);
 
+  if (loading) {
+      return <LoadingScreen />
+  }
 
   return (
       <>
@@ -63,10 +68,13 @@ export const Register = () => {
                       {
                         isEmailValid && <IsValidEmail />
                       }
-                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">E-mail</label>
+                      <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Email</label>
                       <input
                         className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
                         type="email" placeholder="mail@gmail.com" {...register('email')}/>
+                        {
+                          errors.email && <FormErrorMessage message={ errors.email }/>
+                        }
                     </div>
                     <div className="mt-8 content-center">
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
@@ -75,6 +83,9 @@ export const Register = () => {
                       <input
                         className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
                         type="text" placeholder="Ingresa tu nombre de usuario" {...register('username')}/>
+                        {
+                          errors.username && <FormErrorMessage message={ errors.username }/>
+                        }
                     </div>
                     <div className="mt-8 content-center">
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
@@ -83,6 +94,9 @@ export const Register = () => {
                       <input
                         className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
                         type="password" placeholder="Ingresa tu contraseña" {...register('password')}/>
+                        {
+                          errors.password && <FormErrorMessage message={ errors.password }/>
+                        }
                     </div>
                     <div className="mt-8 content-center">
                       <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">

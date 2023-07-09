@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onSocialLogin } from '../../app/auth/thunks';
@@ -11,7 +11,7 @@ export const LinkedinOAuth2 = () => {
 
     const location = useLocation();
     const dispatch = useAppDispatch();
-    const { loading } = useAppSelector(state => state.auth);
+    const { loading, errors } = useAppSelector(state => state.auth);
     const params = queryString.parse(location.search);
 
  
@@ -21,6 +21,10 @@ export const LinkedinOAuth2 = () => {
             provider: 'linkedin'
         }));
     }, []);
+
+    if (Object.values(errors).length > 0){
+        return <Navigate to="/login" />
+    }
     
   
     return (
