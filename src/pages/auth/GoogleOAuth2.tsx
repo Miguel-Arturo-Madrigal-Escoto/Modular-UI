@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
-import { onLogin } from '../../app/auth/thunks';
+import { onSocialLogin } from '../../app/auth/thunks';
 
 export const GoogleOAuth2 = () => {
 
@@ -14,7 +14,7 @@ export const GoogleOAuth2 = () => {
 
  
     useEffect(() => {
-        dispatch(onLogin({
+        dispatch(onSocialLogin({
             params,
             provider: 'google'
         }));

@@ -12,12 +12,25 @@ export interface IAuthorizationRedirect {
 export interface ILogin {
     email: string;
     password: string;
+    remember: boolean;
 }
 
 export interface ISocialLoginSuccess {
     access: string;
     refresh: string;
     user: string;
+}
+
+export interface ILoginSuccess {
+    access: string;
+    refresh: string;
+}
+
+export interface IRegisterSuccess {
+    username: string;
+    email:    string;
+    user:     null;
+    company:  null;
 }
 
 export type IProviders = 'google' | 'linkedin' | 'github';
