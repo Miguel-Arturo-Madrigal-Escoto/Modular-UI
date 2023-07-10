@@ -2,22 +2,24 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
 import { ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
 import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin } from '../types/interfaces';
+import { AxiosError } from 'axios';
 
 export const onSocialLogin = createAsyncThunk(
     'auth/onSocialLogin',
-    async ({ provider, params }: ISocialOnLogin) => {
+    async ({ provider, params }: ISocialOnLogin,  { rejectWithValue }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
             return resp.data;   
         } catch (error) {
-            throw new Error(`${ error }`);
+            const err = error as AxiosError;
+            return rejectWithValue(err.response?.data);
         }
     }
 )
 
 export const onLogin = createAsyncThunk(
     'auth/onLogin',
-    async (credentials: IOnLogin) => {
+    async (credentials: IOnLogin, { rejectWithValue }) => {
         try {
             const resp = await axios_base.post<ILoginSuccess>(`auth/jwt/create`, credentials);
             return {
@@ -26,7 +28,8 @@ export const onLogin = createAsyncThunk(
                 user: credentials.email
             };   
         } catch (error) {
-            throw new Error(`${ error }`);
+            const err = error as AxiosError;
+            return rejectWithValue(err.response?.data);
         }
     }
 )
@@ -42,24 +45,26 @@ export const onLogout = createAsyncThunk(
 
 export const onRegister = createAsyncThunk(
     'auth/onRegister',
-    async (data: IOnRegister) => {
+    async (data: IOnRegister, { rejectWithValue }) => {
         try {
             const resp = await axios_base.post<IRegisterSuccess>(`auth/users/`, data);
             return resp.data;   
         } catch (error) {
-            throw new Error(`${ error }`);
+            const err = error as AxiosError;
+            return rejectWithValue(err.response?.data);
         }
     }
 )
 
 export const onRegisterActivate = createAsyncThunk(
     'auth/onRegister/activate',
-    async (data: IOnRegisterActivate) => {
+    async (data: IOnRegisterActivate,  { rejectWithValue }) => {
         try {
             const resp = await axios_base.post(`auth/users/activation/`, data);
             return resp.data;   
         } catch (error) {
-            throw new Error(`${ error }`);
+            const err = error as AxiosError;
+            return rejectWithValue(err.response?.data);
         }
     }
 )

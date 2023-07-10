@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { useEffect } from 'react';
@@ -9,7 +9,7 @@ export const GithubOAuth2 = () => {
 
     const location = useLocation();
     const dispatch = useAppDispatch();
-    const { loading } = useAppSelector(state => state.auth);
+    const { loading, errors } = useAppSelector(state => state.auth);
     const params = queryString.parse(location.search);
 
  
@@ -20,6 +20,9 @@ export const GithubOAuth2 = () => {
         }));
     }, []);
     
+    if (Object.values(errors).length > 0){
+        return <Navigate to="/login" />
+    }
   
     return (
         loading && (

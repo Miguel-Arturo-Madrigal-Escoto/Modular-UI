@@ -5,8 +5,8 @@ export interface AuthState {
   access: string | null;
   refresh: string | null;
   user: string | null;
-  error?: string | null;
-  success?: string | null;
+  errors: any;
+  success: string | null;
   loading: boolean;
 }
 
@@ -14,7 +14,7 @@ export const initialState: AuthState = {
   access: sessionStorage.getItem('access'),
   refresh: sessionStorage.getItem('refresh'),
   user: sessionStorage.getItem('user'),
-  error: null,
+  errors: {},
   success: null,
   loading: false
 }
@@ -28,7 +28,13 @@ export const authSlice = createSlice({
           ...state,
           success: null
         }
-    }
+    },
+    clearErrors: (state) => {
+        return {
+          ...state,
+          errors: {}
+        }
+    },
   },
   extraReducers(builder) {
       // when onLogin starts
@@ -51,10 +57,10 @@ export const authSlice = createSlice({
       }),
 
       // when onLogin ends with an error
-      builder.addCase(onSocialLogin.rejected, (state) => {
+      builder.addCase(onSocialLogin.rejected, (state, { payload }) => {
         return {
           ...state,
-          error: `El usuario y/o correo ya están en uso.`,
+          errors: payload,
           loading: false
         }
       })
@@ -65,7 +71,8 @@ export const authSlice = createSlice({
             access: null,
             refresh: null,
             user: null,
-            error: null,
+            errors: {},
+            success: null,
             loading: false
           }
       })
@@ -86,6 +93,16 @@ export const authSlice = createSlice({
           success: 'Registro exitoso, Por favor, verifica tu correo.'
         }
       })
+      
+      // when onRegister ends with an error
+      builder.addCase(onRegister.rejected, (state, { payload }) => {
+
+        return {
+          ...state,
+          loading: false,
+          errors: payload
+        }
+      })
 
       builder.addCase(onRegisterActivate.pending, (state) => {
         return {
@@ -98,15 +115,15 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: false,
-          success: 'Verificación completada.'
+          success: 'Cuenta verificada con éxito.'
         }
       })
 
-      builder.addCase(onRegisterActivate.rejected, (state) => {
+      builder.addCase(onRegisterActivate.rejected, (state, { payload }) => {
         return {
           ...state,
           loading: false,
-          error: 'El token ha expirado y/o es inválido.'
+          errors: payload
         }
       })
 
@@ -127,11 +144,17 @@ export const authSlice = createSlice({
           }
       })
 
-
-      
+      builder.addCase(onLogin.rejected, (state, { payload }) => {
+          return {
+            ...state,
+            loading: false,
+            errors: payload
+          }
+      })
+  
   },
 })
 
-export const { clearSuccess } = authSlice.actions;
+export const { clearSuccess, clearErrors } = authSlice.actions;
 
 export default authSlice.reducer;
