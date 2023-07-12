@@ -36,7 +36,7 @@ export interface IRegisterSuccess {
 export type IProviders = 'google' | 'linkedin' | 'github';
 
 export interface IProfileOrCompany {
-    option: string;
+    option: 'user' | 'company';
 }
 
 export interface IProfile {
@@ -47,7 +47,16 @@ export interface IProfile {
     modality: string;
     location: string;
 }
+
 export interface ICompany {
-    companyName: string;
+    name: string;
     about: string;
+}
+
+export interface ICurrentUser {
+    id: number;
+    username: string;
+    email: string;
+    user: number | null;
+    company: number | null;
 }

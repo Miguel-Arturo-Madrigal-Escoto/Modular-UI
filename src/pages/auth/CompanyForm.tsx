@@ -1,13 +1,42 @@
+import { FC } from 'react'
 import { ICompany } from './types/interfaces';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { createProfile } from './hooks/useCreateProfile';
+import { useCurrentUser } from './hooks/useCurrentUser';
+import { useAppSelector } from '../../app/hooks';
 
-export const CompanyForm = () => {
+interface Props {
+  option: 'user' | 'company'
+}
+
+export const CompanyForm: FC<Props> = ({ option }) => {
     const {
         register,
         handleSubmit
       } = useForm<ICompany>()
 
-    const onSubmit: SubmitHandler<ICompany> = data => console.log(data);
+      const navigate = useNavigate();
+    const { access } = useAppSelector(state => state.auth);
+
+    const currentUserQuery = useCurrentUser(access);
+
+    const onSubmit: SubmitHandler<ICompany> = data => {
+        try {
+            createProfile(option, {
+                ...data,
+                base_user: currentUserQuery.data?.id
+            });
+            alert('Perfil creado con éxito');
+            navigate('/for-you', {
+                replace: true
+            });
+        } catch (error) {
+            // Todo: mostrar alerta de no pudo crear perfil
+            console.log(error);
+        }
+    }
+
   return (
     <>
         {/* Formulario */}
@@ -16,7 +45,7 @@ export const CompanyForm = () => {
                 <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Nombre de la compañía</label>
                 <input
                 className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
-                type="text" placeholder="Ingresa el nombre de la empresa" {...register('companyName')}
+                type="text" placeholder="Ingresa el nombre de la empresa" {...register('name')}
                 />
             </div>
             <div className="relative">

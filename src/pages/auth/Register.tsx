@@ -30,7 +30,6 @@ export const Register = () => {
 
   const onSubmit: SubmitHandler<IRegister> = (data) => {
       if (data.password !== data.confirmPassword) return;
-
       dispatch(onRegister({
         username: data.username,
         email: data.email,

@@ -14,21 +14,32 @@ import { GoogleOAuth2 } from '../pages/auth/GoogleOAuth2';
 import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
 import { GithubOAuth2 } from '../pages/auth/GithubOAuth2';
 import { ProfileForm } from '../pages/auth/ProfileForm';
-import { useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useEffect } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
 import { UserActivation } from '../pages/auth/UserActivation';
+import { onRefreshJWT } from '../app/auth/thunks';
 
 
 export const AppRouter = () => {
 
     const { user, access, refresh } = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         saveSessionStorageState({ user, access, refresh });
     }, [user, access, refresh]);
+
+    useEffect(() => {
+        if (refresh){
+            dispatch(onRefreshJWT({
+                refresh,
+            }))
+        }
+    }, [refresh]);
+
 
 
     return (
@@ -40,8 +51,6 @@ export const AppRouter = () => {
                     </PrivateRoute>
                 } />
 
-                <Route path='/profile' element={ <Profile /> } />
-                <Route path='/profile/edit' element={ <ProfileEdit /> } />
                 <Route path='/matches' element={ <Matches /> } />
                 <Route path='/register' element={
                     <PublicRoute>
@@ -77,7 +86,15 @@ export const AppRouter = () => {
                     </PublicRoute>
                 } />
 
-                <Route path='/profile/form' element={ <ProfileForm/> } />
+                <Route path='/profile' element={ <Profile /> } />
+
+                <Route path='/profile/edit' element={ <ProfileEdit /> } />
+
+                <Route path='/profile/form' element={ 
+                    <PrivateRoute>
+                        <ProfileForm />
+                    </PrivateRoute>
+                } />
             </Routes>
         </Router>
     )

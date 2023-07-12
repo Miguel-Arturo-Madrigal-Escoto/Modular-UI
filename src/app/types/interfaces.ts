@@ -21,3 +21,6 @@ export interface IOnRegisterActivate {
     uid: string;
     token: string;
 }
+export interface IOnRefreshJWT {
+    refresh: string;
+}
