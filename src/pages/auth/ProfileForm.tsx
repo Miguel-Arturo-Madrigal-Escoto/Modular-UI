@@ -6,17 +6,25 @@ import { TitleForm } from "./TitleForm"
 import { UserForm } from "./UserForm"
 import { CompanyForm } from "./CompanyForm"
 import { useUserOrCompany } from "./hooks/useUserOrCompany"
+import { useCurrentUser } from "./hooks/useCurrentUser"
+import { useAppSelector } from "../../app/hooks"
+import { useNavigate } from "react-router-dom"
 
 export const ProfileForm = () => {
     const {
         register,
         watch
-      } = useForm<IProfileOrCompany>()
+    } = useForm<IProfileOrCompany>()
 
-    // const isCompany = watch('option') === "company";
-    // const isUser = watch('option', 'user') === "user";
-    // console.log({isCompany});
-    // console.log({isUser});
+    const { access } = useAppSelector(state => state.auth);
+    const navigate = useNavigate();
+    const currentUserQuery = useCurrentUser(access);
+
+    if (!currentUserQuery.isFetching){
+        if (currentUserQuery.data!.user !== null || currentUserQuery.data!.company !== null ){
+            navigate('/for-you');
+        }
+    }
 
     const { isUser } = useUserOrCompany(watch('option'));
 
@@ -38,7 +46,7 @@ export const ProfileForm = () => {
                         </select>
                     </div>
 
-                    { isUser ? <UserForm /> : <CompanyForm />}
+                    { isUser ? <UserForm option={watch('option')} /> : <CompanyForm option={watch('option')} />}
                     
 
                 </div>

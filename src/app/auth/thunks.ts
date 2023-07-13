@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
 import { ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
-import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin } from '../types/interfaces';
+import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT } from '../types/interfaces';
 import { AxiosError } from 'axios';
 
 export const onSocialLogin = createAsyncThunk(
@@ -61,6 +61,19 @@ export const onRegisterActivate = createAsyncThunk(
     async (data: IOnRegisterActivate,  { rejectWithValue }) => {
         try {
             const resp = await axios_base.post(`auth/users/activation/`, data);
+            return resp.data;   
+        } catch (error) {
+            const err = error as AxiosError;
+            return rejectWithValue(err.response?.data);
+        }
+    }
+)
+
+export const onRefreshJWT = createAsyncThunk(
+    'auth/onRefreshJWT',
+    async (data: IOnRefreshJWT,  { rejectWithValue }) => {
+        try {
+            const resp = await axios_base.post(`auth/jwt/refresh`, data);
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
