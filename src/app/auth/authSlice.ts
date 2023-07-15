@@ -35,13 +35,20 @@ export const authSlice = createSlice({
           errors: {}
         }
     },
+    setErrors: (state, { payload }) => {
+        return {
+          ...state,
+          errors: payload
+        }
+    }
   },
   extraReducers(builder) {
       // when onLogin starts
       builder.addCase(onSocialLogin.pending, (state) => {
         return {
           ...state,
-          loading: true
+          loading: true,
+          errors: {},
         }
       })
 
@@ -49,18 +56,17 @@ export const authSlice = createSlice({
       builder.addCase(onSocialLogin.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          access: payload.access,
-          refresh: payload.refresh,
-          user: payload.user,
+          access: payload!.access,
+          refresh: payload!.refresh,
+          user: payload!.user,
           loading: false
         }
       }),
 
       // when onLogin ends with an error
-      builder.addCase(onSocialLogin.rejected, (state, { payload }) => {
+      builder.addCase(onSocialLogin.rejected, (state) => {
         return {
           ...state,
-          errors: payload,
           loading: false
         }
       })
@@ -81,7 +87,8 @@ export const authSlice = createSlice({
       builder.addCase(onRegister.pending, (state) => {
           return {
             ...state,
-            loading: true
+            loading: true,
+            errors: {},
           }
       })
       
@@ -95,19 +102,19 @@ export const authSlice = createSlice({
       })
       
       // when onRegister ends with an error
-      builder.addCase(onRegister.rejected, (state, { payload }) => {
+      builder.addCase(onRegister.rejected, (state) => {
 
         return {
           ...state,
           loading: false,
-          errors: payload
         }
       })
 
       builder.addCase(onRegisterActivate.pending, (state) => {
         return {
           ...state,
-          loading: true
+          loading: true,
+          errors: {},
         }
       })
 
@@ -119,36 +126,35 @@ export const authSlice = createSlice({
         }
       })
 
-      builder.addCase(onRegisterActivate.rejected, (state, { payload }) => {
+      builder.addCase(onRegisterActivate.rejected, (state) => {
         return {
           ...state,
           loading: false,
-          errors: payload
         }
       })
 
       builder.addCase(onLogin.pending, (state) => {
         return {
           ...state,
-          loading: true
+          loading: true,
+          errors: {},
         }
       })
 
       builder.addCase(onLogin.fulfilled, (state, { payload }) => {
           return {
             ...state,
-            access: payload.access,
-            refresh: payload.refresh,
-            user: payload.user,
+            access: payload!.access,
+            refresh: payload!.refresh,
+            user: payload!.user,
             loading: false
           }
       })
 
-      builder.addCase(onLogin.rejected, (state, { payload }) => {
+      builder.addCase(onLogin.rejected, (state) => {
           return {
             ...state,
             loading: false,
-            errors: payload
           }
       })
 
@@ -156,6 +162,7 @@ export const authSlice = createSlice({
           return {
             ...state,
             loading: true,
+            errors: {},
           }
       })
 
@@ -163,24 +170,23 @@ export const authSlice = createSlice({
           return {
             ...state,
             loading: false,
-            access: payload.access
+            access: payload!.access
           }
       })
 
-      builder.addCase(onRefreshJWT.rejected, (state, { payload }) => {
+      builder.addCase(onRefreshJWT.rejected, (state) => {
         return {
           ...state,
           access: null,
           refresh: null,
           user: null,
           loading: false,
-          errors: payload
         }
     })
   
   },
 })
 
-export const { clearSuccess, clearErrors } = authSlice.actions;
+export const { clearSuccess, clearErrors, setErrors } = authSlice.actions;
 
 export default authSlice.reducer;

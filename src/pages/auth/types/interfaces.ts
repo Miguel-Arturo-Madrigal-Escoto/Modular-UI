@@ -33,6 +33,10 @@ export interface IRegisterSuccess {
     company:  null;
 }
 
+export interface IJWTRefreshSuccess {
+    access: string;
+}
+
 export type IProviders = 'google' | 'linkedin' | 'github';
 
 export interface IProfileOrCompany {
