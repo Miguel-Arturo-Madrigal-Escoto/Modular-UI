@@ -1,25 +1,28 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
-import { ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
+import { IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
 import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT } from '../types/interfaces';
 import { AxiosError } from 'axios';
+import { setErrors } from './authSlice';
+
 
 export const onSocialLogin = createAsyncThunk(
     'auth/onSocialLogin',
-    async ({ provider, params }: ISocialOnLogin,  { rejectWithValue }) => {
+    async ({ provider, params }: ISocialOnLogin,  { dispatch }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
-            return rejectWithValue(err.response?.data);
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
         }
     }
 )
 
 export const onLogin = createAsyncThunk(
     'auth/onLogin',
-    async (credentials: IOnLogin, { rejectWithValue }) => {
+    async (credentials: IOnLogin, { dispatch }) => {
         try {
             const resp = await axios_base.post<ILoginSuccess>(`auth/jwt/create`, credentials);
             return {
@@ -29,7 +32,8 @@ export const onLogin = createAsyncThunk(
             };   
         } catch (error) {
             const err = error as AxiosError;
-            return rejectWithValue(err.response?.data);
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
         }
     }
 )
@@ -45,39 +49,42 @@ export const onLogout = createAsyncThunk(
 
 export const onRegister = createAsyncThunk(
     'auth/onRegister',
-    async (data: IOnRegister, { rejectWithValue }) => {
+    async (data: IOnRegister, { dispatch }) => {
         try {
             const resp = await axios_base.post<IRegisterSuccess>(`auth/users/`, data);
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
-            return rejectWithValue(err.response?.data);
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
         }
     }
 )
 
 export const onRegisterActivate = createAsyncThunk(
     'auth/onRegister/activate',
-    async (data: IOnRegisterActivate,  { rejectWithValue }) => {
+    async (data: IOnRegisterActivate,  { dispatch }) => {
         try {
             const resp = await axios_base.post(`auth/users/activation/`, data);
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
-            return rejectWithValue(err.response?.data);
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
         }
     }
 )
 
 export const onRefreshJWT = createAsyncThunk(
     'auth/onRefreshJWT',
-    async (data: IOnRefreshJWT,  { rejectWithValue }) => {
+    async (data: IOnRefreshJWT,  { dispatch }) => {
         try {
-            const resp = await axios_base.post(`auth/jwt/refresh`, data);
+            const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh`, data);
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
-            return rejectWithValue(err.response?.data);
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
         }
     }
 )
