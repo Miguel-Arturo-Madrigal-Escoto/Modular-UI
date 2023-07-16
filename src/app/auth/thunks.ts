@@ -1,9 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
 import { IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
-import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT } from '../types/interfaces';
+import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile } from '../types/interfaces';
 import { AxiosError } from 'axios';
 import { setErrors } from './authSlice';
+import { toast } from 'react-toastify';
+import { errorNotification, successNotification } from '../../components/common/Alerts';
 
 
 export const onSocialLogin = createAsyncThunk(
@@ -84,6 +86,22 @@ export const onRefreshJWT = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+export const onCreateProfile = createAsyncThunk(
+    'auth/onCreateProfile',
+    async ({ option, data }: IOnCreateProfile,  { dispatch }) => {
+        try {
+            const resp = await axios_base.post(`auth/${ option }/`, data);
+            successNotification('Perfil creado con éxito.');
+            return resp.data;   
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            errorNotification('Verifique los campos del formulario. ');
             throw new Error(`${err.response?.data}`)
         }
     }

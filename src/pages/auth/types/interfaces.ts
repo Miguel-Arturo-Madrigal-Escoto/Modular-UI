@@ -40,7 +40,7 @@ export interface IJWTRefreshSuccess {
 export type IProviders = 'google' | 'linkedin' | 'github';
 
 export interface IProfileOrCompany {
-    option: 'user' | 'company';
+    option: string;
 }
 
 export interface IProfile {
@@ -50,6 +50,7 @@ export interface IProfile {
     expected_salary: number;
     modality: string;
     location: string;
+    about: string;
 }
 
 export interface ICompany {
@@ -58,9 +59,23 @@ export interface ICompany {
 }
 
 export interface ICurrentUser {
-    id: number;
+    id:       number;
     username: string;
-    email: string;
-    user: number | null;
-    company: number | null;
+    email:    string;
+    created_at: string;
+    updated_at: string;
+    user:     IUserProfile | null;
+}
+
+export interface IUserProfile {
+    id:              number;
+    name:            string;
+    lastname:        string;
+    position:        string;
+    expected_salary: number;
+    modality:        string;
+    location:        string;
+    about:           string;
+    image:           null;
+    base_user:       number;
 }
