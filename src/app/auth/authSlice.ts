@@ -54,6 +54,7 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
+          success: null,
           errors: {},
         }
       })
@@ -94,6 +95,7 @@ export const authSlice = createSlice({
           return {
             ...state,
             loading: true,
+            success: null,
             errors: {},
           }
       })
@@ -119,6 +121,7 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
+          success: null,
           errors: {},
         }
       })
@@ -141,6 +144,7 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
+          success: null,
           errors: {},
         }
       })
@@ -166,6 +170,7 @@ export const authSlice = createSlice({
           return {
             ...state,
             loading: true,
+            success: null,
             errors: {},
           }
       })
@@ -192,6 +197,7 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
+          success: null,
           errors: {},
         }
       })
