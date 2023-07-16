@@ -24,7 +24,7 @@ export const Register = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { success, loading, errors } = useAppSelector(state => state.auth);
+  const { loading, errors } = useAppSelector(state => state.auth);
 
   const { isEmailValid } = useEmailValid(watch('email'))
 
@@ -36,14 +36,6 @@ export const Register = () => {
         password: data.password,
       }))
   }
-
-
-  useEffect(() => {
-    if (success) {
-        alert(success);
-        dispatch(clearSuccess())
-    }
-  }, [success]);
 
   if (loading) {
       return <LoadingScreen />

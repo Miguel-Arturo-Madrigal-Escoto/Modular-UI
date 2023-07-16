@@ -1,12 +1,12 @@
 import { FC } from 'react'
 import { ICompany } from './types/interfaces';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onCreateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
-import { clearErrors } from '../../app/auth/authSlice';
+import { clearErrors, setSuccess } from '../../app/auth/authSlice';
 
 interface Props {
   option: string;
@@ -16,12 +16,15 @@ export const CompanyForm: FC<Props> = ({ option }) => {
     const {
         register,
         handleSubmit
-      } = useForm<ICompany>()
+    } = useForm<ICompany>()
 
-    const { access, errors } = useAppSelector(state => state.auth);
+    const { access, errors, loading, success } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const currentUserQuery = useCurrentUser(access);
+
+    if (JSON.stringify(errors) === '{}' && !loading && success){
+        return <Navigate to="/for-you" />
+    }
 
     const onSubmit: SubmitHandler<ICompany> = (data) => {
         localStorage.setItem('profile', option);
@@ -36,9 +39,7 @@ export const CompanyForm: FC<Props> = ({ option }) => {
                 option
             }))
 
-            navigate('/for-you', {
-                replace: true
-            });
+            dispatch(setSuccess());
             
         } catch (error) {
             // Todo: mostrar alerta de no pudo crear perfil

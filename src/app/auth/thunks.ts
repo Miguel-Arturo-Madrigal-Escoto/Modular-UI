@@ -54,6 +54,7 @@ export const onRegister = createAsyncThunk(
     async (data: IOnRegister, { dispatch }) => {
         try {
             const resp = await axios_base.post<IRegisterSuccess>(`auth/users/`, data);
+            successNotification('Perfil creado con éxito. Por favor, verifica tu cuenta en tu correo electrónico.');
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
@@ -68,6 +69,7 @@ export const onRegisterActivate = createAsyncThunk(
     async (data: IOnRegisterActivate,  { dispatch }) => {
         try {
             const resp = await axios_base.post(`auth/users/activation/`, data);
+            successNotification('Cuenta verificada con éxito.');
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
