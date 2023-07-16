@@ -1,36 +1,54 @@
-export const InfoProfile = () => {
-  return (
+import { FC } from 'react'
+import { ICurrentUser } from '../../auth/types/interfaces'
+import dayjs from 'dayjs'
+import 'dayjs/locale/es'
+
+interface Props {
+    user: ICurrentUser
+}
+
+dayjs.locale('es');
+export const InfoProfile: FC<Props> = ({ user }) => {
+
+    const createdAt = dayjs(user.created_at).locale('es');
+    let timeAgo = dayjs().diff(createdAt, 'day');
+    
+    if (timeAgo === 0){
+        timeAgo = dayjs().diff(createdAt, 'minutes');
+    }
+
+    return (
     <div className="flex-1 bg-white rounded-lg shadow-xl p-8 mt-4">
         <h4 className="text-xl text-gray-900 font-bold">Información personal</h4>
         <ul className="mt-2 text-gray-700">
             <li className="flex border-y py-2">
                 <span className="font-bold w-24">Nombre:</span>
-                <span className="text-gray-700">Aide Sarahi</span>
+                <span className="text-gray-700">{ user.user?.name }</span>
             </li>
             
             <li className="flex border-b py-2">
                 <span className="font-bold w-24">Apellido:</span>
-                <span className="text-gray-700">Flores Ontiveros</span>
+                <span className="text-gray-700">{ user.user?.lastname }</span>
             </li>
             <li className="flex border-b py-2">
                 <span className="font-bold w-24">Se unió:</span>
-                <span className="text-gray-700">10 Jan 2022 (25 days ago)</span>
+                <span className="text-gray-700">{ createdAt.format("DD/MMMM/YYYY") } - Hace { timeAgo } { timeAgo === 0 ? 'días': 'minutos' }.</span>
             </li>
             <li className="flex border-b py-2 items-center">
                 <span className="font-bold w-24">Salario esperado:</span>
-                <span className="text-gray-700">$ 60 000</span>
+                <span className="text-gray-700">$ { user.user?.expected_salary }</span>
             </li>
             <li className="flex border-b py-2">
                 <span className="font-bold w-24">Modalidad:</span>
-                <span className="text-gray-700">Remoto</span>
+                <span className="text-gray-700">{ user.user?.modality }</span>
             </li>
-            <li className="flex border-b py-2">
-                <span className="font-bold w-24">E-mail:</span>
-                <span className="text-gray-700">amandaross@example.com</span>
+            <li className="flex border-b py-2 items-center">
+                <span className="font-bold w-24">Correo electrónico:</span>
+                <span className="text-gray-700 break-all">{ user.email }</span>
             </li>
             <li className="flex border-b py-2">
                 <span className="font-bold w-24">Location:</span>
-                <span className="text-gray-700">New York, US</span>
+                <span className="text-gray-700">{ user.user?.location }</span>
             </li>
             <li className="flex border-b py-2">
                 <span className="font-bold w-24">Languages:</span>

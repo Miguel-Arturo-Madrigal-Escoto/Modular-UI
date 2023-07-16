@@ -24,3 +24,8 @@ export interface IOnRegisterActivate {
 export interface IOnRefreshJWT {
     refresh: string;
 }
+
+export interface IOnCreateProfile {
+    option: string;
+    data: any;
+}

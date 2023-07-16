@@ -1,6 +1,13 @@
+import { FC } from 'react'
 import { SettingsProfile } from "./SettingsProfile"
 
-export const HeaderProfile = () => {
+interface Props {
+    name: string;
+    position: string;
+    location: string;
+}
+
+export const HeaderProfile: FC<Props> = ({ name, position, location }) => {
   return (
     <div className="bg-white rounded-lg shadow-xl pb-8">
         <SettingsProfile />
@@ -13,15 +20,15 @@ export const HeaderProfile = () => {
         <div className="flex flex-col items-center -mt-20">
             <img src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg" className="w-40 border-4 border-white rounded-full" />
             <div className="flex items-center space-x-2 mt-2">
-                <p className="text-2xl">Amanda Ross</p>
+                <p className="text-2xl">{ name }</p>
                 <span className="bg-indigo-500 rounded-full p-1" title="Verified">
                     <svg xmlns="http://www.w3.org/2000/svg" className="text-gray-100 h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </span>
             </div>
-            <p className="text-gray-700">Senior Software Engineer at Tailwind CSS</p>
-            <p className="text-sm text-gray-500">New York, USA</p>
+            <p className="text-gray-700">{ position } </p>
+            <p className="text-sm text-gray-500">{ location }</p>
         </div>
         <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div className="flex items-center space-x-4 mt-2">

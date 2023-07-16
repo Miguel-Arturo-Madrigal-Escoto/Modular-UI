@@ -1,8 +1,12 @@
 import { useState } from 'react';
+import { useAppDispatch } from '../../app/hooks';
+import { onLogout } from '../../app/auth/thunks';
 
 export const NavBar = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const dispatch = useAppDispatch();
+
 
     const toggleProfileMenu = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -134,13 +138,13 @@ export const NavBar = () => {
                                         </a>
                                     </li>
                                     <li>
-                                        <a
+                                        <button
                                             className="block w-full bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 justify-start hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
-                                            href="#"
                                             data-te-dropdown-item-ref
+                                            onClick={ () => dispatch(onLogout()) }
                                         >
                                             Log out
-                                        </a>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>

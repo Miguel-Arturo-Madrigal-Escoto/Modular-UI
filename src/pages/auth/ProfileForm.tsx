@@ -8,21 +8,24 @@ import { CompanyForm } from "./CompanyForm"
 import { useUserOrCompany } from "./hooks/useUserOrCompany"
 import { useCurrentUser } from "./hooks/useCurrentUser"
 import { useAppSelector } from "../../app/hooks"
-import { useNavigate } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 export const ProfileForm = () => {
     const {
         register,
         watch
-    } = useForm<IProfileOrCompany>()
+    } = useForm<IProfileOrCompany>({
+        defaultValues: {
+            option: localStorage.getItem('profile') || 'user'
+        }
+    });
 
     const { access } = useAppSelector(state => state.auth);
-    const navigate = useNavigate();
     const currentUserQuery = useCurrentUser(access);
 
     if (!currentUserQuery.isFetching){
         if (currentUserQuery.data!.user !== null || currentUserQuery.data!.company !== null ){
-            navigate('/for-you');
+            return <Navigate to="/for-you" />
         }
     }
 
@@ -40,7 +43,7 @@ export const ProfileForm = () => {
 
                     <div className="relative">
                         <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Soy</label>
-                        <select {...register('option')} defaultValue="user" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
+                        <select {...register('option')} defaultValue={ watch('option') } className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
                             <option value="user">Usuario</option>
                             <option value="company">Compañía</option>
                         </select>
