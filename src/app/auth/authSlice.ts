@@ -6,7 +6,6 @@ export interface AuthState {
   refresh: string | null;
   user: string | null;
   errors: any;
-  success: boolean | null;
   loading: boolean;
 }
 
@@ -15,7 +14,6 @@ export const initialState: AuthState = {
   refresh: sessionStorage.getItem('refresh'),
   user: sessionStorage.getItem('user'),
   errors: {},
-  success: null,
   loading: false
 }
 
@@ -23,12 +21,6 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    clearSuccess: (state) => {
-        return {
-          ...state,
-          success: null
-        }
-    },
     clearErrors: (state) => {
         return {
           ...state,
@@ -40,12 +32,6 @@ export const authSlice = createSlice({
           ...state,
           errors: payload
         }
-    },
-    setSuccess: (state) => {
-        return {
-          ...state,
-          success: true
-        }
     }
   },
   extraReducers(builder) {
@@ -54,7 +40,6 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
-          success: null,
           errors: {},
         }
       })
@@ -85,7 +70,6 @@ export const authSlice = createSlice({
             refresh: null,
             user: null,
             errors: {},
-            success: null,
             loading: false
           }
       })
@@ -95,7 +79,6 @@ export const authSlice = createSlice({
           return {
             ...state,
             loading: true,
-            success: null,
             errors: {},
           }
       })
@@ -121,7 +104,6 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
-          success: null,
           errors: {},
         }
       })
@@ -144,7 +126,6 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
-          success: null,
           errors: {},
         }
       })
@@ -170,7 +151,6 @@ export const authSlice = createSlice({
           return {
             ...state,
             loading: true,
-            success: null,
             errors: {},
           }
       })
@@ -197,7 +177,6 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: true,
-          success: null,
           errors: {},
         }
       })
@@ -219,6 +198,6 @@ export const authSlice = createSlice({
   },
 })
 
-export const { clearSuccess, clearErrors, setErrors, setSuccess } = authSlice.actions;
+export const { clearErrors, setErrors } = authSlice.actions;
 
 export default authSlice.reducer;

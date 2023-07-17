@@ -6,13 +6,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { IRegister } from './types/interfaces';
 import { useEmailValid } from './hooks/useEmailValid';
 import { IsValidEmail } from '../../components/auth/IsValidEmail';
-import "../../styles/auth.css"
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onRegister } from '../../app/auth/thunks';
-import { useEffect } from 'react';
-import { clearSuccess } from '../../app/auth/authSlice';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
+import '../../styles/auth.css'
 
 export const Register = () => {
 
@@ -28,13 +26,17 @@ export const Register = () => {
 
   const { isEmailValid } = useEmailValid(watch('email'))
 
-  const onSubmit: SubmitHandler<IRegister> = (data) => {
+  const onSubmit: SubmitHandler<IRegister> = async data => {
       if (data.password !== data.confirmPassword) return;
-      dispatch(onRegister({
-        username: data.username,
-        email: data.email,
-        password: data.password,
-      }))
+      try {
+          await dispatch(onRegister({
+            username: data.username,
+            email: data.email,
+            password: data.password,
+          }))     
+      } catch (error) {
+        
+      }
   }
 
   if (loading) {

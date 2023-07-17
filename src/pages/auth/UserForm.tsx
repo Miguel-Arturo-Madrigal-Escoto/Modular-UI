@@ -5,8 +5,7 @@ import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onCreateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
-import { Navigate } from 'react-router-dom';
-import { setSuccess } from '../../app/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     option: string
@@ -18,19 +17,16 @@ export const UserForm: FC<Props> = ({ option }) => {
         handleSubmit
     } = useForm<IProfile>()
     
-    const { access, errors, loading, success } = useAppSelector(state => state.auth);
+    const { access, errors } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const currentUserQuery = useCurrentUser(access);
 
-    if (JSON.stringify(errors) === '{}' && !loading && success){
-        return <Navigate to="/for-you" />
-    }
-
-    const onSubmit: SubmitHandler<IProfile> = (formData) => {
+    const onSubmit: SubmitHandler<IProfile> = async(formData) => {
         localStorage.setItem('profile', option);
 
         try {
-            dispatch(onCreateProfile({
+            await dispatch(onCreateProfile({
                 data: {
                     expected_salary: formData.expected_salary,
                     lastname: formData.lastname,
@@ -42,14 +38,12 @@ export const UserForm: FC<Props> = ({ option }) => {
                     base_user: currentUserQuery.data?.id
                 },
                 option
-            }))
+            })).unwrap();
             
-            dispatch(setSuccess());
+            navigate('/for-you');
 
         } catch (error) {
-            // Todo: mostrar alerta de no pudo crear perfil
-            console.log('error')
-            
+            console.log('error: ', error)       
         }
     }
 

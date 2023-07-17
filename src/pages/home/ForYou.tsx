@@ -13,7 +13,7 @@ export const ForYou = () => {
   
     if (!currentUserQuery.isFetching){
         if (currentUserQuery.data!.user === null && currentUserQuery.data!.company === null ){
-            return <Navigate to="/profile/form" />
+            return <Navigate to="/profile/form/" />
         }
     }
   
