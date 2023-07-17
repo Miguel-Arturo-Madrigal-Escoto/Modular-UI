@@ -33,7 +33,7 @@ export const Register = () => {
             username: data.username,
             email: data.email,
             password: data.password,
-          }))     
+          })).unwrap();     
       } catch (error) {
         
       }
