@@ -65,6 +65,7 @@ export interface ICurrentUser {
     created_at: string;
     updated_at: string;
     user:     IUserProfile | null;
+    company: any;
 }
 
 export interface IUserProfile {

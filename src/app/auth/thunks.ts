@@ -4,7 +4,6 @@ import { IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSucces
 import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile } from '../types/interfaces';
 import { AxiosError } from 'axios';
 import { setErrors } from './authSlice';
-import { toast } from 'react-toastify';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
 
 
@@ -54,6 +53,7 @@ export const onRegister = createAsyncThunk(
     async (data: IOnRegister, { dispatch }) => {
         try {
             const resp = await axios_base.post<IRegisterSuccess>(`auth/users/`, data);
+            successNotification('Perfil creado con éxito. Por favor, verifica tu cuenta en tu correo electrónico.');
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
@@ -68,10 +68,12 @@ export const onRegisterActivate = createAsyncThunk(
     async (data: IOnRegisterActivate,  { dispatch }) => {
         try {
             const resp = await axios_base.post(`auth/users/activation/`, data);
+            successNotification('Cuenta verificada con éxito.');
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
+            errorNotification('Enlace de verificación inválido y/o expirado.');
             throw new Error(`${err.response?.data}`)
         }
     }
@@ -101,7 +103,7 @@ export const onCreateProfile = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
-            errorNotification('Verifique los campos del formulario. ');
+            errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
         }
     }

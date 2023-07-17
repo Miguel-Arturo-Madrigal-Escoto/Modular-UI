@@ -1,7 +1,7 @@
 import {
-    BrowserRouter as Router,
     Routes,
-    Route
+    Route,
+    useLocation
 } from 'react-router-dom';
 import { ForYou } from '../pages/home/ForYou';
 import { Profile } from '../pages/home/Profile';
@@ -15,12 +15,13 @@ import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
 import { GithubOAuth2 } from '../pages/auth/GithubOAuth2';
 import { ProfileForm } from '../pages/auth/ProfileForm';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
 import { UserActivation } from '../pages/auth/UserActivation';
 import { onRefreshJWT } from '../app/auth/thunks';
+import { NavBar } from '../pages/home/NavBar';
 
 
 export const AppRouter = () => {
@@ -28,9 +29,17 @@ export const AppRouter = () => {
     const { user, access, refresh } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
+    const location = useLocation();
+    const regex = new RegExp('\/(login|register|profile\/form)\/?', 'g');
+    const [isNavBarShown, setisNavBarShown] = useState(false);
+
     useEffect(() => {
         saveSessionStorageState({ user, access, refresh });
     }, [user, access, refresh]);
+
+    useEffect(() => {
+        setisNavBarShown(!regex.test(location.pathname));
+    }, [location.pathname]);
 
     useEffect(() => {
         if (refresh){
@@ -40,10 +49,11 @@ export const AppRouter = () => {
         }
     }, [refresh]);
 
-
-
     return (
-        <Router>
+        <>
+            {
+                isNavBarShown && user && <NavBar />
+            }
             <Routes>
                 <Route path='/for-you' element={ 
                     <PrivateRoute>
@@ -100,6 +110,6 @@ export const AppRouter = () => {
                     </PrivateRoute>
                 } />
             </Routes>
-        </Router>
+        </>
     )
 }

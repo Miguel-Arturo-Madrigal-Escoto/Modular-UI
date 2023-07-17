@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT } from './thunks';
+import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile } from './thunks';
 
 export interface AuthState {
   access: string | null;
   refresh: string | null;
   user: string | null;
   errors: any;
-  success: string | null;
   loading: boolean;
 }
 
@@ -15,7 +14,6 @@ export const initialState: AuthState = {
   refresh: sessionStorage.getItem('refresh'),
   user: sessionStorage.getItem('user'),
   errors: {},
-  success: null,
   loading: false
 }
 
@@ -23,12 +21,6 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    clearSuccess: (state) => {
-        return {
-          ...state,
-          success: null
-        }
-    },
     clearErrors: (state) => {
         return {
           ...state,
@@ -78,7 +70,6 @@ export const authSlice = createSlice({
             refresh: null,
             user: null,
             errors: {},
-            success: null,
             loading: false
           }
       })
@@ -97,7 +88,6 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: false,
-          success: 'Registro exitoso, Por favor, verifica tu correo.'
         }
       })
       
@@ -122,7 +112,6 @@ export const authSlice = createSlice({
         return {
           ...state,
           loading: false,
-          success: 'Cuenta verificada con éxito.'
         }
       })
 
@@ -182,11 +171,33 @@ export const authSlice = createSlice({
           user: null,
           loading: false,
         }
-    })
+      })
+
+      builder.addCase(onCreateProfile.pending, (state) => {
+        return {
+          ...state,
+          loading: true,
+          errors: {},
+        }
+      })
+
+      builder.addCase(onCreateProfile.fulfilled, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })  
+
+      builder.addCase(onCreateProfile.rejected, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })
   
   },
 })
 
-export const { clearSuccess, clearErrors, setErrors } = authSlice.actions;
+export const { clearErrors, setErrors } = authSlice.actions;
 
 export default authSlice.reducer;

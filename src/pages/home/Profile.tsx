@@ -12,8 +12,6 @@ export const Profile = () => {
     const {access} = useAppSelector(state => state.auth);
     const currentUserQuery = useCurrentUser(access);
 
-    console.log(currentUserQuery.data)
-
     if (currentUserQuery.isLoading) {
         return <LoadingScreen />
     }

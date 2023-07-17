@@ -31,18 +31,21 @@ export const Login = () => {
     const { errors, loading } = useAppSelector(state => state.auth);
     const { isEmailValid } = useEmailValid(watch('email'));
 
+    const onSubmit: SubmitHandler<ILogin> = async data => {
+        try {
+            await dispatch(onLogin({
+              email: data.email,
+              password: data.password,
+            })).unwrap();
+    
+            rememberMe(data.remember, data.email);
+    
+            navigate('/for-you', {
+              replace: true
+            });
+        } catch (error) {
 
-    const onSubmit: SubmitHandler<ILogin> = data => {
-        dispatch(onLogin({
-          email: data.email,
-          password: data.password,
-        }));
-
-        rememberMe(data.remember, data.email);
-
-        navigate('/for-you', {
-          replace: true
-        });
+        }
     }
     
     if (loading) {
