@@ -12,18 +12,14 @@ export const Profile = () => {
     if (currentUserQuery.isLoading) {
         return <LoadingScreen />
     }
-    else if (currentUserQuery.data!.company) {
-        console.log("es compañia");
-        return <CompanyProfile user={currentUserQuery.data!} />
-    }
-    else if (currentUserQuery.data!.user) {
-        console.log("soy usuario");
-        return <UserProfile user={currentUserQuery.data!} />
-    }
 
     return (
         <>
-            
+            {
+                currentUserQuery.data!.company 
+                        ? <CompanyProfile user={currentUserQuery.data!} />
+                        : <UserProfile user={currentUserQuery.data!} />
+            }
         </>
     )
 }
