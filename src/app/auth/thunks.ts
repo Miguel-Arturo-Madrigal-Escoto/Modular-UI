@@ -97,7 +97,11 @@ export const onCreateProfile = createAsyncThunk(
     'auth/onCreateProfile',
     async ({ option, data }: IOnCreateProfile,  { dispatch }) => {
         try {
-            const resp = await axios_base.post(`auth/${ option }/`, data);
+            const resp = await axios_base.post(`auth/${ option }/`, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             successNotification('Perfil creado con éxito.');
             return resp.data;   
         } catch (error) {

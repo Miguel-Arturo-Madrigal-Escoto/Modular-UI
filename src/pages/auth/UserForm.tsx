@@ -35,6 +35,7 @@ export const UserForm: FC<Props> = ({ option }) => {
                     name: formData.name,
                     position: formData.position,
                     about: formData.about,
+                    image: formData.image[0] || null,
                     base_user: currentUserQuery.data?.id
                 },
                 option
@@ -118,6 +119,17 @@ export const UserForm: FC<Props> = ({ option }) => {
                     <textarea rows={4} cols={40} className=" w-full text-base px-4 py-2 border border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500" {...register('about')}/>
                     {
                         errors.about && <FormErrorMessage message={ errors.about }/>
+                    }
+                </div>
+
+                <div className="relative">
+                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Foto de perfil (opcional)</label>
+                    <input
+                        className="w-full text-base px-4 py-2 focus:outline-none rounded-2xl focus:border-indigo-500"
+                        type="file" placeholder="Ingresa tu posición deseada" {...register('image')}
+                    />
+                    {
+                        errors.image && <FormErrorMessage message={ errors.image }/>
                     }
                 </div>
                         
