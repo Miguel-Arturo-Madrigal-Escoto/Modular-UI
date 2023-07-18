@@ -51,11 +51,13 @@ export interface IProfile {
     modality: string;
     location: string;
     about: string;
+    image: FileList;
 }
 
 export interface ICompany {
     name: string;
     about: string;
+    image: FileList;
 }
 
 export interface ICurrentUser {
