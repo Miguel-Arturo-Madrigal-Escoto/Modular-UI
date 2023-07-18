@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from 'react'
-import { ICurrentUser } from '../../auth/types/interfaces'
+import { FC } from 'react'
 import dayjs from 'dayjs'
-import { useTimeAgo } from '../hooks/useTimeAgo'
+import { ICurrentUser } from '../../../auth/types/interfaces';
+import { useTimeAgo } from '../../hooks/useTimeAgo';
 
 
 interface Props {
