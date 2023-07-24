@@ -18,7 +18,6 @@ export const ForYou = () => {
     }
   
     return (
-
         <>          
             {
                 currentUserQuery.isFetching || loading ? (

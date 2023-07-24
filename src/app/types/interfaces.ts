@@ -29,3 +29,9 @@ export interface IOnCreateProfile {
     option: string;
     data: any;
 }
+
+export interface IOnUpdateProfile {
+    option: string;
+    data: any;
+    id: number;
+}

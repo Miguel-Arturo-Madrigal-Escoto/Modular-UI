@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
 import { IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
-import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile } from '../types/interfaces';
+import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile, IOnUpdateProfile } from '../types/interfaces';
 import { AxiosError } from 'axios';
 import { setErrors } from './authSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
+import { RootState } from '../store';
 
 
 export const onSocialLogin = createAsyncThunk(
@@ -109,6 +110,30 @@ export const onCreateProfile = createAsyncThunk(
             dispatch(setErrors(err.response?.data));
             errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+
+export const onUpdateProfile = createAsyncThunk(
+    `auth/onUpdateProfile`,
+    async({ option, data, id }: IOnUpdateProfile, { dispatch, getState }) => {
+        try {
+            const { auth } = getState() as RootState;
+            const resp = await axios_base.patch(`/auth/${ option }/${ id }/`, data, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
+                }
+            });
+            successNotification('Perfil actualizado correctamente.');
+            return resp.data;
+
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            errorNotification('Verifique los campos del formulario.');
+            throw new Error(`${err.response?.data}`)
+
         }
     }
 )

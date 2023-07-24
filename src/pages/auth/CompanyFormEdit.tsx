@@ -1,44 +1,47 @@
 import { FC } from 'react'
 import { ICompany } from './types/interfaces';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { onCreateProfile } from '../../app/auth/thunks';
+import { onUpdateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
-import { useNavigate } from 'react-router-dom';
+import { setModalClosed } from '../../app/extra/modalSlice';
+import { useCurrentUser } from './hooks/useCurrentUser';
 
 interface Props {
-  option: string;
+    option: string;
 }
 
-export const CompanyForm: FC<Props> = ({ option }) => {
+export const CompanyFormEdit: FC<Props> = ({ option }) => {
+    const { errors, access } = useAppSelector(state => state.auth);
+    const currentUserQuery = useCurrentUser(access);
+
     const {
         register,
         handleSubmit
-    } = useForm<ICompany>()
-
-    const { access, errors } = useAppSelector(state => state.auth);
+    } = useForm<ICompany>({
+        defaultValues: {
+            name: currentUserQuery.data!.company!.name,
+            sector: currentUserQuery.data!.company!.sector,
+            location: currentUserQuery.data!.company!.location,
+            about: currentUserQuery.data!.company!.about,
+            mission: currentUserQuery.data!.company!.mission,
+            vision: currentUserQuery.data!.company!.vision,
+        }
+    });
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const currentUserQuery = useCurrentUser(access);
 
     const onSubmit: SubmitHandler<ICompany> = async (data) => {
-        localStorage.setItem('profile', option);
-
         try {
-            await dispatch(onCreateProfile({
-                data: {
-                    ...data,
-                    image: data.image[0] || null,
-                    base_user: currentUserQuery.data?.id
-                },
-                option
+            await dispatch(onUpdateProfile({
+                data,
+                option,
+                id: currentUserQuery.data!.company!.id
             })).unwrap();
-
-            navigate('/for-you');
             
+            dispatch(setModalClosed());
+            currentUserQuery.refetch();
+          
         } catch (error) {
-            // Todo: mostrar alerta de no pudo crear perfil
             console.log('error: ', error)   
         }
     }
@@ -143,22 +146,11 @@ export const CompanyForm: FC<Props> = ({ option }) => {
                     errors.vision && <FormErrorMessage message={ errors.vision }/>
                 }
             </div>
-
-            <div className="relative">
-                <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Foto de perfil (opcional)</label>
-                <input
-                    className="w-full text-base px-4 py-2 focus:outline-none rounded-2xl focus:border-indigo-500"
-                    type="file" placeholder="Ingresa tu posición deseada" {...register('image')}
-                />
-                {
-                    errors.image && <FormErrorMessage message={ errors.image }/>
-                }
-            </div>
-            
+    
             <div>
                 <button type="submit"
                 className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-red-600  hover:bg-gradient-to-l hover:from-red-500 hover:to-indigo-600 text-white p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                Crear perfil
+                Actualizar perfil
                 </button>
             </div>
         </form>

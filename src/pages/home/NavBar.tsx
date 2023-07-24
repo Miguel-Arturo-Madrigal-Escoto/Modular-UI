@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
+import { useCurrentUser } from '../auth/hooks/useCurrentUser';
+import { defaultImageProfile } from '../../components/common/constants';
 
 export const NavBar = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const dispatch = useAppDispatch();
 
+    const dispatch = useAppDispatch();
+    const { access } = useAppSelector(state => state.auth);
+
+    const currentUserQuery = useCurrentUser(access);
 
     const toggleProfileMenu = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -18,7 +23,7 @@ export const NavBar = () => {
 
     return (
         <>
-            <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-gradient-to-r from-indigo-500 to-red-600 py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
+            <nav className="z-50 flex-no-wrap relative flex w-full items-center justify-between bg-gradient-to-r from-indigo-500 to-red-600 py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
                 <div className="relative flex items-center">
                     <button
                         className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200"
@@ -104,7 +109,9 @@ export const NavBar = () => {
                             aria-expanded={isProfileMenuOpen ? 'true' : 'false'}
                         >
                             <img
-                                src="https://imagedelivery.net/9sCnq8t6WEGNay0RAQNdvQ/UUID-cl90hhrq914340049tqyubrv3zvo/public"
+                                src={ 
+                                    currentUserQuery.data?.user?.image || currentUserQuery.data?.company?.image || defaultImageProfile
+                                }
                                 className="rounded-full"
                                 style={{ height: '25px', width: '25px' }}
                                 alt=""

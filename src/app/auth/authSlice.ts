@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile } from './thunks';
+import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile, onUpdateProfile } from './thunks';
 
 export interface AuthState {
   access: string | null;
@@ -189,6 +189,28 @@ export const authSlice = createSlice({
       })  
 
       builder.addCase(onCreateProfile.rejected, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })
+
+      builder.addCase(onUpdateProfile.pending, (state) => {
+        return {
+          ...state,
+          errors: {},
+          loading: true
+        }
+      })
+  
+      builder.addCase(onUpdateProfile.fulfilled, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })
+  
+      builder.addCase(onUpdateProfile.rejected, (state) => {
         return {
           ...state,
           loading: false,

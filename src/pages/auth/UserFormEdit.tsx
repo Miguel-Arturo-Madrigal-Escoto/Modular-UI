@@ -3,30 +3,38 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IProfile } from "./types/interfaces";
 import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { onCreateProfile } from '../../app/auth/thunks';
+import { onUpdateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
-import { useNavigate } from 'react-router-dom';
+import { setModalClosed } from '../../app/extra/modalSlice';
 
 interface Props {
     option: string
 }
 
-export const UserForm: FC<Props> = ({ option }) => {
+export const UserFormEdit: FC<Props> = ({ option }) => {
+    const { access, errors } = useAppSelector(state => state.auth);
+    const currentUserQuery = useCurrentUser(access);
+    
     const {
         register,
         handleSubmit
-    } = useForm<IProfile>()
+    } = useForm<IProfile>({
+        defaultValues: {
+            expected_salary: currentUserQuery.data!.user!.expected_salary,
+            lastname: currentUserQuery.data!.user!.lastname,
+            location: currentUserQuery.data!.user!.location,
+            modality: currentUserQuery.data!.user!.modality,
+            name: currentUserQuery.data!.user!.name,
+            position: currentUserQuery.data!.user!.position,
+            about: currentUserQuery.data!.user!.about,
+        }
+    });
     
-    const { access, errors } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
-    const currentUserQuery = useCurrentUser(access);
 
     const onSubmit: SubmitHandler<IProfile> = async(formData) => {
-        localStorage.setItem('profile', option);
-
         try {
-            await dispatch(onCreateProfile({
+            await dispatch(onUpdateProfile({
                 data: {
                     expected_salary: formData.expected_salary,
                     lastname: formData.lastname,
@@ -35,13 +43,13 @@ export const UserForm: FC<Props> = ({ option }) => {
                     name: formData.name,
                     position: formData.position,
                     about: formData.about,
-                    image: formData.image[0] || null,
-                    base_user: currentUserQuery.data?.id
                 },
-                option
+                option,
+                id: currentUserQuery.data!.user!.id
             })).unwrap();
             
-            navigate('/for-you');
+            dispatch(setModalClosed());
+            currentUserQuery.refetch();
 
         } catch (error) {
             console.log('error: ', error)       
@@ -171,22 +179,11 @@ export const UserForm: FC<Props> = ({ option }) => {
                         errors.about && <FormErrorMessage message={ errors.about }/>
                     }
                 </div>
-
-                <div className="relative">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Foto de perfil (opcional)</label>
-                    <input
-                        className="w-full text-base px-4 py-2 focus:outline-none rounded-2xl focus:border-indigo-500"
-                        type="file" placeholder="Ingresa tu posición deseada" {...register('image')}
-                    />
-                    {
-                        errors.image && <FormErrorMessage message={ errors.image }/>
-                    }
-                </div>
-                        
+                     
                 <div>
                     <button type="submit"
                     className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-red-600  hover:bg-gradient-to-l hover:from-red-500 hover:to-indigo-600 text-white p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                    Crear perfil
+                    Actualizar perfil
                     </button>
                 </div>
             </form>
