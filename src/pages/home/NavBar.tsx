@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
+import { useCurrentUser } from '../auth/hooks/useCurrentUser';
+import { defaultImageProfile } from '../../components/common/constants';
 
 export const NavBar = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const dispatch = useAppDispatch();
 
+    const dispatch = useAppDispatch();
+    const { access } = useAppSelector(state => state.auth);
+
+    const currentUserQuery = useCurrentUser(access);
 
     const toggleProfileMenu = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -104,7 +109,9 @@ export const NavBar = () => {
                             aria-expanded={isProfileMenuOpen ? 'true' : 'false'}
                         >
                             <img
-                                src="https://imagedelivery.net/9sCnq8t6WEGNay0RAQNdvQ/UUID-cl90hhrq914340049tqyubrv3zvo/public"
+                                src={ 
+                                    currentUserQuery.data?.user?.image || currentUserQuery.data?.company?.image || defaultImageProfile
+                                }
                                 className="rounded-full"
                                 style={{ height: '25px', width: '25px' }}
                                 alt=""

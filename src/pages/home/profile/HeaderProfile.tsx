@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { SettingsProfile } from "./SettingsProfile"
+import { defaultImageProfile } from '../../../components/common/constants';
 
 interface Props {
     name: string;
@@ -19,7 +20,7 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
               
           </div>
           <div className="flex flex-col items-center -mt-20">
-              <img src={ image || 'https://p16-va-default.akamaized.net/img/musically-maliva-obj/1665282759496710~c5_720x720.jpeg' } className="w-40 h-40 border-4 border-white rounded-full" />
+              <img src={ image || defaultImageProfile } className="w-40 h-40 border-4 border-white rounded-full" />
               <div className="flex items-center space-x-2 mt-2">
                   <p className="text-2xl">{ name }</p>
                   <span className="bg-indigo-500 rounded-full p-1" title="Verified">

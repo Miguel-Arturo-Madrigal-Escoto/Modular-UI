@@ -18,6 +18,7 @@ export const UserProfile: FC<Props> = ({ user }) => {
           name={user!.user!.name}
           location={user!.user!.location}
           position={user!.user!.position}
+          image={ user!.user!.image }
         />
 
         <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
