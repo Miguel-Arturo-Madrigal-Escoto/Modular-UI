@@ -18,7 +18,7 @@ export const NavBar = () => {
 
     return (
         <>
-            <nav className="flex-no-wrap relative flex w-full items-center justify-between bg-gradient-to-r from-indigo-500 to-red-600 py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
+            <nav className="z-50 flex-no-wrap relative flex w-full items-center justify-between bg-gradient-to-r from-indigo-500 to-red-600 py-2 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start lg:py-4">
                 <div className="relative flex items-center">
                     <button
                         className="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200"

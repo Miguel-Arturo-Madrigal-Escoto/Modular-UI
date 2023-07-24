@@ -57,6 +57,10 @@ export interface IProfile {
 export interface ICompany {
     name: string;
     about: string;
+    location: string;
+    mission: string;
+    vision: string;
+    sector: string;
     image: FileList;
 }
 
@@ -67,7 +71,7 @@ export interface ICurrentUser {
     created_at: string;
     updated_at: string;
     user:     IUserProfile | null;
-    company: any;
+    company:  ICompanyProfile | null;
 }
 
 export interface IUserProfile {
@@ -79,6 +83,19 @@ export interface IUserProfile {
     modality:        string;
     location:        string;
     about:           string;
-    image:           null;
+    image:           string | null;
     base_user:       number;
+}
+
+export interface ICompanyProfile {
+    id:        number;
+    name:      string;
+    about:     string;
+    mission:   string;
+    vision:    string;
+    verified:  boolean;
+    location:  string;
+    sector:    string;
+    image:     string | null;
+    base_user: number;
 }
