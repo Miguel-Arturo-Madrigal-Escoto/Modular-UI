@@ -26,7 +26,7 @@ export const InfoProfile: FC<Props> = ({ user }) => {
                     <span className="font-bold w-24">Apellido:</span>
                     <span className="text-gray-700">{ user.user?.lastname }</span>
                 </li>
-                <li className="flex border-b py-2">
+                <li className="flex border-b py-2 items-center">
                     <span className="font-bold w-24">Se unió:</span>
                     <span className="text-gray-700">{ createdAt.format("DD/MMMM/YYYY") } - { timeAgo }</span>
                 </li>

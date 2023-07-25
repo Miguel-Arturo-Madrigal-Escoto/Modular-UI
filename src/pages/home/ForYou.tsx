@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { useCurrentUser } from '../auth/hooks/useCurrentUser';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { Navigate } from 'react-router-dom';
+import { Card } from '../matches/Card';
 
 export const ForYou = () => {
 
@@ -19,14 +20,14 @@ export const ForYou = () => {
   
     return (
         <>          
-            {
+            {/* {
                 currentUserQuery.isFetching || loading ? (
                     <LoadingScreen />
                 ) : (
                     <button onClick={ () => dispatch(onLogout()) }>Log out!</button>
                 )
-            }
-           
+            } */}
+            <Card />
         </>
     )
 }

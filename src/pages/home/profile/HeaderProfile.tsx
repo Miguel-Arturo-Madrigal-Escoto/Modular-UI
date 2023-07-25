@@ -21,6 +21,10 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
           </div>
           <div className="flex flex-col items-center -mt-20">
               <img src={ image || defaultImageProfile } className="w-40 h-40 border-4 border-white rounded-full" />
+                <button className="flex items-center px-6 py-1.5 space-x-2 hover:bg-pink-50">
+                    <svg className="feather feather-edit h-4 w-4 text-gray-400" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span className="text-sm text-gray-500">Edit Photo</span>
+                </button>
               <div className="flex items-center space-x-2 mt-2">
                   <p className="text-2xl">{ name }</p>
                   <span className="bg-indigo-500 rounded-full p-1" title="Verified">
