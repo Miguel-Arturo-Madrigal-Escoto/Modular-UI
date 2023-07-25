@@ -27,6 +27,7 @@ export const ForYou = () => {
                     <button onClick={ () => dispatch(onLogout()) }>Log out!</button>
                 )
             } */}
+            
             <Card />
         </>
     )
