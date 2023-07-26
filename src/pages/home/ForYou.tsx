@@ -20,15 +20,13 @@ export const ForYou = () => {
   
     return (
         <>          
-            {/* {
+            {
                 currentUserQuery.isFetching || loading ? (
                     <LoadingScreen />
                 ) : (
-                    <button onClick={ () => dispatch(onLogout()) }>Log out!</button>
+                    <Card />
                 )
-            } */}
-            
-            <Card />
+            }     
         </>
     )
 }
