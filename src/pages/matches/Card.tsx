@@ -28,7 +28,7 @@ export const Card = () => {
       );
 
     return (
-        <div className="h-full bg-gray-200 p-4">
+        <div className="h-screen bg-gray-200 p-4">
         <SwipeableList>
         <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}
         >
