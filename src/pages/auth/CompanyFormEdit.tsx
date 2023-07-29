@@ -4,8 +4,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onUpdateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
-import { setModalClosed } from '../../app/extra/modalSlice';
+import { setModalClosedProfile } from '../../app/extra/modalSlice';
 import { useCurrentUser } from './hooks/useCurrentUser';
+import { TitleForm } from "./TitleForm";
 
 interface Props {
     option: string;
@@ -38,7 +39,7 @@ export const CompanyFormEdit: FC<Props> = ({ option }) => {
                 id: currentUserQuery.data!.company!.id
             })).unwrap();
             
-            dispatch(setModalClosed());
+            dispatch(setModalClosedProfile());
             currentUserQuery.refetch();
           
         } catch (error) {
@@ -48,6 +49,7 @@ export const CompanyFormEdit: FC<Props> = ({ option }) => {
 
   return (
     <>
+        <TitleForm title={'Modificar compañía'}/>
         {/* Formulario */}
         <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
             <div className="relative">

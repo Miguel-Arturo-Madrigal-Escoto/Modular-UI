@@ -64,6 +64,16 @@ export interface ICompany {
     image: FileList;
 }
 
+export interface IRolesForm {
+    position: string;
+    description: string;
+}
+
+export interface IRolesFormEdit {
+    description: string;
+}
+
+
 export interface ICurrentUser {
     id:       number;
     username: string;

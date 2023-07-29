@@ -1,32 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface ModalState {
-    open: boolean;
+    openProfileModal: boolean;
+    openRolesModal: boolean;
 }
 
 export const initialState: ModalState = {
-    open: false
+    openProfileModal: false,
+    openRolesModal: false,
 }
 
 export const modalSlice = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        setModalOpen: (state) => {
+        setModalOpenProfile: (state) => {
             return {
                 ...state,
-                open: true
+                openProfileModal: true
             }
         },
-        setModalClosed: (state) => {
+        setModalClosedProfile: (state) => {
             return {
                 ...state,
-                open: false
+                openProfileModal: false
+            }
+        },
+        setModalOpenRoles: (state) => {
+            return {
+                ...state,
+                openRolesModal: true
+            }
+        },
+        setModalClosedRoles: (state) => {
+            return {
+                ...state,
+                openRolesModal: false
             }
         }
     },
 })
 
-export const { setModalOpen, setModalClosed } = modalSlice.actions;
+export const { setModalOpenProfile, setModalClosedProfile, setModalOpenRoles, setModalClosedRoles } = modalSlice.actions;
 
 export default modalSlice.reducer;
