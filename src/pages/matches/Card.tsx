@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
     LeadingActions,
     SwipeableList,
@@ -8,31 +9,36 @@ import {
   import 'react-swipeable-list/dist/styles.css';
 
 export const Card = () => {
-    const leadingActions = () => (
-        <LeadingActions>
-          <SwipeAction onClick={() => console.info('swipe action triggered')}>
-            Action name
-          </SwipeAction>
-        </LeadingActions>
-      );
+    
+        const leadingActions = () => (
+            <LeadingActions>
+                <SwipeAction onClick={() => console.info('swipe action triggered')}>
+                    Action name
+                </SwipeAction>
+            </LeadingActions>
+        );
       
-      const trailingActions = () => (
-        <TrailingActions>
-          <SwipeAction
-            destructive={true}
-            onClick={() => console.info('delete action triggered')}
-          >
-            Delete
-          </SwipeAction>
-        </TrailingActions>
-      );
+        const trailingActions = () => (
+            <TrailingActions>
+                <SwipeAction
+                    destructive={true}
+                    onClick={() => console.info('delete action triggered')}
+                >
+                    Delete
+                </SwipeAction>
+            </TrailingActions>
+        );
+
+    useEffect(() => {
+        console.clear();
+    }, []);
 
     return (
-        <div className="h-screen bg-gray-200 p-4">
         <SwipeableList>
-        <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}
-        >
-            <div className="relative max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-xl">
+            <div className="h-screen bg-gray-200 flex justify-center items-center p-4">
+            <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}
+            >
+            <div className="max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full shadow-lg rounded-xl">
                 <div className="px-6">
                     <div className="flex flex-wrap justify-center">
                         <div className="w-full flex justify-center">
@@ -70,8 +76,8 @@ export const Card = () => {
                     </div>
                 </div>
             </div>
-        </SwipeableListItem>
+            </SwipeableListItem>
+        </div> 
         </SwipeableList>
-        </div>
     )
 }

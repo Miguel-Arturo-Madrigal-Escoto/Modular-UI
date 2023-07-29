@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './auth/authSlice'
-import modalSlice from './extra/modalSlice'
+import modalReducer from './extra/modalSlice'
+import rolesReducer from './roles/rolesSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    modal: modalSlice
+    modal: modalReducer,
+    roles: rolesReducer,
   },
 })
 

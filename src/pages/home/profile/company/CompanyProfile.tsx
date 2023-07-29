@@ -10,6 +10,8 @@ interface Props {
 
 export const CompanyProfile: FC<Props> = ({ user }) => {
 
+  
+
   return (
     <>
       <div className="h-full bg-gray-200 p-8">

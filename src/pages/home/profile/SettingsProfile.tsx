@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { setModalOpen } from "../../../app/extra/modalSlice";
+import { setModalOpenProfile } from "../../../app/extra/modalSlice";
 import { useCurrentUser } from "../../auth/hooks/useCurrentUser";
 import { EditCompanyModal } from "../../auth/EditCompanyModal";
 import { EditUserModal } from "../../auth/EditUserModal";
@@ -8,7 +8,7 @@ import { EditUserModal } from "../../auth/EditUserModal";
 export const SettingsProfile = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
     
-    const { open } = useAppSelector(state => state.modal);
+    const { openProfileModal: open } = useAppSelector(state => state.modal);
     const { access } = useAppSelector(state => state.auth);
     const currentUserQuery = useCurrentUser(access);
 
@@ -30,7 +30,7 @@ export const SettingsProfile = () => {
                 <div className="py-2 border-b">
                     <p className="text-gray-400 text-xs px-6 uppercase mb-1">Settings</p>
 
-                    <button className="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={ () => dispatch(setModalOpen()) }>
+                    <button className="w-full flex items-center px-6 py-1.5 space-x-2 hover:bg-gray-200" onClick={ () => dispatch(setModalOpenProfile()) }>
                         <svg className="feather feather-edit h-4 w-4 text-gray-400" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         <span className="text-sm text-gray-700">Edit Profile</span>
                     </button>

@@ -2,10 +2,10 @@ import { FC } from "react";
 
 interface Props {
     title: string;
-    message: string;
+    message?: string;
 }
 
-export const TitleForm:FC<Props> = ({title, message}) => {
+export const TitleForm:FC<Props> = ({title, message = null}) => {
   return (
     <>
         <div className="text-center">
