@@ -15,15 +15,15 @@ export const InfoProfile: FC<Props> = ({ user }) => {
     
     return (
         <div className="flex-1 bg-white rounded-lg shadow-xl p-8 mt-4">
-            <h4 className="text-xl text-gray-900 font-bold">Información personal</h4>
+            <h4 className="text-xl text-gray-900 font-bold capitalize">Información personal</h4>
             <ul className="mt-2 text-gray-700">
                 <li className="flex border-y py-2">
-                    <span className="font-bold w-24">Nombre:</span>
+                    <span className="font-bold w-24 capitalize">Nombre:</span>
                     <span className="text-gray-700">{ user.user?.name }</span>
                 </li>
                 
                 <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Apellido:</span>
+                    <span className="font-bold w-24 capitalize">Apellido:</span>
                     <span className="text-gray-700">{ user.user?.lastname }</span>
                 </li>
                 <li className="flex border-b py-2 items-center">

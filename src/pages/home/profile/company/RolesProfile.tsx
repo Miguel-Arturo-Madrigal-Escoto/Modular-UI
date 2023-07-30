@@ -1,11 +1,29 @@
+import { useEffect } from "react";
 import { setModalOpenRoles } from "../../../../app/extra/modalSlice";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { RolesModal } from "../../../auth/RolesModal";
+import { useCurrentUser } from "../../../auth/hooks/useCurrentUser";
+import { onGetCompanyRoles } from "../../../../app/roles/thunks";
+import dayjs from 'dayjs'
+import { useTimeAgo } from '../../hooks/useTimeAgo';
 
 export const RolesProfile = () => {
     
     const { openRolesModal } = useAppSelector(state => state.modal);
+    const { company_roles } = useAppSelector(state => state.roles);
+    const { access } = useAppSelector(state => state.auth);
+
+
+    // const { timeAgo } = useTimeAgo(createdAt);
+
+
     const dispatch = useAppDispatch();
+    const currentUserQuery = useCurrentUser(access);
+
+    useEffect(() => {
+        dispatch(onGetCompanyRoles({ company: currentUserQuery.data!.company!.id  }));
+        
+    }, []);
 
     return (
         <div className="flex-1 bg-white rounded-lg shadow-xl pt-8 px-8">
@@ -18,57 +36,26 @@ export const RolesProfile = () => {
                 <span className="text-sm text-gray-500">Modificar roles</span>
             </button>
             <div className="relative px-4 divide-y-2 divide-gray-100">
-    
-                <div className="py-8 flex flex-wrap md:flex-nowrap">
-                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-                        <span className="font-semibold title-font text-gray-700">INGENIERÍA</span>
-                        <span className="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
-                    </div>
-                    <div className="md:flex-grow">
-                        <h4 className="font-medium text-gray-900 title-font mb-2">Ingeniero mecánico</h4>
-                        <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-                        <a className="text-pink-500 inline-flex items-center mt-4">Learn More
-                        <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5l7 7-7 7"></path>
-                        </svg>
-                        </a>
-                    </div>
-                </div>      
-
-                <div className="py-8 flex flex-wrap md:flex-nowrap">
-                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-                        <span className="font-semibold title-font text-gray-700">FINANZAS</span>
-                        <span className="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
-                    </div>
-                    <div className="md:flex-grow">
-                        <h4 className="font-medium text-gray-900 title-font mb-2">Contador Senior</h4>
-                        <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-                        <a className="text-pink-500 inline-flex items-center mt-4">Learn More
-                        <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5l7 7-7 7"></path>
-                        </svg>
-                        </a>
-                    </div>
-                </div>  
-
-                <div className="py-8 flex flex-wrap md:flex-nowrap">
-                    <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-                        <span className="font-semibold title-font text-gray-700">INGENIERÍA</span>
-                        <span className="mt-1 text-gray-500 text-sm">12 Jun 2019</span>
-                    </div>
-                    <div className="md:flex-grow">
-                        <h4 className="font-medium text-gray-900 title-font mb-2">Ingeniero mecánico</h4>
-                        <p className="leading-relaxed">Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.</p>
-                        <a className="text-pink-500 inline-flex items-center mt-4">Learn More
-                        <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5l7 7-7 7"></path>
-                        </svg>
-                        </a>
-                    </div>
-                </div>           
+                {
+                    company_roles.map(role => (
+                        <div className="py-8 flex flex-wrap md:flex-nowrap" key={ role.id }>
+                            <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
+                                <span className="font-semibold title-font text-gray-700 uppercase">{ role.role.position }</span>
+                                <span className="mt-1 text-gray-500 text-sm">{ dayjs(role.created_at).locale('es').format("DD/MMMM/YYYY") }  </span>
+                            </div>
+                            <div className="md:flex-grow">
+                                <h4 className="font-medium text-gray-900 title-font mb-2 capitalize">{ role.name }</h4>
+                                <p className="leading-relaxed capitalize">{  role.description }</p>
+                                <a className="text-pink-500 inline-flex items-center mt-4" href={ role.link } target="_blank">Saber más
+                                    <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="M12 5l7 7-7 7"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>      
+                    ))
+                }
                               
             </div>
         </div>

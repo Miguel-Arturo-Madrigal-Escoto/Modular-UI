@@ -8,7 +8,7 @@ export const FormErrorMessage: FC<Props> = ({ message }) => {
 
     return (
         <>
-            <span className="ml-3 text-sm font-bol tracking-wide text-red-500">{ message }</span>
+            <span className="ml-3 text-sm font-bold tracking-wide text-red-500">{ message }</span>
         </>
     )
 }
