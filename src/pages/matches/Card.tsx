@@ -29,9 +29,9 @@ export const Card = () => {
             </TrailingActions>
         );
 
-    useEffect(() => {
-        console.clear();
-    }, []);
+    // useEffect(() => {
+    //     console.clear();
+    // }, []);
 
     return (
         <SwipeableList>

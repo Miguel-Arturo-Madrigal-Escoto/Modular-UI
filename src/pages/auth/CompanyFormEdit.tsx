@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { ICompany } from './types/interfaces';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { onUpdateProfile } from '../../app/auth/thunks';
+import { onGetCurrentUserData, onUpdateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
 import { setModalClosedProfile } from '../../app/extra/modalSlice';
 import { useCurrentUser } from './hooks/useCurrentUser';
@@ -13,20 +13,19 @@ interface Props {
 }
 
 export const CompanyFormEdit: FC<Props> = ({ option }) => {
-    const { errors, access } = useAppSelector(state => state.auth);
-    const currentUserQuery = useCurrentUser(access);
+    const { errors, user_data, access } = useAppSelector(state => state.auth);
 
     const {
         register,
         handleSubmit
     } = useForm<ICompany>({
         defaultValues: {
-            name: currentUserQuery.data!.company!.name,
-            sector: currentUserQuery.data!.company!.sector,
-            location: currentUserQuery.data!.company!.location,
-            about: currentUserQuery.data!.company!.about,
-            mission: currentUserQuery.data!.company!.mission,
-            vision: currentUserQuery.data!.company!.vision,
+            name: user_data!.company!.name,
+            sector: user_data!.company!.sector,
+            location: user_data!.company!.location,
+            about: user_data!.company!.about,
+            mission: user_data!.company!.mission,
+            vision: user_data!.company!.vision,
         }
     });
     const dispatch = useAppDispatch();
@@ -36,11 +35,11 @@ export const CompanyFormEdit: FC<Props> = ({ option }) => {
             await dispatch(onUpdateProfile({
                 data,
                 option,
-                id: currentUserQuery.data!.company!.id
+                id: user_data!.company!.id
             })).unwrap();
             
             dispatch(setModalClosedProfile());
-            currentUserQuery.refetch();
+            dispatch(onGetCurrentUserData({ access: access! }));
           
         } catch (error) {
             console.log('error: ', error)   

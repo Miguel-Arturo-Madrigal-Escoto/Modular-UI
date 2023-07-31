@@ -15,7 +15,7 @@ export const useCurrentUser = (access: string | null) => {
     const query = useQuery({ 
         queryKey: ['current_user'], 
         queryFn: () => getCurrentUser(access),
-        enabled: access !== null,
+        enabled: access !== null && access !== undefined,
         refetchOnWindowFocus: false,
         refetchIntervalInBackground: false
     })

@@ -2,28 +2,23 @@ import { useEffect } from "react";
 import { setModalOpenRoles } from "../../../../app/extra/modalSlice";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { RolesModal } from "../../../auth/RolesModal";
-import { useCurrentUser } from "../../../auth/hooks/useCurrentUser";
 import { onGetCompanyRoles } from "../../../../app/roles/thunks";
 import dayjs from 'dayjs'
-import { useTimeAgo } from '../../hooks/useTimeAgo';
+// import { useTimeAgo } from '../../hooks/useTimeAgo';
 
 export const RolesProfile = () => {
     
     const { openRolesModal } = useAppSelector(state => state.modal);
     const { company_roles } = useAppSelector(state => state.roles);
-    const { access } = useAppSelector(state => state.auth);
-
-
-    // const { timeAgo } = useTimeAgo(createdAt);
-
-
+    const { access, user_data } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const currentUserQuery = useCurrentUser(access);
 
     useEffect(() => {
-        dispatch(onGetCompanyRoles({ company: currentUserQuery.data!.company!.id  }));
+        if (access){
+            dispatch(onGetCompanyRoles({ company: user_data!.company!.id  }));
+        }
         
-    }, []);
+    }, [access]);
 
     return (
         <div className="flex-1 bg-white rounded-lg shadow-xl pt-8 px-8">

@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addRole, clearRoles } from "../../app/roles/rolesSlice";
 import { onAddCompanyRoles, onGetCompanyRoles } from "../../app/roles/thunks";
-import { useCurrentUser } from "./hooks/useCurrentUser";
 import { setModalClosedRoles } from "../../app/extra/modalSlice";
 
 
@@ -19,21 +18,20 @@ export const RolesModalEdit = () => {
         reset
     } = useForm<IRolesForm>();
     const { roles } = useAppSelector(state => state.roles);
-    const { access } = useAppSelector(state => state.auth);
+    const { user_data } = useAppSelector(state => state.auth);
 
     const dispatch = useAppDispatch();
 
-    const currentUserQuery = useCurrentUser(access);
     
     const onSubmit: SubmitHandler<IRolesForm> = async data => {
         try {
             await dispatch(onAddCompanyRoles({
-                company_id: currentUserQuery.data!.company!.id,
+                company_id: user_data!.company!.id,
                 roles
             })).unwrap();
             dispatch(setModalClosedRoles());
             dispatch(clearRoles());
-            dispatch(onGetCompanyRoles({ company: currentUserQuery.data!.company!.id  }));
+            dispatch(onGetCompanyRoles({ company: user_data!.company!.id  }));
         } catch (error) {
             
         }

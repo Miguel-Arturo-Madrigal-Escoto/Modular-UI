@@ -1,9 +1,8 @@
 import { FC } from 'react'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IProfile } from "./types/interfaces";
-import { useCurrentUser } from './hooks/useCurrentUser';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { onUpdateProfile } from '../../app/auth/thunks';
+import { onGetCurrentUserData, onUpdateProfile } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
 import { setModalClosedProfile } from '../../app/extra/modalSlice';
 import { TitleForm } from "./TitleForm";
@@ -13,21 +12,20 @@ interface Props {
 }
 
 export const UserFormEdit: FC<Props> = ({ option }) => {
-    const { access, errors } = useAppSelector(state => state.auth);
-    const currentUserQuery = useCurrentUser(access);
+    const { errors, user_data, access } = useAppSelector(state => state.auth);
     
     const {
         register,
         handleSubmit
     } = useForm<IProfile>({
         defaultValues: {
-            expected_salary: currentUserQuery.data!.user!.expected_salary,
-            lastname: currentUserQuery.data!.user!.lastname,
-            location: currentUserQuery.data!.user!.location,
-            modality: currentUserQuery.data!.user!.modality,
-            name: currentUserQuery.data!.user!.name,
-            position: currentUserQuery.data!.user!.position,
-            about: currentUserQuery.data!.user!.about,
+            expected_salary: user_data!.user!.expected_salary,
+            lastname: user_data!.user!.lastname,
+            location: user_data!.user!.location,
+            modality: user_data!.user!.modality,
+            name: user_data!.user!.name,
+            position: user_data!.user!.position,
+            about: user_data!.user!.about,
         }
     });
     
@@ -46,11 +44,11 @@ export const UserFormEdit: FC<Props> = ({ option }) => {
                     about: formData.about,
                 },
                 option,
-                id: currentUserQuery.data!.user!.id
+                id: user_data!.user!.id
             })).unwrap();
             
             dispatch(setModalClosedProfile());
-            currentUserQuery.refetch();
+            dispatch(onGetCurrentUserData({ access: access! }));
 
         } catch (error) {
             console.log('error: ', error)       
