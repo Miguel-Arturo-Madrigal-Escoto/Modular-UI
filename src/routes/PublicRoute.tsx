@@ -9,9 +9,9 @@ interface Props {
 
 export const PublicRoute: FC<Props> = ({ children }) => {
 
-    const { user } = useAppSelector(state => state.auth);
+    const { user, user_data } = useAppSelector(state => state.auth);
 
     return (
-        !user ? children : <Navigate to="/for-you" />
+        !user && !user_data ? children : <Navigate to="/for-you" />
     )
 }

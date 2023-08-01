@@ -1,10 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile, onUpdateProfile } from './thunks';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile, onUpdateProfile, onGetCurrentUserData } from './thunks';
+import { ICurrentUser } from '../../pages/auth/types/interfaces';
 
 export interface AuthState {
   access: string | null;
   refresh: string | null;
   user: string | null;
+  user_data: ICurrentUser | null;
   errors: any;
   loading: boolean;
 }
@@ -13,6 +15,7 @@ export const initialState: AuthState = {
   access: sessionStorage.getItem('access'),
   refresh: sessionStorage.getItem('refresh'),
   user: sessionStorage.getItem('user'),
+  user_data: null,
   errors: {},
   loading: false
 }
@@ -32,7 +35,13 @@ export const authSlice = createSlice({
           ...state,
           errors: payload
         }
-    }
+    },
+    setUserData: (state, { payload }: PayloadAction<ICurrentUser>) => {
+        return {
+          ...state,
+          user_data: payload
+        }
+    },
   },
   extraReducers(builder) {
       // when onLogin starts
@@ -69,6 +78,7 @@ export const authSlice = createSlice({
             access: null,
             refresh: null,
             user: null,
+            user_data: null,
             errors: {},
             loading: false
           }
@@ -216,10 +226,34 @@ export const authSlice = createSlice({
           loading: false,
         }
       })
+
+
+      builder.addCase(onGetCurrentUserData.pending, (state) => {
+        return {
+          ...state,
+          errors: {},
+          loading: true
+        }
+      })
+  
+      builder.addCase(onGetCurrentUserData.fulfilled, (state, { payload }) => {
+        return {
+          ...state,
+          loading: false,
+          user_data: payload
+        }
+      })
+  
+      builder.addCase(onGetCurrentUserData.rejected, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })
   
   },
 })
 
-export const { clearErrors, setErrors } = authSlice.actions;
+export const { clearErrors, setErrors, setUserData } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { setModalOpenProfile } from "../../../app/extra/modalSlice";
-import { useCurrentUser } from "../../auth/hooks/useCurrentUser";
 import { EditCompanyModal } from "../../auth/EditCompanyModal";
 import { EditUserModal } from "../../auth/EditUserModal";
 
@@ -9,16 +8,15 @@ export const SettingsProfile = () => {
     const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
     
     const { openProfileModal: open } = useAppSelector(state => state.modal);
-    const { access } = useAppSelector(state => state.auth);
-    const currentUserQuery = useCurrentUser(access);
+    const { user_data } = useAppSelector(state => state.auth);
 
     const dispatch = useAppDispatch();
 
     return (
         <div className="absolute right-12 mt-4 rounded">
             <div>
-                { open && currentUserQuery?.data?.company && <EditCompanyModal /> }
-                { open && currentUserQuery?.data?.user && <EditUserModal /> }
+                { open && user_data?.company && <EditCompanyModal /> }
+                { open && user_data?.user && <EditUserModal /> }
             </div>
             <button onClick={ () => setIsSettingsOpen(!isSettingsOpen)} className="border border-gray-400 p-2 rounded text-gray-300 hover:text-gray-300 bg-gray-100 bg-opacity-10 hover:bg-opacity-20" title="Settings">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">

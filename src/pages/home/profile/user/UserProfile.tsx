@@ -25,7 +25,7 @@ export const UserProfile: FC<Props> = ({ user }) => {
           <div className="w-full flex flex-col 2xl:w-1/3">
             <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
               <h4 className="text-xl text-gray-900 font-bold">Acerca de mí</h4>
-              <p className="mt-2 text-gray-700 break-all">
+              <p className="mt-2 text-gray-700 break-all capitalize">
                 {user!.user!.about}
               </p>
             </div>

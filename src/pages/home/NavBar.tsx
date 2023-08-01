@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
-import { useCurrentUser } from '../auth/hooks/useCurrentUser';
 import { defaultImageProfile } from '../../components/common/constants';
+import { Link } from 'react-router-dom';
 
 export const NavBar = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const dispatch = useAppDispatch();
-    const { access } = useAppSelector(state => state.auth);
-
-    const currentUserQuery = useCurrentUser(access);
+    const { user_data } = useAppSelector(state => state.auth);
 
     const toggleProfileMenu = () => {
         setIsProfileMenuOpen(!isProfileMenuOpen);
@@ -55,31 +53,31 @@ export const NavBar = () => {
                             </button>
                             <ul className="list-none p-2">
                             <li>
-                                    <a
+                                    <Link
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
-                                        href="/for-you"
+                                        to="/for-you"
                                         data-te-dropdown-item-ref
                                     >
                                         Home
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
+                                    <Link
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
-                                        href="/matches"
+                                        to="/matches"
                                         data-te-dropdown-item-ref
                                     >
                                         Matches
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a
+                                    <Link
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
-                                        href="/messages"
+                                        to="/messages"
                                         data-te-dropdown-item-ref
                                     >
                                         Messages
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -110,7 +108,7 @@ export const NavBar = () => {
                         >
                             <img
                                 src={ 
-                                    currentUserQuery.data?.user?.image || currentUserQuery.data?.company?.image || defaultImageProfile
+                                    user_data?.user?.image || user_data?.company?.image || defaultImageProfile
                                 }
                                 className="rounded-full"
                                 style={{ height: '25px', width: '25px' }}
@@ -127,13 +125,14 @@ export const NavBar = () => {
                                 </button>
                                 <ul className="list-none p-2">
                                     <li>
-                                        <a
+                                        
+                                        <Link
                                             className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
-                                            href="/profile"
+                                            to="/profile"
                                             data-te-dropdown-item-ref
                                         >
                                             Profile
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li>
                                         <a

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
-import { IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
-import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile, IOnUpdateProfile } from '../types/interfaces';
+import { ICurrentUser, IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
+import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile, IOnUpdateProfile, IOnGetCurrentUserData } from '../types/interfaces';
 import { AxiosError } from 'axios';
 import { setErrors } from './authSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
@@ -82,13 +82,21 @@ export const onRegisterActivate = createAsyncThunk(
 
 export const onRefreshJWT = createAsyncThunk(
     'auth/onRefreshJWT',
-    async (data: IOnRefreshJWT,  { dispatch }) => {
+    async (data: IOnRefreshJWT,  { dispatch, getState }) => {
         try {
+            // check if refresh JWT is valid and refresh token (new access JWT)
             const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh`, data);
+
+            // check if access JWT is still valid
+            // const { auth } = getState() as RootState;
+            // await axios_base.post('auth/jwt/verify', { token: auth.access })
+
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
+            dispatch(onLogout());
+            errorNotification('La sesión es inválida o ha expirado.');
             throw new Error(`${err.response?.data}`)
         }
     }
@@ -134,6 +142,24 @@ export const onUpdateProfile = createAsyncThunk(
             errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
 
+        }
+    }
+)
+
+export const onGetCurrentUserData = createAsyncThunk(
+    'auth/onGetCurrentUserData',
+    async ({ access }: IOnGetCurrentUserData,  { dispatch }) => {
+        try {
+            const resp = await axios_base.get<ICurrentUser>('auth/users/me/', {
+                headers: {
+                    Authorization: `JWT ${access}`
+                }
+            });
+            return resp.data;   
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
         }
     }
 )

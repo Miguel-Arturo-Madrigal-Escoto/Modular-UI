@@ -1,7 +1,7 @@
 import {
     Routes,
     Route,
-    useLocation
+    useLocation,
 } from 'react-router-dom';
 import { ForYou } from '../pages/home/ForYou';
 import { Profile } from '../pages/home/Profile';
@@ -20,14 +20,15 @@ import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
 import { UserActivation } from '../pages/auth/UserActivation';
-import { onRefreshJWT } from '../app/auth/thunks';
+import { onGetCurrentUserData, onRefreshJWT } from '../app/auth/thunks';
 import { NavBar } from '../pages/home/NavBar';
 
 
 export const AppRouter = () => {
 
-    const { user, access, refresh } = useAppSelector(state => state.auth);
+    const { user, access, refresh, user_data } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
+
 
     const location = useLocation();
     const regex = new RegExp('\/(login|register|profile\/form)\/?', 'g');
@@ -36,6 +37,13 @@ export const AppRouter = () => {
     useEffect(() => {
         saveSessionStorageState({ user, access, refresh });
     }, [user, access, refresh]);
+
+    useEffect(() => {
+        if (access){
+            dispatch(onGetCurrentUserData({ access }));
+        }
+
+    }, [access]);
 
     useEffect(() => {
         setisNavBarShown(!regex.test(location.pathname));
@@ -105,9 +113,7 @@ export const AppRouter = () => {
                 <Route path='/profile/edit' element={ <ProfileEdit /> } />
 
                 <Route path='/profile/form' element={ 
-                    <PrivateRoute>
-                        <ProfileForm />
-                    </PrivateRoute>
+                    <ProfileForm />
                 } />
             </Routes>
         </>

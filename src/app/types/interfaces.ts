@@ -21,8 +21,13 @@ export interface IOnRegisterActivate {
     uid: string;
     token: string;
 }
+
 export interface IOnRefreshJWT {
     refresh: string;
+}
+
+export interface IOnGetCurrentUserData {
+    access: string;
 }
 
 export interface IOnCreateProfile {

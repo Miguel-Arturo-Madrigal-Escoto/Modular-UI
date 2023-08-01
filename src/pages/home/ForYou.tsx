@@ -1,27 +1,16 @@
 
-import { onLogout } from '../../app/auth/thunks';
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { useCurrentUser } from '../auth/hooks/useCurrentUser';
+import { useAppSelector } from '../../app/hooks'
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { Navigate } from 'react-router-dom';
 import { Card } from '../matches/Card';
 
 export const ForYou = () => {
-
-    const dispatch = useAppDispatch();
-    const { access, loading } = useAppSelector(state => state.auth);
-    const currentUserQuery = useCurrentUser(access);
-  
-    if (!currentUserQuery.isFetching){
-        if (currentUserQuery.data!.user === null && currentUserQuery.data!.company === null ){
-            return <Navigate to="/profile/form/" />
-        }
-    }
-  
+    const { loading } = useAppSelector(state => state.auth);
+   
     return (
         <>          
             {
-                currentUserQuery.isFetching || loading ? (
+                loading ? (
                     <LoadingScreen />
                 ) : (
                     <Card />

@@ -19,12 +19,12 @@ export const InfoProfile: FC<Props> = ({ user }) => {
             <ul className="mt-2 text-gray-700">
                 <li className="flex border-y py-2">
                     <span className="font-bold w-24 capitalize">Nombre:</span>
-                    <span className="text-gray-700">{ user.user?.name }</span>
+                    <span className="text-gray-700 capitalize">{ user.user?.name }</span>
                 </li>
                 
                 <li className="flex border-b py-2">
                     <span className="font-bold w-24 capitalize">Apellido:</span>
-                    <span className="text-gray-700">{ user.user?.lastname }</span>
+                    <span className="text-gray-700 capitalize">{ user.user?.lastname }</span>
                 </li>
                 <li className="flex border-b py-2 items-center">
                     <span className="font-bold w-24">Se unió:</span>
@@ -36,7 +36,7 @@ export const InfoProfile: FC<Props> = ({ user }) => {
                 </li>
                 <li className="flex border-b py-2">
                     <span className="font-bold w-24">Modalidad:</span>
-                    <span className="text-gray-700">{ user.user?.modality }</span>
+                    <span className="text-gray-700 capitalize">{ user.user?.modality }</span>
                 </li>
                 <li className="flex border-b py-2 items-center">
                     <span className="font-bold w-24">Correo electrónico:</span>
@@ -44,7 +44,7 @@ export const InfoProfile: FC<Props> = ({ user }) => {
                 </li>
                 <li className="flex border-b py-2">
                     <span className="font-bold w-24">Location:</span>
-                    <span className="text-gray-700">{ user.user?.location }</span>
+                    <span className="text-gray-700 capitalize">{ user.user?.location }</span>
                 </li>
                 <li className="flex border-b py-2">
                     <span className="font-bold w-24">Languages:</span>
