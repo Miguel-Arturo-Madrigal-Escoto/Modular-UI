@@ -40,7 +40,7 @@ export const RolesProfile = () => {
                             </div>
                             <div className="md:flex-grow">
                                 <h4 className="font-medium text-gray-900 title-font mb-2 capitalize">{ role.name }</h4>
-                                <p className="leading-relaxed capitalize">{  role.description }</p>
+                                <p className="leading-relaxed capitalize break-all">{  role.description }</p>
                                 <a className="text-pink-500 inline-flex items-center mt-4" href={ role.link } target="_blank">Saber más
                                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M5 12h14"></path>
