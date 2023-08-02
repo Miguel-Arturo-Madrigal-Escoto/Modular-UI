@@ -36,7 +36,13 @@ export interface IOnCreateProfile {
 }
 
 export interface IOnUpdateProfile {
-    option: string;
+    option: string; // user | company
     data: any;
     id: number;
+}
+
+export interface IOnUpdateProfilePicture {
+    option: string; // user | company
+    id: number;
+    image: File;
 }

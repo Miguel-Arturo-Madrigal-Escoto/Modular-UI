@@ -1,6 +1,8 @@
-import { FC } from 'react'
+import React, { FC, useRef } from 'react'
 import { SettingsProfile } from "./SettingsProfile"
 import { defaultImageProfile } from '../../../components/common/constants';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { onGetCurrentUserData, onUpdateProfilePicture } from '../../../app/auth/thunks';
 
 interface Props {
     name: string;
@@ -10,6 +12,32 @@ interface Props {
 }
 
 export const HeaderProfile: FC<Props> = ({ name, position, location, image }) => {
+
+    const fileInputPicture = useRef<HTMLInputElement>(null);
+
+    const dispatch = useAppDispatch();
+    const { user_data, access } = useAppSelector(state => state.auth);
+
+
+    const onChangeProfilePicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        if (e.target.files){
+            try { 
+                await dispatch(onUpdateProfilePicture({
+                    id: user_data?.user !== null ? user_data!.user!.id : user_data!.company!.id,
+                    image: e.target.files[0],
+                    option: user_data?.user !== null ? 'user' : 'company'
+                })).unwrap();
+                await dispatch(onGetCurrentUserData({ 
+                    access: access! 
+                })).unwrap();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+
     return (
       <div className="bg-white rounded-lg shadow-xl pb-8">
           <SettingsProfile />
@@ -20,11 +48,12 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
               
           </div>
           <div className="flex flex-col items-center -mt-20">
-              <img src={ image || defaultImageProfile } className="w-40 h-40 border-4 border-white rounded-full" />
-                <button className="flex items-center px-6 py-1.5 space-x-2 hover:bg-pink-50">
+                <img src={ image || defaultImageProfile } className="w-40 h-40 border-4 border-white rounded-full" />
+                <button className="flex items-center px-6 py-1.5 space-x-2 hover:bg-pink-50" onClick={ () => fileInputPicture.current && fileInputPicture.current.click() }>
                     <svg className="feather feather-edit h-4 w-4 text-gray-400" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     <span className="text-sm text-gray-500">Editar foto</span>
                 </button>
+                <input type="file" className="hidden" ref={ fileInputPicture } onChange={ onChangeProfilePicture } />
               <div className="flex items-center space-x-2 mt-2">
                   <p className="text-2xl capitalize">{ name }</p>
                   <span className="bg-indigo-500 rounded-full p-1" title="Verified">

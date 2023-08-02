@@ -175,7 +175,7 @@ export const UserForm: FC<Props> = ({ option }) => {
                     <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Foto de perfil (opcional)</label>
                     <input
                         className="w-full text-base px-4 py-2 focus:outline-none rounded-2xl focus:border-indigo-500"
-                        type="file" placeholder="Ingresa tu posición deseada" {...register('image')}
+                        type="file" placeholder="Selecciona una imagen" {...register('image')}
                     />
                     {
                         errors.image && <FormErrorMessage message={ errors.image }/>
