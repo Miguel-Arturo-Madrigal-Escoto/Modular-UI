@@ -137,3 +137,15 @@ export interface ICompanyProfile {
     image:     string | null;
     base_user: number;
 }
+
+export interface IFormData {
+    modalities: FormValue[];
+    locations:  FormValue[];
+    positions:  FormValue[];
+    sectors:    FormValue[];
+}
+
+export interface FormValue {
+    value:   string;
+    display: string;
+}

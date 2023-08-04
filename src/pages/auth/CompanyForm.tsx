@@ -17,6 +17,7 @@ export const CompanyForm: FC<Props> = ({ option }) => {
     } = useForm<ICompany>()
 
     const { errors, user_data, access } = useAppSelector(state => state.auth);
+    const { sectors, locations } = useAppSelector(state => state.form);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -60,18 +61,11 @@ export const CompanyForm: FC<Props> = ({ option }) => {
             <div className="relative">
                 <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Sector empresarial</label>
                 <select {...register('sector')} defaultValue="educacion" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
-                            <option value="educacion">Educación</option>
-                            <option value="salud">Salud</option>
-                            <option value="alimentos">Alimentos</option>
-                            <option value="financiero">Finanzas</option>
-                            <option value="software">Software</option>
-                            <option value="tecnologias de la informacion">Tecnologías de la información (TI)</option>
-                            <option value="transporte">Transporte</option>
-                            <option value="turismo">Turismo</option>
-                            <option value="telecomunicaciones">Telecomunicaciones</option>
-                            <option value="ventas">Ventas</option>
-                            <option value="otro">Otro</option>
-
+                {
+                    sectors.map((sector, idx) => (
+                        <option value={ sector.value } key={ idx }>{ sector.display}</option>
+                    ))
+                }
                 </select>
                 {
                     errors.sector && <FormErrorMessage message={errors.sector} />
@@ -81,38 +75,11 @@ export const CompanyForm: FC<Props> = ({ option }) => {
             <div className="relative">
                 <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Ubicación</label>
                 <select {...register('location')} defaultValue="aguascalientes" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
-                            <option value="aguascalientes">AGUASCALIENTES</option>
-                            <option value="baja california">BAJA CALIFORNIA</option>
-                            <option value="baja california sur">BAJA CALIFORNIA SUR</option>
-                            <option value="chihuahua">CHIHUAHUA</option>
-                            <option value="chiapas">CHIAPAS</option>
-                            <option value="campeche">CAMPECHE</option>
-                            <option value="ciudad de mexico">CIUDAD DE MEXICO</option>
-                            <option value="coahuila">COAHUILA</option>
-                            <option value="colima">COLIMA</option>
-                            <option value="durango">DURANGO</option>
-                            <option value="guerrero">GUERRERO</option>
-                            <option value="guanajuato">GUANAJUATO</option>
-                            <option value="hidalgo">HIDALGO</option>
-                            <option value="jalisco">JALISCO</option>
-                            <option value="michoacan">MICHOACAN</option>
-                            <option value="estado de mexico">ESTADO DE MEXICO</option>
-                            <option value="morelos">MORELOS</option>
-                            <option value="nayarit">NAYARIT</option>
-                            <option value="nuevo leon">NUEVO LEON</option>
-                            <option value="oaxaca">OAXACA</option>
-                            <option value="puebla">PUEBLA</option>
-                            <option value="quintana roo">QUINTANA ROO</option>
-                            <option value="queretaro">QUERETARO</option>
-                            <option value="sinaloa">SINALOA</option>
-                            <option value="san luis potosi">SAN LUIS POTOSI</option>
-                            <option value="sonora">SONORA</option>
-                            <option value="tabasco">TABASCO</option>
-                            <option value="tlaxcala">TLAXCALA</option>
-                            <option value="tamaulipas">TAMAULIPAS</option>
-                            <option value="veracruz">VERACRUZ</option>
-                            <option value="yucatan">YUCATAN</option>
-                            <option value="zacatecas">ZACATECAS</option>
+                {
+                    locations.map((location, idx) => (
+                        <option value={ location.value } key={ idx }>{ location.display}</option>
+                    ))
+                }
                 </select>
                 {
                     errors.location && <FormErrorMessage message={errors.location} />
