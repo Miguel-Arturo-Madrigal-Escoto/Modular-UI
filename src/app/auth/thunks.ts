@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
-import { ICurrentUser, IJWTRefreshSuccess, ILoginSuccess, IRegisterSuccess, ISocialLoginSuccess } from '../../pages/auth/types/interfaces';
-import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile, IOnUpdateProfile, IOnGetCurrentUserData } from '../types/interfaces';
+import { IOnRegister, ISocialOnLogin, IOnRegisterActivate, IOnLogin, IOnRefreshJWT, IOnCreateProfile, IOnUpdateProfile, IOnGetCurrentUserData, IOnUpdateProfilePicture, ISocialLoginSuccess, ILoginSuccess, IRegisterSuccess, IJWTRefreshSuccess, ICurrentUser } from '../types/interfaces';
 import { AxiosError } from 'axios';
 import { setErrors } from './authSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
@@ -82,7 +81,7 @@ export const onRegisterActivate = createAsyncThunk(
 
 export const onRefreshJWT = createAsyncThunk(
     'auth/onRefreshJWT',
-    async (data: IOnRefreshJWT,  { dispatch, getState }) => {
+    async (data: IOnRefreshJWT,  { dispatch }) => {
         try {
             // check if refresh JWT is valid and refresh token (new access JWT)
             const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh`, data);
@@ -159,6 +158,30 @@ export const onGetCurrentUserData = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+
+export const onUpdateProfilePicture = createAsyncThunk(
+    `auth/onUpdateProfilePicture`,
+    async({ option, id, image }: IOnUpdateProfilePicture, { dispatch, getState }) => {
+        try {
+            const { auth } = getState() as RootState;
+            await axios_base.patch(`/auth/${ option }/${ id }/`, { image }, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            successNotification('Foto de perfil actualizada correctamente.');
+            
+
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            errorNotification('Seleccione una imagen válida.');
             throw new Error(`${err.response?.data}`)
         }
     }

@@ -22,11 +22,12 @@ import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState'
 import { UserActivation } from '../pages/auth/UserActivation';
 import { onGetCurrentUserData, onRefreshJWT } from '../app/auth/thunks';
 import { NavBar } from '../pages/home/NavBar';
+import { fetchFormData } from '../app/form/thunks';
 
 
 export const AppRouter = () => {
 
-    const { user, access, refresh, user_data } = useAppSelector(state => state.auth);
+    const { user, access, refresh } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
 
@@ -56,6 +57,10 @@ export const AppRouter = () => {
             }))
         }
     }, [refresh]);
+
+    useEffect(() => {
+        dispatch(fetchFormData());
+    }, []);
 
     return (
         <>

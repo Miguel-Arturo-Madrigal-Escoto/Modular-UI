@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile, onUpdateProfile, onGetCurrentUserData } from './thunks';
-import { ICurrentUser } from '../../pages/auth/types/interfaces';
+import { onSocialLogin, onLogout, onRegister, onRegisterActivate, onLogin, onRefreshJWT, onCreateProfile, onUpdateProfile, onGetCurrentUserData, onUpdateProfilePicture } from './thunks';
+import { ICurrentUser } from '../types/interfaces';
+
 
 export interface AuthState {
   access: string | null;
@@ -251,6 +252,29 @@ export const authSlice = createSlice({
         }
       })
   
+
+      builder.addCase(onUpdateProfilePicture.pending, (state) => {
+        return {
+          ...state,
+          errors: {},
+          loading: true
+        }
+      })
+  
+      builder.addCase(onUpdateProfilePicture.fulfilled, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })
+  
+      builder.addCase(onUpdateProfilePicture.rejected, (state) => {
+        return {
+          ...state,
+          loading: false,
+        }
+      })
+
   },
 })
 

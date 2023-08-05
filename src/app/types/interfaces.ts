@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import { IProviders } from '../../pages/auth/types/interfaces';
+import { Role } from '../roles/rolesSlice';
 
 export interface ISocialOnLogin {
     params: queryString.ParsedQuery<string>;
@@ -36,7 +37,107 @@ export interface IOnCreateProfile {
 }
 
 export interface IOnUpdateProfile {
-    option: string;
+    option: string; // user | company
     data: any;
     id: number;
+}
+
+export interface IOnUpdateProfilePicture {
+    option: string; // user | company
+    id: number;
+    image: File;
+}
+
+export interface ISocialLoginSuccess {
+    access: string;
+    refresh: string;
+    user: string;
+}
+
+export interface ICompanyRoles {
+    company_id: number;
+    roles: Role[];
+}
+
+export interface ICompanyFilter {
+    company: number;
+}
+
+export interface ICompanyRolesById {
+    id:          number;
+    link:        string;
+    name:        string;
+    description: string;
+    created_at:  Date;
+    updated_at:  Date;
+    role:        {
+        id: number;
+        position: string;
+    }
+    company:     number;
+}
+
+
+export interface ILoginSuccess {
+    access: string;
+    refresh: string;
+}
+
+export interface IRegisterSuccess {
+    username: string;
+    email:    string;
+    user:     null;
+    company:  null;
+}
+
+export interface ICurrentUser {
+    id:       number;
+    username: string;
+    email:    string;
+    created_at: string;
+    updated_at: string;
+    user:     IUserProfile | null;
+    company:  ICompanyProfile | null;
+}
+
+export interface IUserProfile {
+    id:              number;
+    name:            string;
+    lastname:        string;
+    position:        string;
+    expected_salary: number;
+    modality:        string;
+    location:        string;
+    about:           string;
+    image:           string | null;
+    base_user:       number;
+}
+
+export interface ICompanyProfile {
+    id:        number;
+    name:      string;
+    about:     string;
+    mission:   string;
+    vision:    string;
+    verified:  boolean;
+    location:  string;
+    sector:    string;
+    image:     string | null;
+    base_user: number;
+}
+
+export interface IFormData {
+    modalities: FormValue[];
+    locations:  FormValue[];
+    positions:  FormValue[];
+    sectors:    FormValue[];
+}
+
+export interface FormValue {
+    value:   string;
+    display: string;
+}
+
+export interface IJWTRefreshSuccess {
+    access: string;
 }

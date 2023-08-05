@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { onAddCompanyRoles, onGetCompanyRoles } from './thunks';
-import { ICompanyRolesById } from '../../pages/auth/types/interfaces';
+import { ICompanyRolesById } from '../types/interfaces';
+
 
 export interface Role {
     id?: string;

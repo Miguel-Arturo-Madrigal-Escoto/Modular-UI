@@ -13,6 +13,7 @@ interface Props {
 
 export const UserFormEdit: FC<Props> = ({ option }) => {
     const { errors, user_data, access } = useAppSelector(state => state.auth);
+    const { modalities, locations, positions } = useAppSelector(state => state.form);
     
     const {
         register,
@@ -85,9 +86,11 @@ export const UserFormEdit: FC<Props> = ({ option }) => {
                     <div className="relative">
                         <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Modalidad</label>
                         <select {...register('modality')} defaultValue="presencial" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
-                                    <option value="presencial">Presencial</option>
-                                    <option value="remoto">Remoto</option>
-                                    <option value="hibrido">Híbrido</option>
+                        {
+                            modalities.map((modality, idx) => (
+                                <option value={ modality.value } key={ idx }>{ modality.display}</option>
+                            ))
+                        }
                         </select>
                         {
                             errors.modality && <FormErrorMessage message={errors.modality} />
@@ -96,38 +99,11 @@ export const UserFormEdit: FC<Props> = ({ option }) => {
                     <div className="relative">
                         <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Ubicación</label>
                         <select {...register('location')} defaultValue="aguascalientes" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
-                                    <option value="aguascalientes">AGUASCALIENTES</option>
-                                    <option value="baja california">BAJA CALIFORNIA</option>
-                                    <option value="baja california sur">BAJA CALIFORNIA SUR</option>
-                                    <option value="chihuahua">CHIHUAHUA</option>
-                                    <option value="chiapas">CHIAPAS</option>
-                                    <option value="campeche">CAMPECHE</option>
-                                    <option value="ciudad de mexico">CIUDAD DE MEXICO</option>
-                                    <option value="coahuila">COAHUILA</option>
-                                    <option value="colima">COLIMA</option>
-                                    <option value="durango">DURANGO</option>
-                                    <option value="guerrero">GUERRERO</option>
-                                    <option value="guanajuato">GUANAJUATO</option>
-                                    <option value="hidalgo">HIDALGO</option>
-                                    <option value="jalisco">JALISCO</option>
-                                    <option value="michoacan">MICHOACAN</option>
-                                    <option value="estado de mexico">ESTADO DE MEXICO</option>
-                                    <option value="morelos">MORELOS</option>
-                                    <option value="nayarit">NAYARIT</option>
-                                    <option value="nuevo leon">NUEVO LEON</option>
-                                    <option value="oaxaca">OAXACA</option>
-                                    <option value="puebla">PUEBLA</option>
-                                    <option value="quintana roo">QUINTANA ROO</option>
-                                    <option value="queretaro">QUERETARO</option>
-                                    <option value="sinaloa">SINALOA</option>
-                                    <option value="san luis potosi">SAN LUIS POTOSI</option>
-                                    <option value="sonora">SONORA</option>
-                                    <option value="tabasco">TABASCO</option>
-                                    <option value="tlaxcala">TLAXCALA</option>
-                                    <option value="tamaulipas">TAMAULIPAS</option>
-                                    <option value="veracruz">VERACRUZ</option>
-                                    <option value="yucatan">YUCATAN</option>
-                                    <option value="zacatecas">ZACATECAS</option>
+                        {
+                            locations.map((location, idx) => (
+                                <option value={ location.value } key={ idx }>{ location.display}</option>
+                            ))
+                        }
                         </select>
                         {
                             errors.location && <FormErrorMessage message={errors.location} />
@@ -136,28 +112,11 @@ export const UserFormEdit: FC<Props> = ({ option }) => {
                     <div className="relative">
                         <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Posición</label>
                         <select {...register('position')} defaultValue="administrador" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
-                                    <option value="administrador">Administrador</option>
-                                    <option value="analista de datos">Analista de datos</option>
-                                    <option value="arquitecto">Arquitecto</option>
-                                    <option value="auxiliar">Auxiliar</option>
-                                    <option value="becario">Becario</option>
-                                    <option value="cocinero">Cocinero</option>
-                                    <option value="contador">Contador</option>
-                                    <option value="desarrollador">Desarrollador</option>
-                                    <option value="devops">DevOps</option>
-                                    <option value="diseñador">Diseñador</option>
-                                    <option value="electricista">Electricista</option>
-                                    <option value="enfermero">Enfermero</option>
-                                    <option value="fisico">Físico</option>
-                                    <option value="ingeniero">Ingeniero</option>
-                                    <option value="matematico">Matemático</option>
-                                    <option value="medico">Médico</option>
-                                    <option value="mesero">Mesero</option>
-                                    <option value="musico">Músico</option>
-                                    <option value="profesor">Profesor</option>
-                                    <option value="tester">Tester</option>
-                                    <option value="vendedor">Vendedor</option>
-                                    <option value="otro">Otro</option>
+                        {
+                            positions.map((position, idx) => (
+                                <option value={ position.value } key={ idx }>{ position.display}</option>
+                            ))
+                        }
                         </select>
                         {
                             errors.position && <FormErrorMessage message={errors.position} />

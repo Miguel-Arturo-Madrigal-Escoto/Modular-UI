@@ -19,6 +19,7 @@ export const RolesModalEdit = () => {
     } = useForm<IRolesForm>();
     const { roles } = useAppSelector(state => state.roles);
     const { user_data } = useAppSelector(state => state.auth);
+    const { positions } = useAppSelector(state => state.form);
 
     const dispatch = useAppDispatch();
 
@@ -62,28 +63,11 @@ export const RolesModalEdit = () => {
                         <div className="relative">
                             <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Posición</label>
                             <select {...register('position')} defaultValue="administrador" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
-                                        <option value="administrador">Administrador</option>
-                                        <option value="analista de datos">Analista de datos</option>
-                                        <option value="arquitecto">Arquitecto</option>
-                                        <option value="auxiliar">Auxiliar</option>
-                                        <option value="becario">Becario</option>
-                                        <option value="cocinero">Cocinero</option>
-                                        <option value="contador">Contador</option>
-                                        <option value="desarrollador">Desarrollador</option>
-                                        <option value="devops">DevOps</option>
-                                        <option value="diseñador">Diseñador</option>
-                                        <option value="electricista">Electricista</option>
-                                        <option value="enfermero">Enfermero</option>
-                                        <option value="fisico">Físico</option>
-                                        <option value="ingeniero">Ingeniero</option>
-                                        <option value="matematico">Matemático</option>
-                                        <option value="medico">Médico</option>
-                                        <option value="mesero">Mesero</option>
-                                        <option value="musico">Músico</option>
-                                        <option value="profesor">Profesor</option>
-                                        <option value="tester">Tester</option>
-                                        <option value="vendedor">Vendedor</option>
-                                        <option value="otro">Otro</option>
+                            {
+                                positions.map((position, idx) => (
+                                    <option value={ position.value } key={ idx }>{ position.display}</option>
+                                ))
+                            }
                             </select>
                             {/* {
                                 errors.position && <FormErrorMessage message={errors.position} />
