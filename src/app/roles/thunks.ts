@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
-import { ICompanyFilter, ICompanyRoles, ICompanyRolesById } from '../../pages/auth/types/interfaces';
 import { AxiosError } from 'axios';
 import { setErrors } from './rolesSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
+import { ICompanyFilter, ICompanyRoles, ICompanyRolesById } from '../types/interfaces';
 
 export const onAddCompanyRoles = createAsyncThunk(
     'roles/onAddCompanyRoles',

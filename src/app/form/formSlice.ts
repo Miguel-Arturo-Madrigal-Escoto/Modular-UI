@@ -1,19 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchFormData } from './thunks';
+import { IFormData } from '../types/interfaces';
 
-interface FormValue {
-    value: string;
-    display: string;
-}
 
-interface FormState {
-    modalities: FormValue[];
-    locations: FormValue[];
-    positions: FormValue[];
-    sectors: FormValue[];
-}
-
-const initialState: FormState = {
+const initialState: IFormData = {
     modalities: [],
     locations: [],
     positions: [],

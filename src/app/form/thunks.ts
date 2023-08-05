@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { axios_base } from '../../api/axios_base';
-import { IFormData } from '../../pages/auth/types/interfaces';
+import { IFormData } from '../types/interfaces';
+
 
 export const fetchFormData = createAsyncThunk(
     'form/fetchFormData',
