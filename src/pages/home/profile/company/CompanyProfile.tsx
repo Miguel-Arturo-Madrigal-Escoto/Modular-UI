@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { ICurrentUser } from "../../../auth/types/interfaces";
 import { HeaderProfile } from "../HeaderProfile";
 import { ConnectionsProfile } from "../ConnectionsProfile";
 import { RolesProfile } from "./RolesProfile";
+import { ICurrentUser } from "../../../../app/types/interfaces";
 
 interface Props {
   user: ICurrentUser;

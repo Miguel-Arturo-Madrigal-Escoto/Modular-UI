@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
 import { defaultImageProfile } from '../../components/common/constants';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const NavBar = () => {
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const location = useLocation();
 
     const dispatch = useAppDispatch();
     const { user_data } = useAppSelector(state => state.auth);
@@ -18,6 +19,12 @@ export const NavBar = () => {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    useEffect(() => {
+        setIsProfileMenuOpen(false);
+        setIsMenuOpen(false);
+
+    }, [location.pathname]);
 
     return (
         <>

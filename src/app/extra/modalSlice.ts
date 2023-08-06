@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit'
 export interface ModalState {
     openProfileModal: boolean;
     openRolesModal: boolean;
+    openExperienceModal: boolean;
 }
 
 export const initialState: ModalState = {
     openProfileModal: false,
     openRolesModal: false,
+    openExperienceModal: false,
 }
 
 export const modalSlice = createSlice({
@@ -37,10 +39,22 @@ export const modalSlice = createSlice({
                 ...state,
                 openRolesModal: false
             }
+        },
+        setModalOpenExperience: (state) => {
+            return {
+                ...state,
+                openExperienceModal: true
+            }
+        },
+        setModalClosedExperience: (state) => {
+            return {
+                ...state,
+                openExperienceModal: false
+            }
         }
     },
 })
 
-export const { setModalOpenProfile, setModalClosedProfile, setModalOpenRoles, setModalClosedRoles } = modalSlice.actions;
+export const { setModalOpenProfile, setModalClosedProfile, setModalOpenRoles, setModalClosedRoles, setModalClosedExperience, setModalOpenExperience } = modalSlice.actions;
 
 export default modalSlice.reducer;
