@@ -4,11 +4,13 @@ import { ExperienceProfile } from "./ExperienceProfile";
 import { SkillsProfile } from "./SkillsProfile";
 import { ConnectionsProfile } from "../ConnectionsProfile";
 import { HeaderProfile } from "../HeaderProfile";
-import { ICurrentUser } from "../../../auth/types/interfaces";
+import { ICurrentUser } from "../../../../app/types/interfaces";
+
 
 interface Props {
   user: ICurrentUser;
 }
+
 export const UserProfile: FC<Props> = ({ user }) => {
 
   return (

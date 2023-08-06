@@ -136,8 +136,42 @@ export interface IFormData {
 export interface FormValue {
     value:   string;
     display: string;
+    id: number;
 }
 
 export interface IJWTRefreshSuccess {
     access: string;
+}
+
+export interface IUserExperience {
+    start_date: string;
+    end_date: string;
+    description: string;
+    role: number;
+    user: number;
+}
+
+export interface ExperienceAdded {
+    id:          number;
+    role:        number;
+    start_date:  Date;
+    end_date:    Date;
+    description: string;
+    user:        number;
+}
+
+export interface RoleExperience {
+    id:       number;
+    position: string;
+}
+
+export interface IUserExperienceFilter {
+    user: number;
+}
+
+export type IUserExperienceById = ExperienceAdded[]
+
+export interface IUserExperiences {
+    errors: any;
+    experiences: IUserExperienceById
 }
