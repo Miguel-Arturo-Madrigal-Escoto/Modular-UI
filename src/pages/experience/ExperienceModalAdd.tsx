@@ -63,13 +63,6 @@ export const ExperienceModalAdd = () => {
                             } */}
                         </div>
                         <div className="relative">
-                            <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Descripción</label>
-                            <textarea rows={4} cols={40} className=" w-full text-base px-4 border border-gray-300 focus:outline-none  resize-none focus:border-indigo-500" {...register('description')}/>
-                            {/* {
-                                errors.description && <FormErrorMessage message={ errors.description }/>
-                            } */}
-                        </div>
-                        <div className="relative">
                             <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Rol</label>
                             <select {...register('role')} defaultValue="presencial" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
                             {
@@ -78,6 +71,13 @@ export const ExperienceModalAdd = () => {
                                 ))
                             }
                             </select>
+                        </div>
+                        <div className="relative">
+                            <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Descripción</label>
+                            <textarea rows={4} cols={40} className=" w-full text-base px-4 border border-gray-300 focus:outline-none  resize-none focus:border-indigo-500" {...register('description')}/>
+                            {/* {
+                                errors.description && <FormErrorMessage message={ errors.description }/>
+                            } */}
                         </div>
                     </div>
                     <div className="relative right-0">
