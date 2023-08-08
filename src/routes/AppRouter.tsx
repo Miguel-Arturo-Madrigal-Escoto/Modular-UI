@@ -49,7 +49,9 @@ export const AppRouter = () => {
 
     useEffect(() => {
         if (user_data){
-            dispatch(onGetUserExperiences({ user: user_data.user!.id }));
+            if(user_data.user){
+                dispatch(onGetUserExperiences({ user: user_data.user!.id }));
+            }
         }
 
     }, [user_data]);
