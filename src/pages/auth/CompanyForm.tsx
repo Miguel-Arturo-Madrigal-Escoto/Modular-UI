@@ -6,6 +6,7 @@ import { onCreateProfile, onGetCurrentUserData } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
 import { useNavigate } from 'react-router-dom';
 import { onSaveNewSector } from '../../app/sectors/thunks';
+import { fetchFormData } from '../../app/form/thunks';
 
 interface Props {
   option: string;
@@ -52,6 +53,7 @@ export const CompanyForm: FC<Props> = ({ option }) => {
                 option
             })).unwrap();
             await dispatch(onGetCurrentUserData({ access: access! }))
+            await dispatch(fetchFormData());
 
             navigate('/for-you');
             
