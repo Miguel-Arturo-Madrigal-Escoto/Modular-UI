@@ -6,7 +6,7 @@ import { onGetCurrentUserData, onUpdateProfilePicture } from '../../../app/auth/
 
 interface Props {
     name: string;
-    position: string;
+    position: number; // position (user) | sector (company)
     location: string;
     image: string | null;
 }
@@ -17,6 +17,7 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
 
     const dispatch = useAppDispatch();
     const { user_data, access } = useAppSelector(state => state.auth);
+    const { positions, sectors } = useAppSelector(state => state.form);
 
 
     const onChangeProfilePicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +37,6 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
             }
         }
     }
-
 
     return (
       <div className="bg-white rounded-lg shadow-xl pb-8">
@@ -62,7 +62,13 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
                       </svg>
                   </span>
               </div>
-              <p className="text-gray-700 capitalize">{ position } </p>
+              <p className="text-gray-700 capitalize">
+                {
+                    user_data?.user 
+                    ? positions.find(p => p.id === position )?.display
+                    : user_data?.company && sectors.find(s => s.id === position)?.display
+                } 
+              </p>
               <p className="text-sm text-gray-500 capitalize">{ location }</p>
           </div>
           <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">

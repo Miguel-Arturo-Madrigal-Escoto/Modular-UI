@@ -30,6 +30,7 @@ export interface IProfile {
     modality: string;
     location: string;
     about: string;
+    new_position: string;
     image: FileList;
 }
 
@@ -40,6 +41,7 @@ export interface ICompany {
     mission: string;
     vision: string;
     sector: string;
+    new_sector: string;
     image: FileList;
 }
 

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { onAddCompanyRoles, onGetCompanyRoles } from './thunks';
+import { onAddCompanyRoles, onGetCompanyRoles, onSaveNewRole } from './thunks';
 import { ICompanyRolesById } from '../types/interfaces';
 
 
@@ -68,9 +68,8 @@ export const rolesSlice = createSlice({
             errors: {},
           }
         })
-  
-        // 
-        builder.addCase(onAddCompanyRoles.fulfilled, (state, { payload }) => {
+   
+        builder.addCase(onAddCompanyRoles.fulfilled, (state) => {
           return {
             ...state,
             errors: {},
@@ -78,7 +77,6 @@ export const rolesSlice = createSlice({
           }
         }),
   
-        // 
         builder.addCase(onAddCompanyRoles.rejected, (state) => {
           return {
             ...state,
@@ -86,32 +84,53 @@ export const rolesSlice = createSlice({
           }
         })
 
-
         builder.addCase(onGetCompanyRoles.pending, (state) => {
-            return {
-              ...state,
-              loading: true,
-              errors: {},
-            }
-          })
+          return {
+            ...state,
+            loading: true,
+            errors: {},
+          }
+        })
     
-          // 
-          builder.addCase(onGetCompanyRoles.fulfilled, (state, { payload }) => {
-            return {
-              ...state,
-              errors: {},
-              loading: false,
-              company_roles: payload
-            }
-          }),
+        builder.addCase(onGetCompanyRoles.fulfilled, (state, { payload }) => {
+          return {
+            ...state,
+            errors: {},
+            loading: false,
+            company_roles: payload
+          }
+        }),
     
-          // 
-          builder.addCase(onGetCompanyRoles.rejected, (state) => {
-            return {
-              ...state,
-              loading: false
-            }
-          })
+        builder.addCase(onGetCompanyRoles.rejected, (state) => {
+          return {
+            ...state,
+            loading: false
+          }
+        })
+
+
+        builder.addCase(onSaveNewRole.pending, (state) => {
+          return {
+            ...state,
+            loading: true,
+            errors: {},
+          }
+        })
+    
+        builder.addCase(onSaveNewRole.fulfilled, (state) => {
+          return {
+            ...state,
+            errors: {},
+            loading: false,
+          }
+        }),
+    
+        builder.addCase(onSaveNewRole.rejected, (state) => {
+          return {
+            ...state,
+            loading: false
+          }
+        })
     }
 })
 

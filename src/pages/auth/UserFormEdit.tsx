@@ -114,7 +114,7 @@ export const UserFormEdit: FC<Props> = ({ option }) => {
                         <select {...register('position')} defaultValue="administrador" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
                         {
                             positions.map((position, idx) => (
-                                <option value={ position.value } key={ idx }>{ position.display}</option>
+                                <option value={ position.id } key={ idx }>{ position.display}</option>
                             ))
                         }
                         </select>

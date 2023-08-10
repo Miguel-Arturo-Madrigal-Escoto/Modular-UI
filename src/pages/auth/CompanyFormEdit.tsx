@@ -13,7 +13,7 @@ interface Props {
 
 export const CompanyFormEdit: FC<Props> = ({ option }) => {
     const { errors, user_data, access } = useAppSelector(state => state.auth);
-    const { sectors } = useAppSelector(state => state.form);
+    const { sectors, locations } = useAppSelector(state => state.form);
 
     const {
         register,
@@ -21,7 +21,7 @@ export const CompanyFormEdit: FC<Props> = ({ option }) => {
     } = useForm<ICompany>({
         defaultValues: {
             name: user_data!.company!.name,
-            sector: user_data!.company!.sector,
+            sector: String(user_data!.company!.sector),
             location: user_data!.company!.location,
             about: user_data!.company!.about,
             mission: user_data!.company!.mission,
@@ -68,7 +68,7 @@ export const CompanyFormEdit: FC<Props> = ({ option }) => {
                     <select {...register('sector')} defaultValue="educacion" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
                     {
                         sectors.map((sector, idx) => (
-                            <option value={ sector.value } key={ idx }>{ sector.display}</option>
+                            <option value={ sector.id } key={ idx }>{ sector.display}</option>
                         ))
                     }
                     </select>
@@ -81,8 +81,8 @@ export const CompanyFormEdit: FC<Props> = ({ option }) => {
                     <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Ubicación</label>
                     <select {...register('location')} defaultValue="aguascalientes" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
                     {
-                        sectors.map((sector, idx) => (
-                            <option value={ sector.value } key={ idx }>{ sector.display}</option>
+                        locations.map((location, idx) => (
+                            <option value={ location.value } key={ idx }>{ location.display}</option>
                         ))
                     }
                     </select>
