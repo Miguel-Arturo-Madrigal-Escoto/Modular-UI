@@ -4,6 +4,7 @@ import modalReducer from './extra/modalSlice'
 import rolesReducer from './roles/rolesSlice'
 import formReducer from './form/formSlice'
 import experienceReducer from './experience/experienceSlice'
+import sectorsReducer from './sectors/sectorsSlice'
 
 
 export const store = configureStore({
@@ -11,8 +12,9 @@ export const store = configureStore({
     auth: authReducer,
     modal: modalReducer,
     roles: rolesReducer,
+    sectors: sectorsReducer,
     form: formReducer,
-    experience: experienceReducer
+    experience: experienceReducer,
   },
 })
 

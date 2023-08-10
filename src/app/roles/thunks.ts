@@ -3,7 +3,7 @@ import { axios_base } from '../../api/axios_base';
 import { AxiosError } from 'axios';
 import { setErrors } from './rolesSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
-import { ICompanyFilter, ICompanyRoles, ICompanyRolesById } from '../types/interfaces';
+import { ICompanyFilter, ICompanyRoles, ICompanyRolesById, INewRole, IOnSaveNewRole } from '../types/interfaces';
 import { RootState } from '../store';
 
 export const onAddCompanyRoles = createAsyncThunk(
@@ -42,6 +42,44 @@ export const onGetCompanyRoles = createAsyncThunk(
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
             throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+export const onSaveNewRole = createAsyncThunk(
+    'roles/onSaveNewRole',
+    async ({ position }: IOnSaveNewRole,  { dispatch, getState }) => {
+        let error = false;
+        const { auth } = getState() as RootState;
+        try {
+            // if role is found, no need to add a new one (just return this id)
+            const response = await axios_base.get<INewRole>(`roles/`, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
+                },
+                params: { position },
+            });    
+            return response.data.id;
+     
+        } catch (e) {
+            error = true;
+        }
+
+        if (error){
+            try {
+                //! Save model instance if not exists
+                const resp = await axios_base.post<IOnSaveNewRole>(`roles/`, { position }, {
+                    headers: {
+                        Authorization: `JWT ${ auth.access }`
+                    }
+                });
+                const { id } = resp.data;
+                return id;   
+            } catch (e) {
+                const err = e as AxiosError;
+                dispatch(setErrors(err.response?.data));
+                throw new Error(`${err.response?.data}`)
+            }
         }
     }
 )

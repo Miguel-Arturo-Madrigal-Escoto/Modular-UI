@@ -104,7 +104,7 @@ export interface IUserProfile {
     id:              number;
     name:            string;
     lastname:        string;
-    position:        string;
+    position:        number;
     expected_salary: number;
     modality:        string;
     location:        string;
@@ -121,7 +121,7 @@ export interface ICompanyProfile {
     vision:    string;
     verified:  boolean;
     location:  string;
-    sector:    string;
+    sector:    number;
     image:     string | null;
     base_user: number;
 }
@@ -175,3 +175,19 @@ export interface IUserExperiences {
     errors: any;
     experiences: IUserExperienceById
 }
+
+export interface IOnSaveNewRole {
+    id?: number;
+    position: string;
+}
+
+export interface INewRole extends IOnSaveNewRole {}
+
+export interface IOnSaveNewSector {
+    id?: number;
+    name: string;
+}
+
+export interface INewSector extends IOnSaveNewSector {}
+
+

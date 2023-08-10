@@ -67,8 +67,10 @@ export const AppRouter = () => {
     }, [refresh]);
 
     useEffect(() => {
-        dispatch(fetchFormData());
-    }, []);
+        if (access){
+            dispatch(fetchFormData());
+        }
+    }, [access]);
 
     return (
         <>

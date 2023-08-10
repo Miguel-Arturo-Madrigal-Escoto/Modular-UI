@@ -17,6 +17,7 @@ export const CurrentRoles = () => {
     const onEditRole = (role: Role) => {
         dispatch(editRole({
             id: role.id,
+            link: role.link,
             name: role.name,
             position: role.position,
             description: role.description
@@ -34,7 +35,7 @@ export const CurrentRoles = () => {
                             <div className="md:flex-grow">
                                 <h4 className="font-medium text-gray-900 title-font mb-2 capitalize">Posición: {role.position}</h4>
                                 <h4 className="font-medium text-gray-900 title-font mb-2 capitalize">Nombre: {role.name}</h4>
-                                <textarea rows={4} cols={40} className=" w-full text-base px-4 focus:outline-none resize-none focus:border-indigo-500 capitalize" onBlur={ (e) => onEditRole({ id: role.id!, name: role.name,position: role.position, description: e.target.value }) } defaultValue={ role.description } />
+                                <textarea rows={4} cols={40} className=" w-full text-base px-4 focus:outline-none resize-none focus:border-indigo-500 capitalize" onBlur={ (e) => onEditRole({ id: role.id!, name: role.name,position: role.position, link: role.link, description: e.target.value }) } defaultValue={ role.description } />
                                 
                             </div>
                             <button onClick={ () => onRemoveRole(role.id!) }>

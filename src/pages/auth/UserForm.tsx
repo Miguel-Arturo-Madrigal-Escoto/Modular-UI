@@ -6,6 +6,9 @@ import { onCreateProfile, onGetCurrentUserData } from '../../app/auth/thunks';
 import { FormErrorMessage } from '../../components/auth/FormErrorMessage';
 import { useNavigate } from 'react-router-dom';
 
+import { fetchFormData } from '../../app/form/thunks';
+import { onSaveNewRole } from '../../app/roles/thunks';
+
 interface Props {
     option: string
 }
@@ -13,16 +16,31 @@ interface Props {
 export const UserForm: FC<Props> = ({ option }) => {
     const {
         register,
-        handleSubmit
-    } = useForm<IProfile>()
+        handleSubmit,
+        watch
+    } = useForm<IProfile>({
+        defaultValues: {
+            new_position: ''
+        }
+    })
     
     const { errors, user_data, access } = useAppSelector(state => state.auth);
     const { modalities, locations, positions } = useAppSelector(state => state.form);
+    const { errors: errors_roles } = useAppSelector(state => state.roles);
+    
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
     const onSubmit: SubmitHandler<IProfile> = async(formData) => {
         localStorage.setItem('profile', option);
+        let newRoleId: number | undefined = undefined;
+
+        try {
+            if (formData.position === '-1')
+                newRoleId = await dispatch(onSaveNewRole({ position: formData.new_position })).unwrap()
+        } catch (error) {
+            console.log(error);
+        }
 
         try {
             await dispatch(onCreateProfile({
@@ -32,7 +50,9 @@ export const UserForm: FC<Props> = ({ option }) => {
                     location: formData.location,
                     modality: formData.modality,
                     name: formData.name,
-                    position: formData.position,
+                    position: formData.position === '-1' 
+                        ? newRoleId
+                        : formData.position,
                     about: formData.about,
                     image: formData.image[0] || null,
                     base_user: user_data?.id
@@ -40,6 +60,7 @@ export const UserForm: FC<Props> = ({ option }) => {
                 option
             })).unwrap();
             await dispatch(onGetCurrentUserData({ access: access! }))
+            await dispatch(fetchFormData());
 
             navigate('/for-you');
 
@@ -47,7 +68,6 @@ export const UserForm: FC<Props> = ({ option }) => {
             console.log('error: ', error)       
         }
     }
-
     
     return (
         <>
@@ -104,14 +124,30 @@ export const UserForm: FC<Props> = ({ option }) => {
                     <select {...register('position')} defaultValue="administrador" className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500">
                     {
                         positions.map((position, idx) => (
-                            <option value={ position.value } key={ idx }>{ position.display}</option>
+                            <option value={ position.id } key={ idx }>{ position.display}</option>
                         ))
                     }
                     </select>
                     {
-                        errors.position && <FormErrorMessage message={errors.position} />
+                        errors.position && watch('position') !== '-1' && <FormErrorMessage message={errors.position} />
                     }
                 </div>
+                
+                {
+                    watch('position') === '-1' && (
+                        <div className="relative">
+                            <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Nueva posición:</label>
+                            <input
+                            className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
+                            type="text" placeholder="Especifica una posicion" {...register('new_position')}
+                            />
+                            {
+                                errors_roles.position && <FormErrorMessage message={ errors_roles.position }/>
+                            }
+                        </div>
+                    )
+                }
+                
                 <div className="relative">
                     <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Rango salarial</label>
                     <input
