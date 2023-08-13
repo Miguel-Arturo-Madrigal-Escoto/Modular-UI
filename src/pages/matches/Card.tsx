@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import {
     LeadingActions,
     SwipeableList,
@@ -12,31 +12,28 @@ export const Card = () => {
     
         const leadingActions = () => (
             <LeadingActions>
-                <SwipeAction onClick={() => console.info('swipe action triggered')}>
-                    Action name
-                </SwipeAction>
+            <SwipeAction onClick={() => alert('delete action triggered')}>
+                Action name
+            </SwipeAction>
             </LeadingActions>
         );
-      
+        
         const trailingActions = () => (
             <TrailingActions>
-                <SwipeAction
-                    destructive={true}
-                    onClick={() => console.info('delete action triggered')}
-                >
-                    Delete
-                </SwipeAction>
+            <SwipeAction
+                destructive={true}
+                onClick={() => alert('swipe action triggered')}
+            >
+                Delete
+            </SwipeAction>
             </TrailingActions>
         );
 
-    // useEffect(() => {
-    //     console.clear();
-    // }, []);
 
     return (
-        <SwipeableList>
-            <div className="h-screen bg-gray-200 flex justify-center items-center p-4">
-            <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()}
+        <div className="h-screen bg-gray-200 flex justify-center items-center p-4">
+            <SwipeableList fullSwipe>
+            <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()} maxSwipe={1.0}
             >
             <div className="max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full shadow-lg rounded-xl">
                 <div className="px-6">
@@ -77,7 +74,7 @@ export const Card = () => {
                 </div>
             </div>
             </SwipeableListItem>
+            </SwipeableList>
         </div> 
-        </SwipeableList>
     )
 }
