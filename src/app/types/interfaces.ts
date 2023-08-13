@@ -55,7 +55,6 @@ export interface ISocialLoginSuccess {
 }
 
 export interface ICompanyRoles {
-    company_id: number;
     roles: Role[];
 }
 
