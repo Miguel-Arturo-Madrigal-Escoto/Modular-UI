@@ -30,11 +30,15 @@ export const onAddCompanyRoles = createAsyncThunk(
 
 export const onGetCompanyRoles = createAsyncThunk(
     'roles/onGetCompanyRoles',
-    async ({ company }: ICompanyFilter,  { dispatch }) => {
+    async ({ company }: ICompanyFilter,  { dispatch, getState }) => {
         try {
+            const { auth } = getState() as RootState;
             const resp = await axios_base.get<ICompanyRolesById[]>(`company-roles/`, {
                 params: {
                     company
+                },
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
                 }
             });
             return resp.data;   
@@ -52,7 +56,7 @@ export const onSaveNewRole = createAsyncThunk(
         let error = false;
         const { auth } = getState() as RootState;
         try {
-            // if role is found, no need to add a new one (just return this id)
+            // if role is found, no need to add a new one (just return its id)
             const response = await axios_base.get<INewRole>(`roles/`, {
                 headers: {
                     Authorization: `JWT ${ auth.access }`

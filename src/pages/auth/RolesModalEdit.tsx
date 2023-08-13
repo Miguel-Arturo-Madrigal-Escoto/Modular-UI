@@ -27,7 +27,6 @@ export const RolesModalEdit = () => {
     const onSubmit: SubmitHandler<IRolesForm> = async data => {
         try {
             await dispatch(onAddCompanyRoles({
-                company_id: user_data!.company!.id,
                 roles
             })).unwrap();
             dispatch(setModalClosedRoles());
