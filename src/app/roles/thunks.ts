@@ -3,7 +3,7 @@ import { axios_base } from '../../api/axios_base';
 import { AxiosError } from 'axios';
 import { setErrors } from './rolesSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
-import { ICompanyFilter, ICompanyRoles, ICompanyRolesById, INewRole, IOnSaveNewRole } from '../types/interfaces';
+import { ICompanyRoles, ICompanyRolesById, INewRole, IOnSaveNewRole } from '../types/interfaces';
 import { RootState } from '../store';
 
 export const onAddCompanyRoles = createAsyncThunk(
@@ -20,7 +20,6 @@ export const onAddCompanyRoles = createAsyncThunk(
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
-            console.log(err.response?.data)
             errorNotification(`Verifica que el rol ${ Object.keys(err.response?.data as object)[0] } sea correcto.`)
             dispatch(setErrors(err.response?.data));
             throw new Error(`${err.response?.data}`)
@@ -30,13 +29,10 @@ export const onAddCompanyRoles = createAsyncThunk(
 
 export const onGetCompanyRoles = createAsyncThunk(
     'roles/onGetCompanyRoles',
-    async ({ company }: ICompanyFilter,  { dispatch, getState }) => {
+    async (data = undefined,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
             const resp = await axios_base.get<ICompanyRolesById[]>(`company-roles/`, {
-                params: {
-                    company
-                },
                 headers: {
                     Authorization: `JWT ${ auth.access }`
                 }

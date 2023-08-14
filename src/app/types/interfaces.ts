@@ -58,10 +58,6 @@ export interface ICompanyRoles {
     roles: Role[];
 }
 
-export interface ICompanyFilter {
-    company: number;
-}
-
 export interface ICompanyRolesById {
     id:          number;
     link:        string;

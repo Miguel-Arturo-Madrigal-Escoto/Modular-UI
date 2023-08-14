@@ -10,12 +10,12 @@ export const RolesProfile = () => {
     
     const { openRolesModal } = useAppSelector(state => state.modal);
     const { company_roles } = useAppSelector(state => state.roles);
-    const { access, user_data } = useAppSelector(state => state.auth);
+    const { access } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (access){
-            dispatch(onGetCompanyRoles({ company: user_data!.company!.id  }));
+            dispatch(onGetCompanyRoles());
         }
         
     }, [access]);
