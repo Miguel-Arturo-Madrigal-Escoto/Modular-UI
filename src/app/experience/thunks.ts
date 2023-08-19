@@ -30,14 +30,19 @@ export const onAddUserExperience = createAsyncThunk(
 
 export const onGetUserExperiences = createAsyncThunk(
     'experience/onGetUserExperiences',
-    async ({ user }: IUserExperienceFilter,  { dispatch }) => {
+    async ({ user }: IUserExperienceFilter,  { dispatch, getState }) => {
+        
+        const { auth } = getState() as RootState;
         try {
             const resp = await axios_base.get<IUserExperienceById>(`experience/`, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
+                },
                 params: {
                     user
                 }
             });
-            return resp.data;   
+            return resp.data;    
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
