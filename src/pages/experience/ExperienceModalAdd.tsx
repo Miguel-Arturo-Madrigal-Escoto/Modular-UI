@@ -29,7 +29,7 @@ export const ExperienceModalAdd = () => {
                 user: user_data!.user!.id
             })).unwrap();
             dispatch(setModalClosedExperience());
-            dispatch(onGetUserExperiences({ user: user_data!.user!.id }));
+            dispatch(onGetUserExperiences());
         } catch (error) {
             
         }

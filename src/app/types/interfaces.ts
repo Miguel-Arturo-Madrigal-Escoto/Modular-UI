@@ -160,10 +160,6 @@ export interface RoleExperience {
     position: string;
 }
 
-export interface IUserExperienceFilter {
-    user: number;
-}
-
 export type IUserExperienceById = ExperienceAdded[]
 
 export interface IUserExperiences {
