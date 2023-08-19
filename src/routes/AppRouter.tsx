@@ -24,6 +24,7 @@ import { onGetCurrentUserData, onRefreshJWT } from '../app/auth/thunks';
 import { NavBar } from '../pages/home/NavBar';
 import { fetchFormData } from '../app/form/thunks';
 import { onGetUserExperiences } from '../app/experience/thunks';
+import { onGetUserSkills } from '../app/skill/thunks';
 
 
 export const AppRouter = () => {
@@ -50,6 +51,13 @@ export const AppRouter = () => {
     useEffect(() => {
         if (user_data && user_data.user !== null){
             dispatch(onGetUserExperiences());
+        }
+
+    }, [user_data]);
+
+    useEffect(() => {
+        if (user_data && user_data.user !== null){
+            dispatch(onGetUserSkills());
         }
 
     }, [user_data]);

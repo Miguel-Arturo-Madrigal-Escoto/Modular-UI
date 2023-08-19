@@ -167,6 +167,26 @@ export interface IUserExperiences {
     experiences: IUserExperienceById
 }
 
+export interface ISkill {
+    name: string;
+    description: string;
+    user: number;
+}
+
+export interface SkillAdded {
+    id:          number;
+    name:        string;
+    description: string;
+    user:        number;
+}
+
+export type IUserSkillById = SkillAdded[]
+
+export interface IUserSkills {
+    errors: any;
+    skills: IUserSkillById
+}
+
 export interface IOnSaveNewRole {
     id?: number;
     position: string;
