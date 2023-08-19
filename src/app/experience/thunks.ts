@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { errorNotification, successNotification } from "../../components/common/Alerts";
 import { axios_base } from "../../api/axios_base";
 import { AxiosError } from "axios";
-import { ExperienceAdded, IUserExperience, IUserExperienceById, IUserExperienceFilter } from "../types/interfaces";
+import { ExperienceAdded, IUserExperience, IUserExperienceById} from "../types/interfaces";
 import { setErrors } from "./experienceSlice";
 
 export const onAddUserExperience = createAsyncThunk(
@@ -30,11 +30,13 @@ export const onAddUserExperience = createAsyncThunk(
 
 export const onGetUserExperiences = createAsyncThunk(
     'experience/onGetUserExperiences',
-    async ({ user }: IUserExperienceFilter,  { dispatch }) => {
+    async (data = undefined,  { dispatch, getState }) => {
         try {
+            
+            const { auth } = getState() as RootState;
             const resp = await axios_base.get<IUserExperienceById>(`experience/`, {
-                params: {
-                    user
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
                 }
             });
             return resp.data;   
