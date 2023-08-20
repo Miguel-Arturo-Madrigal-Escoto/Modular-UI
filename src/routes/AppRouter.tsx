@@ -25,6 +25,7 @@ import { NavBar } from '../pages/home/NavBar';
 import { fetchFormData } from '../app/form/thunks';
 import { onGetUserExperiences } from '../app/experience/thunks';
 import { onGetUserSkills } from '../app/skill/thunks';
+import LandingPage from '../pages/home/LandingPage';
 
 
 export const AppRouter = () => {
@@ -86,6 +87,11 @@ export const AppRouter = () => {
                 isNavBarShown && user && <NavBar />
             }
             <Routes>
+                <Route path='/' element={
+                    <PublicRoute>
+                        <LandingPage />
+                    </PublicRoute>
+                } />
                 <Route path='/for-you' element={ 
                     <PrivateRoute>
                         <ForYou />

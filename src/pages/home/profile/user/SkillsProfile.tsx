@@ -24,7 +24,7 @@ export const SkillsProfile = () => {
 
                 {
                     skills.map((skill) => (
-                        <div className="flex items-center w-full my-6 -ml-1.5">
+                        <div key={skill.name} className="flex items-center w-full my-6 -ml-1.5">
                             <div className="w-1/12 z-10">
                                 <div className="w-3.5 h-3.5 bg-gradient-to-r from-indigo-500 to-red-500 rounded-full"></div>
                             </div>
