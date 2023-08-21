@@ -6,6 +6,7 @@ import formReducer from './form/formSlice'
 import experienceReducer from './experience/experienceSlice'
 import sectorsReducer from './sectors/sectorsSlice'
 import skillReducer from './skill/skillSlice'
+import chatReducer from './chat/chatSlice'
 
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
     sectors: sectorsReducer,
     form: formReducer,
     experience: experienceReducer,
-    skill: skillReducer
+    skill: skillReducer,
+    chat: chatReducer,
   },
 })
 

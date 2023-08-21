@@ -3,12 +3,12 @@ import { RootState } from "../store";
 import { errorNotification, successNotification } from "../../components/common/Alerts";
 import { axios_base } from "../../api/axios_base";
 import { AxiosError } from "axios";
-import {  SkillAdded, IUserSkill, IUserSkillById, IUserSkillFilter } from "../types/interfaces";
+import {  SkillAdded, IUserSkillById, ISkill } from "../types/interfaces";
 import { setErrors } from "./skillSlice";
 
 export const onAddUserSkill = createAsyncThunk(
     'skills/onAddUserSkill',
-    async (data: IUserSkill,  { dispatch, getState }) => {
+    async (data: ISkill,  { dispatch, getState }) => {
         
         try {
             const { auth } = getState() as RootState;

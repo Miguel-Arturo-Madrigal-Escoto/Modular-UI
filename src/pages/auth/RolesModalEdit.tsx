@@ -31,7 +31,7 @@ export const RolesModalEdit = () => {
             })).unwrap();
             dispatch(setModalClosedRoles());
             dispatch(clearRoles());
-            dispatch(onGetCompanyRoles({ company: user_data!.company!.id  }));
+            dispatch(onGetCompanyRoles());
         } catch (error) {
             
         }

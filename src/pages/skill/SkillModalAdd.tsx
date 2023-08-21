@@ -3,8 +3,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setModalClosedSkill } from "../../app/extra/modalSlice";
 import { ISkillAddForm } from "./types/interfaces";
 import { TitleForm } from "../auth/TitleForm";
-import { onAddUserSkill, onGetUserSkills } from "../../app/Skill/thunks";
+
 import { FormErrorMessage } from "../../components/auth/FormErrorMessage";
+import { onAddUserSkill, onGetUserSkills } from "../../app/skill/thunks";
 
 
 export const SkillModalAdd = () => {
@@ -27,7 +28,7 @@ export const SkillModalAdd = () => {
 
             })).unwrap();
             dispatch(setModalClosedSkill());
-            dispatch(onGetUserSkills({ user: user_data!.user!.id }));
+            dispatch(onGetUserSkills());
         } catch (error) {
             
         }

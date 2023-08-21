@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import { setErrors } from './authSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
 import { RootState } from '../store';
+import { axios_socket } from '../../api/axios_socket';
 
 
 export const onSocialLogin = createAsyncThunk(
@@ -12,6 +13,11 @@ export const onSocialLogin = createAsyncThunk(
     async ({ provider, params }: ISocialOnLogin,  { dispatch }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
+            await axios_socket.post('/api/auth/sign-up/', { email: resp.data.user }, {
+                headers: {
+                    Authorization: `${ resp.data.access }`
+                }
+            })
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
@@ -26,6 +32,11 @@ export const onLogin = createAsyncThunk(
     async (credentials: IOnLogin, { dispatch }) => {
         try {
             const resp = await axios_base.post<ILoginSuccess>(`auth/jwt/create`, credentials);
+            await axios_socket.post('/api/auth/sign-up/', { email: credentials.email }, {
+                headers: {
+                    Authorization: `${ resp.data.access }`
+                }
+            })
             return {
                 access: resp.data.access,
                 refresh: resp.data.refresh,

@@ -15,7 +15,7 @@ import { LinkedinOAuth2 } from '../pages/auth/LinkedinOAuth2';
 import { GithubOAuth2 } from '../pages/auth/GithubOAuth2';
 import { ProfileForm } from '../pages/auth/ProfileForm';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
@@ -26,6 +26,7 @@ import { fetchFormData } from '../app/form/thunks';
 import { onGetUserExperiences } from '../app/experience/thunks';
 import { onGetUserSkills } from '../app/skill/thunks';
 import LandingPage from '../pages/home/LandingPage';
+import { SocketContext } from '../context/SocketContext';
 
 
 export const AppRouter = () => {
@@ -33,11 +34,11 @@ export const AppRouter = () => {
     const { user, access, refresh, user_data } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
-
     const location = useLocation();
     const regex = new RegExp('\/(login|register|profile\/form)\/?', 'g');
     const [isNavBarShown, setisNavBarShown] = useState(false);
 
+    const { socketConnect, socketDisconnect } = useContext(SocketContext);
     useEffect(() => {
         saveSessionStorageState({ user, access, refresh });
     }, [user, access, refresh]);
@@ -81,6 +82,16 @@ export const AppRouter = () => {
         }
     }, [access]);
 
+    useEffect(() => {
+        if (access){
+            socketConnect();
+        }
+        else {
+            socketDisconnect();
+        }
+
+    }, [access]);
+
     return (
         <>
             {
@@ -109,7 +120,11 @@ export const AppRouter = () => {
                         <Login />
                     </PublicRoute>
                 } />
-                <Route path='/messages' element={ <Messages /> } />
+                <Route path='/messages' element={ 
+                    <PrivateRoute>
+                        <Messages />
+                    </PrivateRoute>
+                } />
 
                 <Route path='/auth/oauth2/google' element={ 
                     <PublicRoute>
