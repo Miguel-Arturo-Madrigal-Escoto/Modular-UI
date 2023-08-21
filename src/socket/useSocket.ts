@@ -47,7 +47,7 @@ export const useSocket = (serverPath: string) => {
 
         socket?.on('disconnect', () => setOnline(false));
 
-        socket?.on('received-new-message', newMessage => {
+        socket?.on('new-message', newMessage => {
             dispatch(addIncommingMessage(newMessage))
         })
 

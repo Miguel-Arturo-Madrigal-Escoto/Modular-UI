@@ -21,7 +21,7 @@ export const NewMessage = () => {
         if (!data.newMessage) return;
 
         try {
-            socket?.emit('send-new-message', {
+            socket?.emit('new-message', {
                 from: user_data?.id,
                 to: activeUserChat,
                 text: data.newMessage

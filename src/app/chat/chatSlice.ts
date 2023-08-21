@@ -54,9 +54,14 @@ const chatSlice = createSlice({
             }
         },
         addIncommingMessage: (state, { payload }) => {
-            return {
-                ...state,
-                messages: [...state.messages, payload]
+            if(state.activeUserChat === payload.from || state.activeUserChat === payload.to){
+                return {
+                    ...state,
+                    messages: [...state.messages, payload]
+                }
+            }
+            else{
+                return state;
             }
         }
     },
