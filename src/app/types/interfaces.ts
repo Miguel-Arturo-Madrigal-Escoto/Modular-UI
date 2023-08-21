@@ -167,6 +167,26 @@ export interface IUserExperiences {
     experiences: IUserExperienceById
 }
 
+export interface ISkill {
+    name: string;
+    description: string;
+    user: number;
+}
+
+export interface SkillAdded {
+    id:          number;
+    name:        string;
+    description: string;
+    user:        number;
+}
+
+export type IUserSkillById = SkillAdded[]
+
+export interface IUserSkills {
+    errors: any;
+    skills: IUserSkillById
+}
+
 export interface IOnSaveNewRole {
     id?: number;
     position: string;
@@ -181,4 +201,30 @@ export interface IOnSaveNewSector {
 
 export interface INewSector extends IOnSaveNewSector {}
 
+export interface IUserMatch {
+    _id:       string;
+    base_user: number;
+    email:     string;
+    online:    boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    __v:       number;
+}
 
+export interface IFindByBaseUser {
+    base_user: number;
+}
+
+export interface IMessageMatch {
+    _id?: string;
+    from: number;
+    to: number;
+    text: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface IMessageMatchHistory {
+    ok: boolean;
+    messages: IMessageMatch[];
+}

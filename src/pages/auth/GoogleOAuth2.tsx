@@ -12,7 +12,6 @@ export const GoogleOAuth2 = () => {
     const { loading, errors } = useAppSelector(state => state.auth);
     const params = queryString.parse(location.search);
 
- 
     useEffect(() => {
         dispatch(onSocialLogin({
             params,

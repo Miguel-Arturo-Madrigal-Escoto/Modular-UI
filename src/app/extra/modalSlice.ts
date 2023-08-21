@@ -51,10 +51,22 @@ export const modalSlice = createSlice({
                 ...state,
                 openExperienceModal: false
             }
+        },
+        setModalOpenSkill: (state) => {
+            return {
+                ...state,
+                openSkillModal: true
+            }
+        },
+        setModalClosedSkill: (state) => {
+            return {
+                ...state,
+                openSkillModal: false
+            }
         }
     },
 })
 
-export const { setModalOpenProfile, setModalClosedProfile, setModalOpenRoles, setModalClosedRoles, setModalClosedExperience, setModalOpenExperience } = modalSlice.actions;
+export const { setModalOpenProfile, setModalClosedProfile, setModalOpenRoles, setModalClosedRoles, setModalClosedExperience, setModalOpenExperience, setModalOpenSkill, setModalClosedSkill } = modalSlice.actions;
 
 export default modalSlice.reducer;
