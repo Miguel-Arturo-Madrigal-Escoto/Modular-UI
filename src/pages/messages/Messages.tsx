@@ -1,11 +1,29 @@
-import { useAppSelector } from '../../app/hooks'
+
+import { useEffect } from 'react'
+import {  useAppDispatch, useAppSelector } from '../../app/hooks'
 import '../../styles/messages.css'
 import Chat from './Chat'
 import SideBarChat from './SideBarChat'
+import { onGetUserDataSocket, onLoadUserMessagesHistory } from '../../app/chat/thunks'
+import { setActiveUserChatData } from '../../app/chat/chatSlice'
+
 
 export const Messages = () => {
 
     const { activeUserChat } = useAppSelector(state => state.chat);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const onGetUserChat = async() => {
+            if (activeUserChat){
+                dispatch(onLoadUserMessagesHistory())
+                const data = await dispatch(onGetUserDataSocket({ base_user: activeUserChat })).unwrap();
+                dispatch(setActiveUserChatData(data)); 
+            }
+        }
+        onGetUserChat();
+
+    }, [activeUserChat])
 
     return (
         <>

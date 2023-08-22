@@ -7,6 +7,7 @@ import experienceReducer from './experience/experienceSlice'
 import sectorsReducer from './sectors/sectorsSlice'
 import skillReducer from './skill/skillSlice'
 import chatReducer from './chat/chatSlice'
+import matchReducer from './match/matchSlice'
 
 
 export const store = configureStore({
@@ -19,6 +20,7 @@ export const store = configureStore({
     experience: experienceReducer,
     skill: skillReducer,
     chat: chatReducer,
+    match: matchReducer,
   },
 })
 
