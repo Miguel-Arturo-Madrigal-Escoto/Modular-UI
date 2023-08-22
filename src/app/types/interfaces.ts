@@ -228,3 +228,12 @@ export interface IMessageMatchHistory {
     ok: boolean;
     messages: IMessageMatch[];
 }
+
+export interface IOnMatchCompany {
+    like: boolean;
+    user_id: number;
+}
+export interface IOnMatchUser {
+    like: boolean;
+    company_id: number;
+}
