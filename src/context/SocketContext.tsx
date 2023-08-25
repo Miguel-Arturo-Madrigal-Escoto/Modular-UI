@@ -4,8 +4,6 @@ import { Socket  } from 'socket.io-client';
 interface ISocketContext { 
     socket: Socket | null; 
     online: boolean; 
-    socketDisconnect: () => void;
-    socketConnect: () => void;
 }
 
 export const SocketContext = createContext({} as ISocketContext);

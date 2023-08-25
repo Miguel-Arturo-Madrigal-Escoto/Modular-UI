@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { ICompanyProfile, IUserProfile, IOnMatchCompany, IOnMatchUser } from '../types/interfaces';
+import { ICompanyProfile, IUserProfile, IOnMatchCompany, IOnMatchUser, IsMatch } from '../types/interfaces';
 import { axios_base } from "../../api/axios_base";
 import { setErrors } from "./matchSlice";
 import { AxiosError } from "axios";
@@ -48,7 +48,7 @@ export const onMatchCompany = createAsyncThunk(
     async (data: IOnMatchCompany,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
-            const resp = await axios_base.post(`match/match_company/`, { user_id: data.user_id, like: data.like },{
+            const resp = await axios_base.post<IsMatch>(`match/match_company/`, { user_id: data.user_id, like: data.like },{
                 headers: {
                     Authorization: `JWT ${ auth.access }`
                 }
@@ -66,9 +66,8 @@ export const onMatchUser = createAsyncThunk(
     'match/onMatchUser',
     async (data: IOnMatchUser,  { dispatch, getState }) => {
         try {
-            console.log(data)
             const { auth } = getState() as RootState;
-            const resp = await axios_base.post(`match/match_user/`, { company_id: data.company_id, like: data.like },{
+            const resp = await axios_base.post<IsMatch>(`match/match_user/`, { company_id: data.company_id, like: data.like },{
                 headers: {
                     Authorization: `JWT ${ auth.access }`
                 }

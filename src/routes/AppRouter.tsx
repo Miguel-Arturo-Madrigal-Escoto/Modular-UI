@@ -34,11 +34,13 @@ export const AppRouter = () => {
     const { user, access, refresh, user_data } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
+    const { socket } = useContext(SocketContext);
+
     const location = useLocation();
     const regex = new RegExp('\/(login|register|profile\/form)\/?', 'g');
     const [isNavBarShown, setisNavBarShown] = useState(false);
 
-    const { socketConnect, socketDisconnect } = useContext(SocketContext);
+
     useEffect(() => {
         saveSessionStorageState({ user, access, refresh });
     }, [user, access, refresh]);
@@ -83,14 +85,21 @@ export const AppRouter = () => {
     }, [access]);
 
     useEffect(() => {
+
         if (access){
-            socketConnect();
+            socket?.connect()
         }
         else {
-            socketDisconnect();
+            socket?.disconnect()
+        }
+
+        return () => {
+            socket?.disconnect();
         }
 
     }, [access]);
+
+
 
     return (
         <>

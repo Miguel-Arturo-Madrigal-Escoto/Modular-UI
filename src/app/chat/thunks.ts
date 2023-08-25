@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setErrors } from './chatSlice';
 import { AxiosError } from 'axios';
 import { axios_base } from '../../api/axios_base';
-import { IUserProfile, IFindByBaseUser, IMessageMatchHistory } from '../types/interfaces';
+import { IUserProfile, IFindByBaseUser, IMessageMatchHistory, IBaseUserMatches, ICompanyProfile } from '../types/interfaces';
 import { RootState } from '../store';
 import { axios_socket } from '../../api/axios_socket';
 
@@ -10,7 +10,7 @@ export const onGetUserDataSocket = createAsyncThunk(
     'chat/onGetUserDataSocket',
     async (data: IFindByBaseUser,  { dispatch }) => {
         try {
-            const resp = await axios_base.get<IUserProfile[]>(`auth/user/`, {
+            const resp = await axios_base.get<IUserProfile[] | ICompanyProfile[]>(`auth/${ data.role }/`, {
                 params: {
                     base_user: data.base_user
                 }
@@ -25,7 +25,7 @@ export const onGetUserDataSocket = createAsyncThunk(
 )
 
 export const onLoadUserMessagesHistory = createAsyncThunk(
-    'chat/onGetUserMessagesHistory',
+    'chat/onLoadUserMessagesHistory',
     async (data = undefined,  { dispatch, getState }) => {
         try {    
             const { auth, chat } = getState() as RootState;
@@ -35,6 +35,25 @@ export const onLoadUserMessagesHistory = createAsyncThunk(
                 }
             });
             return resp.data;   
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+export const onGetBaseUserMatches = createAsyncThunk(
+    'chat/onGetBaseUserMatches',
+    async (role: 'user' | 'company',  { dispatch, getState }) => {
+        try {    
+            const { auth } = getState() as RootState;
+            const resp = await axios_base.get<IBaseUserMatches>(`match/retrieve_${ role }_matches/`, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
+                }
+            });
+            return resp.data.matches;      
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));

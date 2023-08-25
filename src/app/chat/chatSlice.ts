@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { IMessageMatch, IUserMatch, IUserProfile } from '../types/interfaces';
-import { onLoadUserMessagesHistory } from './thunks';
+import { ICompanyProfile, IMessageMatch, IUserMatch, IUserProfile } from '../types/interfaces';
+import { onGetBaseUserMatches, onLoadUserMessagesHistory } from './thunks';
 
 interface ChatInitialState {
     errors: any;
     activeUserChat: number | null;
-    activeUserChatData: IUserProfile | null;
-    usersMatch: IUserMatch[];
+    activeUserChatData: IUserProfile | ICompanyProfile | null;
+    chatUsers: IUserMatch[];
+    matchedUsers: number[];
     messages: IMessageMatch[];
 }
 
@@ -14,7 +15,8 @@ const initialState: ChatInitialState = {
     errors: {},
     activeUserChat: null,
     activeUserChatData: null,
-    usersMatch: [],
+    chatUsers: [],
+    matchedUsers: [],
     messages: [],
 }
 
@@ -34,10 +36,10 @@ const chatSlice = createSlice({
               errors: payload
             }
         },
-        setUsersMatch: (state, { payload }) => {
+        setChatUsers: (state, { payload }) => {
             return {
                 ...state,
-                usersMatch: payload
+                chatUsers: payload
             }
         },
         setActiveUserChat: (state, { payload }) => {
@@ -82,9 +84,17 @@ const chatSlice = createSlice({
             }
         })
 
+        builder.addCase(onGetBaseUserMatches.fulfilled, (state, { payload }) => {
+            return {
+                ...state,
+                errors: {},
+                matchedUsers: payload
+            }
+        })
+
     },
 })
 
-export const { clearErrors, setErrors, setUsersMatch, setActiveUserChat, setActiveUserChatData, addIncommingMessage } = chatSlice.actions;
+export const { clearErrors, setErrors, setChatUsers, setActiveUserChat, setActiveUserChatData, addIncommingMessage } = chatSlice.actions;
 
 export default chatSlice.reducer

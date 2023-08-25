@@ -4,26 +4,38 @@ import {  useAppDispatch, useAppSelector } from '../../app/hooks'
 import '../../styles/messages.css'
 import Chat from './Chat'
 import SideBarChat from './SideBarChat'
-import { onGetUserDataSocket, onLoadUserMessagesHistory } from '../../app/chat/thunks'
+import { onGetBaseUserMatches, onGetUserDataSocket, onLoadUserMessagesHistory } from '../../app/chat/thunks'
 import { setActiveUserChatData } from '../../app/chat/chatSlice'
 
 
 export const Messages = () => {
 
-    const { activeUserChat } = useAppSelector(state => state.chat);
+    const { activeUserChat, chatUsers } = useAppSelector(state => state.chat);
+    const { access, user_data } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         const onGetUserChat = async() => {
             if (activeUserChat){
                 dispatch(onLoadUserMessagesHistory())
-                const data = await dispatch(onGetUserDataSocket({ base_user: activeUserChat })).unwrap();
+                const data = await dispatch(onGetUserDataSocket({ 
+                    base_user: activeUserChat ,
+                    role: chatUsers.find(chatUser => chatUser.base_user === activeUserChat)!.role
+                })).unwrap();
                 dispatch(setActiveUserChatData(data)); 
             }
         }
         onGetUserChat();
 
     }, [activeUserChat])
+
+    useEffect(() => {
+        if (access && user_data?.user || user_data?.company){
+            if (user_data.user) dispatch(onGetBaseUserMatches('user'));
+            else dispatch(onGetBaseUserMatches('company'));
+        }
+
+    }, [access]);
 
     return (
         <>

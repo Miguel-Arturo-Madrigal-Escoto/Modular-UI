@@ -37,7 +37,7 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
             }
         }
     }
-
+  
     return (
       <div className="bg-white rounded-lg shadow-xl pb-8">
           <SettingsProfile />

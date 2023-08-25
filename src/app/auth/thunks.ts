@@ -13,11 +13,6 @@ export const onSocialLogin = createAsyncThunk(
     async ({ provider, params }: ISocialOnLogin,  { dispatch }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
-            await axios_socket.post('/api/auth/sign-up/', { email: resp.data.user }, {
-                headers: {
-                    Authorization: `${ resp.data.access }`
-                }
-            })
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
@@ -32,11 +27,6 @@ export const onLogin = createAsyncThunk(
     async (credentials: IOnLogin, { dispatch }) => {
         try {
             const resp = await axios_base.post<ILoginSuccess>(`auth/jwt/create`, credentials);
-            await axios_socket.post('/api/auth/sign-up/', { email: credentials.email }, {
-                headers: {
-                    Authorization: `${ resp.data.access }`
-                }
-            })
             return {
                 access: resp.data.access,
                 refresh: resp.data.refresh,
@@ -114,13 +104,19 @@ export const onRefreshJWT = createAsyncThunk(
 
 export const onCreateProfile = createAsyncThunk(
     'auth/onCreateProfile',
-    async ({ option, data }: IOnCreateProfile,  { dispatch }) => {
+    async ({ option, data }: IOnCreateProfile,  { dispatch, getState }) => {
         try {
+            const { auth } = getState() as RootState;
             const resp = await axios_base.post(`auth/${ option }/`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            await axios_socket.post('/api/auth/sign-up/', { email: auth.user, role: option }, {
+                headers: {
+                    Authorization: `${ auth.access }`
+                }
+            })
             successNotification('Perfil creado con éxito.');
             return resp.data;   
         } catch (error) {
