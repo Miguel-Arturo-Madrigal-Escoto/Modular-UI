@@ -6,6 +6,22 @@ interface Props {
 }
 
 export const OtherPersonMessage: FC<Props> = ({ message }) => {
+
+    const formatTimestamp = (timestamp) => {
+        const messageDate = new Date(timestamp);
+        const formattedDate = messageDate.toLocaleString('es-MX', {
+            month: 'numeric',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+        const dateParts = formattedDate.split(',');
+        return `${dateParts[1]}, ${dateParts[0]}`;
+    }
+    
+
     return (
         <div className="flex flex-row justify-start">
             <div className="messages text-sm text-black grid grid-flow-row gap-2">
@@ -14,11 +30,9 @@ export const OtherPersonMessage: FC<Props> = ({ message }) => {
                         { message.text }
                     </p>
                 </div>
-                <p className="text-center text-sm text-gray-500">
-                    {
-                        // TODO: Fecha del mensaje (createdAt)
-                    }
-                </p>   
+                <p className="text-start text-sm text-gray-500">
+                    {formatTimestamp(message.createdAt || message.updatedAt)}
+                </p>
             </div>
         </div>
     )

@@ -22,7 +22,7 @@ export const ChatMessagesBody = () => {
                     </div>
                 )
             }
-            <div className="messages text-sm text-gray-700 grid grid-flow-row gap-2">
+            <div className="chat-body p-4 flex-1 overflow-y-scroll">
                 {
                     // check if I sent the current message (or if this the others person message)
                     messages.map((message) => (
