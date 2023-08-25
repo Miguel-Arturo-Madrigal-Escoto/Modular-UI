@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 import { ICompanyProfile, IUserProfile } from '../types/interfaces';
 import { onGetCompanyMatch, onGetUserMatch } from './thunks';

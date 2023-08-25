@@ -7,7 +7,7 @@ export default function Chat() {
 
     return (
         <>
-            <section className="flex flex-col flex-auto border-l border-gray-200">
+            <section className="flex flex-col flex-auto border-l ">
                 {/* Header con quién es el chat */}
                 <HeaderPersonChat />
                 {/* FIN header con quién es el chat */}

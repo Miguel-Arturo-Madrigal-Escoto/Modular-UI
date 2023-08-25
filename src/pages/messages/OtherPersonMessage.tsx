@@ -1,5 +1,7 @@
 import { FC } from 'react'
 import { IMessageMatch } from '../../app/types/interfaces';
+import { formatMessageDate } from '../../app/helpers/formatMessageDate';
+
 
 interface Props {
     message: IMessageMatch;
@@ -15,9 +17,7 @@ export const OtherPersonMessage: FC<Props> = ({ message }) => {
                     </p>
                 </div>
                 <p className="text-center text-sm text-gray-500">
-                    {
-                        // TODO: Fecha del mensaje (createdAt)
-                    }
+                    { formatMessageDate(message.createdAt!)  }
                 </p>   
             </div>
         </div>

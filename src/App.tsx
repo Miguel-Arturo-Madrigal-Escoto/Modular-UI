@@ -9,14 +9,14 @@ import { useSocket } from './socket/useSocket';
 
 export const App = () => {   
     
-    const { socket, online, socketConnect, socketDisconnect } = useSocket(
+    const { socket, online } = useSocket(
         import.meta.env.DEV ? import.meta.env.VITE_CHAT_URL_DEV : import.meta.env.VITE_CHAT_URL_PROD,
     );
 
 
     return (
         <Router>
-                <SocketContext.Provider value={{ socket, online, socketConnect, socketDisconnect }}>
+                <SocketContext.Provider value={{ socket, online }}>
                     <AppRouter />
                     <ToastContainer />
                 </SocketContext.Provider>

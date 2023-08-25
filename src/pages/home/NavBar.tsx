@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
 import { defaultImageProfile } from '../../components/common/constants';
 import { Link, useLocation } from 'react-router-dom';
+import { SocketContext } from '../../context/SocketContext';
 
 export const NavBar = () => {
+    const { socket } = useContext(SocketContext);
+
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
@@ -19,6 +22,10 @@ export const NavBar = () => {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const onUserLogout = () => {
+        dispatch(onLogout());
+    }
 
     useEffect(() => {
         setIsProfileMenuOpen(false);
@@ -68,7 +75,7 @@ export const NavBar = () => {
                                         Home
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
                                         to="/matches"
@@ -76,14 +83,14 @@ export const NavBar = () => {
                                     >
                                         Matches
                                     </Link>
-                                </li>
+                                </li> */}
                                 <li>
                                     <Link
                                         className="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
                                         to="/messages"
                                         data-te-dropdown-item-ref
                                     >
-                                        Messages
+                                        Mensajes
                                     </Link>
                                 </li>
                             </ul>
@@ -154,7 +161,7 @@ export const NavBar = () => {
                                         <button
                                             className="block w-full bg-transparent px-4 py-2 text-sm font-normal text-left text-black-700 justify-start hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-black-700 dark:hover:bg-neutral-100 focus:bg-indigo-100 focus:text-indigo-500"
                                             data-te-dropdown-item-ref
-                                            onClick={ () => dispatch(onLogout()) }
+                                            onClick={ onUserLogout }
                                         >
                                             Log out
                                         </button>

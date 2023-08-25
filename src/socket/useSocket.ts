@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback, useMemo, Children } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import io, { Socket } from 'socket.io-client';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { addIncommingMessage, setUsersMatch } from '../app/chat/chatSlice';
+import { addIncommingMessage, setChatUsers } from '../app/chat/chatSlice';
 
 
 export const useSocket = (serverPath: string) => {
@@ -19,47 +19,33 @@ export const useSocket = (serverPath: string) => {
                 }
             } 
         ), 
-        [ serverPath ]
+        [ access ]
     );
     const dispatch = useAppDispatch();
 
     const [online, setOnline] = useState(false);
 
-    const socketConnect = useCallback(
-        () => {
-            if (access){
-                socket.connect();
-            }
-        },
-        [serverPath, access],
-    );
-
-    const socketDisconnect = useCallback(
-        () => {
-            socket?.disconnect();
-        },
-        [socket],
-    )
-
 
     useEffect(() => {
-        socket?.on('connect', () => setOnline(true));
+        socket?.on('connect', () => {
+            setOnline(true)
+        });
 
-        socket?.on('disconnect', () => setOnline(false));
+        socket?.on('disconnect', () => {
+            setOnline(false)
+        });
 
         socket?.on('new-message', newMessage => {
             dispatch(addIncommingMessage(newMessage))
         })
 
         socket?.on('user-list', userList => {
-            dispatch(setUsersMatch(userList));
+            dispatch(setChatUsers(userList));
         })
     }, [socket]);
 
     return {
         socket,
         online,
-        socketConnect,
-        socketDisconnect
     }
 }

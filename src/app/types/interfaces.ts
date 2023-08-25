@@ -206,6 +206,7 @@ export interface IUserMatch {
     base_user: number;
     email:     string;
     online:    boolean;
+    role:      'user' | 'company';
     createdAt: Date;
     updatedAt: Date;
     __v:       number;
@@ -213,6 +214,7 @@ export interface IUserMatch {
 
 export interface IFindByBaseUser {
     base_user: number;
+    role: 'user' | 'company'
 }
 
 export interface IMessageMatch {
@@ -233,7 +235,18 @@ export interface IOnMatchCompany {
     like: boolean;
     user_id: number;
 }
+
 export interface IOnMatchUser {
     like: boolean;
     company_id: number;
+}
+
+export interface IBaseUserMatches {
+    matches: number[]
+}
+
+export interface IsMatch {
+    match: boolean;
+    user: number;
+    company: number;
 }
