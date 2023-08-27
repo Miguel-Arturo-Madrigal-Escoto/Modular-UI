@@ -40,7 +40,7 @@ export const UserProfile: FC<Props> = ({ user }) => {
             <SkillsProfile />
           </div>
         </div>
-        <ConnectionsProfile />
+        {/* <ConnectionsProfile /> */}
       </div>
     </>
   );

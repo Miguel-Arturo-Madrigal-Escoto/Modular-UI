@@ -104,7 +104,7 @@ export const NavBar = () => {
                         <img
                             src="https://s3-alpha.figma.com/hub/file/1913095808/a7bdc469-cd70-4ea1-bb57-b59204ad8182-cover.png"
                             style={{ height: '30px' }}
-                            alt="Modular Logo"
+                            alt="Jobbie Logo"
                             loading="lazy"
                         />
                     </a>
