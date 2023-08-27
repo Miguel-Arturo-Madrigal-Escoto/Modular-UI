@@ -51,7 +51,7 @@ export const CompanyProfile: FC<Props> = ({ user }) => {
 
           </div>
         </div>
-        <ConnectionsProfile />
+        {/* <ConnectionsProfile /> */}
       </div>
     </>
   );

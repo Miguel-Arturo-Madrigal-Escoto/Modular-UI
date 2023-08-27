@@ -6,8 +6,6 @@ export const Profile = () => {
 
     const { user_data } = useAppSelector(state => state.auth);
 
-    console.log(user_data)
-
     return (
         <>
             {

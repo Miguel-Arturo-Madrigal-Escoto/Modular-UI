@@ -1,10 +1,16 @@
 import { useAppSelector } from "../../app/hooks"
 import { defaultImageProfile } from "../../components/common/constants";
-
+import dayjs from 'dayjs'
+import { getTimeAgo } from "../../utils/getTimeAgo";
 
 export const HeaderPersonChat = () => {
+    // Django user data
+    const { activeUserChatData, chatUsers } = useAppSelector(state => state.chat);
 
-    const { activeUserChatData } = useAppSelector(state => state.chat);
+    // Socket.io user data
+    const userData = chatUsers.find(user => user.base_user === activeUserChatData?.base_user)
+    
+    const lastOnline = dayjs(userData?.updatedAt).locale('es');
 
     return (
         <div className="chat-header px-6 py-4 flex flex-row flex-none justify-between items-center border-b border-gray-200">
@@ -17,7 +23,13 @@ export const HeaderPersonChat = () => {
                 </div>
                 <div className="text-sm">
                     <p className="font-bold">{ activeUserChatData?.name }</p>
-                    {/* <p>Active 1h ago</p> */}
+                    <p>
+                        {
+                            userData?.online
+                                            ? 'En línea'
+                                            : `Ultima vez en linea ${ getTimeAgo(lastOnline).toLowerCase() }`
+                        }
+                    </p>
                 </div>
             </div>
             <div className="flex">

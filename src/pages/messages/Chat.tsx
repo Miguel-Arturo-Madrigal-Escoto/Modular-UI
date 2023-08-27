@@ -12,7 +12,7 @@ export default function Chat() {
                 <HeaderPersonChat />
                 {/* FIN header con quién es el chat */}
 
-                <div className="chat-body p-4 flex-1 overflow-y-scroll">
+                <div className="chat-body p-4 flex-1 overflow-y-scroll" id="messages">
                     <ChatMessagesBody />                          
                 </div>
 

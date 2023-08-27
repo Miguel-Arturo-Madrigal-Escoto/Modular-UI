@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onGetUserDataSocket, onLoadUserMessagesHistory } from '../../app/chat/thunks';
 import { defaultImageProfile } from '../common/constants';
 import { setActiveUserChat, setActiveUserChatData } from '../../app/chat/chatSlice';
+import { scrollToBottom } from '../../utils/scrollToBottom';
 
 interface Props {
     user: IUserMatch
@@ -44,11 +45,13 @@ export const UserChat: FC<Props> = ({ user }) => {
 
             // Load the messages history between the users (authenticated & active)
             dispatch(onLoadUserMessagesHistory());
+
+            scrollToBottom('messages');
         }
     }
 
     return(
-        <div className={`flex justify-between items-center p-3 hover:bg-gray-300 rounded-lg relative ${ activeUserChat == user.base_user && 'bg-gray-300' }`} onClick={ setActiveUser  }>
+        <div className={`flex justify-between items-center p-3 hover:bg-gray-300 rounded-lg relative border-none ${ activeUserChat == user.base_user && 'bg-gray-300' }`} onClick={ setActiveUser  }>
             <div className="w-16 h-16 relative flex flex-shrink-0">
                 <img className="shadow-md rounded-full w-full h-full object-cover"
                     src={ userData?.image || defaultImageProfile }

@@ -22,7 +22,7 @@ export const successNotification = (msg: string) => toast.success(msg, {
     theme: "light",
 });
 
-export const matchNotification = (msg: string) => toast(msg, {
+export const neutralNotification = (msg: string) => toast(msg, {
     position: "top-center",
     autoClose: 5000,
     hideProgressBar: false,
