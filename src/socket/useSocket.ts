@@ -1,8 +1,7 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import io from 'socket.io-client';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addIncommingMessage, setChatUsers } from '../app/chat/chatSlice';
-import { neutralNotification } from '../components/common/Alerts';
 import { IMessageMatch } from '../app/types/interfaces';
 import { onDisplayNewMessageNotification } from '../app/chat/thunks';
 import { scrollToBottomAnimated } from '../utils/scrollToBottom';
@@ -43,6 +42,8 @@ export const useSocket = (serverPath: string) => {
 
             // display new message notification        
             dispatch(onDisplayNewMessageNotification(newMessage))
+
+            scrollToBottomAnimated('messages');
         })
 
         socket?.on('user-list', userList => {

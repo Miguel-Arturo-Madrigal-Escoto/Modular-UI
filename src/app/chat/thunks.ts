@@ -68,10 +68,8 @@ export const onDisplayNewMessageNotification = createAsyncThunk(
     'chat/onDisplayNewMessageNotification',
     async (data: IMessageMatch,  { getState }) => {
         const { auth } = getState() as RootState;
-
         if (auth.user_data?.id !== data.from){
             neutralNotification('Has recibido un nuevo mensaje 👾');
         }
-        scrollToBottomAnimated('messages');
     }
 )
