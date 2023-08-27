@@ -2,9 +2,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setErrors } from './chatSlice';
 import { AxiosError } from 'axios';
 import { axios_base } from '../../api/axios_base';
-import { IUserProfile, IFindByBaseUser, IMessageMatchHistory, IBaseUserMatches, ICompanyProfile } from '../types/interfaces';
+import { IUserProfile, IFindByBaseUser, IMessageMatchHistory, IBaseUserMatches, ICompanyProfile, IMessageMatch } from '../types/interfaces';
 import { RootState } from '../store';
 import { axios_socket } from '../../api/axios_socket';
+import { neutralNotification } from '../../components/common/Alerts';
+import { scrollToBottomAnimated } from '../../utils/scrollToBottom';
 
 export const onGetUserDataSocket = createAsyncThunk(
     'chat/onGetUserDataSocket',
@@ -59,5 +61,17 @@ export const onGetBaseUserMatches = createAsyncThunk(
             dispatch(setErrors(err.response?.data));
             throw new Error(`${err.response?.data}`)
         }
+    }
+)
+
+export const onDisplayNewMessageNotification = createAsyncThunk(
+    'chat/onDisplayNewMessageNotification',
+    async (data: IMessageMatch,  { getState }) => {
+        const { auth } = getState() as RootState;
+
+        if (auth.user_data?.id !== data.from){
+            neutralNotification('Has recibido un nuevo mensaje 👾');
+        }
+        scrollToBottomAnimated('messages');
     }
 )

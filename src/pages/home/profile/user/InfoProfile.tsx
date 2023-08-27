@@ -1,7 +1,8 @@
 import { FC } from 'react'
 import dayjs from 'dayjs'
-import { ICurrentUser } from '../../../auth/types/interfaces';
+
 import { useTimeAgo } from '../../hooks/useTimeAgo';
+import { ICurrentUser } from '../../../../app/types/interfaces';
 
 
 interface Props {

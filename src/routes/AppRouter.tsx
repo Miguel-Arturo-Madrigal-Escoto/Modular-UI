@@ -30,7 +30,6 @@ import { SocketContext } from '../context/SocketContext';
 
 
 export const AppRouter = () => {
-
     const { user, access, refresh, user_data } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
 
@@ -85,7 +84,6 @@ export const AppRouter = () => {
     }, [access]);
 
     useEffect(() => {
-
         if (access){
             socket?.connect()
         }
@@ -96,10 +94,7 @@ export const AppRouter = () => {
         return () => {
             socket?.disconnect();
         }
-
     }, [access]);
-
-
 
     return (
         <>

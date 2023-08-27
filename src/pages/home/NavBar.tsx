@@ -3,11 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
 import { defaultImageProfile } from '../../components/common/constants';
 import { Link, useLocation } from 'react-router-dom';
-import { SocketContext } from '../../context/SocketContext';
 
 export const NavBar = () => {
-    const { socket } = useContext(SocketContext);
-
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();

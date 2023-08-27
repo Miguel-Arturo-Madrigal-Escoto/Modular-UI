@@ -40,7 +40,7 @@ export const NewMessage = () => {
                 <div className="flex flex-row items-center p-4">
                     <div className="relative flex-grow">
                         <label>
-                            <input className="rounded-full py-2 pl-3 pr-10 w-full border border border-gray-800 focus:border-gray-700 bg-gray-100  focus:outline-none focus:shadow-md transition duration-300 ease-in"
+                            <input className="rounded-full py-2 pl-3 pr-10 w-full border-none focus:border-gray-700 bg-gray-100  focus:outline-none focus:shadow-md transition duration-300 ease-in"
                                 type="text" placeholder="Nuevo mensaje" {...register('newMessage')} />
                         </label>
                     </div>

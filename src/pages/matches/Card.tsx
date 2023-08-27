@@ -15,7 +15,7 @@ import { defaultImageProfile } from '../../components/common/constants';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { setActiveUserChat } from '../../app/chat/chatSlice';
 import { onGetBaseUserMatches } from '../../app/chat/thunks';
-import { matchNotification } from '../../components/common/Alerts';
+import { neutralNotification } from '../../components/common/Alerts';
 
 export const Card = () => {
     
@@ -58,7 +58,7 @@ export const Card = () => {
                 if (!matchedUsers.includes(matchData.user)){
                     dispatch(onGetBaseUserMatches('company'));
                 }
-                matchNotification('Felicidades, haz hecho una nueva conexión 🥳');
+                neutralNotification('Felicidades, haz hecho una nueva conexión 🥳');
                 navigate('/messages');
             }
         } catch (error) {
@@ -92,7 +92,7 @@ export const Card = () => {
                 if (!matchedUsers.includes(matchData.company)){
                     dispatch(onGetBaseUserMatches('user'));
                 }
-                matchNotification('Felicidades, haz hecho una nueva conexión  🥳 ');
+                neutralNotification('Felicidades, haz hecho una nueva conexión  🥳 ');
                 navigate('/messages');
             }
 
