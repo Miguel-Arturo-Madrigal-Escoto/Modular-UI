@@ -7,6 +7,7 @@ dayjs.locale('es');
 export const useTimeAgo = (date: dayjs.Dayjs) => {
     const [timeAgo, setTimeAgo] = useState<string>();
 
+    const secondsAgo = dayjs().diff(date, 'seconds');
     const minutesAgo = dayjs().diff(date, 'minutes');
     const hoursAgo = dayjs().diff(date, 'hours');
     const daysAgo = dayjs().diff(date, 'days');
@@ -16,7 +17,10 @@ export const useTimeAgo = (date: dayjs.Dayjs) => {
 
     useEffect(() => {
         if (!timeAgo){
-            if (minutesAgo < 60){
+            if (secondsAgo < 60){
+                setTimeAgo(`Hace ${ secondsAgo } segundos.`);
+            }
+            else if (minutesAgo < 60){
                 setTimeAgo(`Hace ${ minutesAgo } minutos.`);
             }
             else if (hoursAgo < 24){

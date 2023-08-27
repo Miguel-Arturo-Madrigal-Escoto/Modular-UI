@@ -5,6 +5,7 @@ dayjs.locale('es');
 
 export const getTimeAgo = (date: dayjs.Dayjs) => {
 
+    const secondsAgo = dayjs().diff(date, 'second');
     const minutesAgo = dayjs().diff(date, 'minutes');
     const hoursAgo = dayjs().diff(date, 'hours');
     const daysAgo = dayjs().diff(date, 'days');
@@ -12,7 +13,10 @@ export const getTimeAgo = (date: dayjs.Dayjs) => {
     const monthsAgo = dayjs().diff(date, 'months');
     const yearsAgo = dayjs().diff(date, 'years');
 
-    if (minutesAgo < 60){
+    if (secondsAgo < 60){
+        return `Hace ${ secondsAgo } segundos.`;
+    }
+    else if (minutesAgo < 60){
         return `Hace ${ minutesAgo } minutos.`;
     }
     else if (hoursAgo < 24){
