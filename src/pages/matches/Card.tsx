@@ -10,18 +10,17 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { onGetCompanyMatch, onGetUserMatch, onMatchCompany, onMatchUser } from '../../app/match/thunks';
+import { onGetCompanyMatch, onGetUserMatch, onMatchCompany, onMatchUser, onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../../app/match/thunks';
 import { defaultImageProfile } from '../../components/common/constants';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 import { setActiveUserChat } from '../../app/chat/chatSlice';
-import { onGetBaseUserMatches } from '../../app/chat/thunks';
 import { neutralNotification } from '../../components/common/Alerts';
 
 export const Card = () => {
     
     const { user_data } =  useAppSelector(state => state.auth);
     const { user, company, loading } =  useAppSelector(state => state.match);
-    const { matchedUsers } =  useAppSelector(state => state.chat);
+    const { userMatches, companyMatches } =  useAppSelector(state => state.match);
     const { positions, sectors } =  useAppSelector(state => state.form);
 
     const dispatch =  useAppDispatch();
@@ -55,8 +54,8 @@ export const Card = () => {
                 // redirect to the user (base_user) chat
                 dispatch(setActiveUserChat(matchData.user));
    
-                if (!matchedUsers.includes(matchData.user)){
-                    dispatch(onGetBaseUserMatches('company'));
+                if (!companyMatches.find(u => u.base_user === matchData.user)){
+                    dispatch(onRetrieveCompanyMatchesList());
                 }
                 neutralNotification('Felicidades, haz hecho una nueva conexión 🥳');
                 navigate('/messages');
@@ -89,8 +88,9 @@ export const Card = () => {
                 // redirect to the company (base_user) chat
                 dispatch(setActiveUserChat(matchData.company));
    
-                if (!matchedUsers.includes(matchData.company)){
-                    dispatch(onGetBaseUserMatches('user'));
+                // if (!matchedUsers.includes(matchData.company)){
+                if (!userMatches.find(c => c.base_user === matchData.company)){
+                    dispatch(onRetrieveUserMatchesList());
                 }
                 neutralNotification('Felicidades, haz hecho una nueva conexión  🥳 ');
                 navigate('/messages');

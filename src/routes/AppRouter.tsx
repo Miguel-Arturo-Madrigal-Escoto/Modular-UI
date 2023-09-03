@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import { ForYou } from '../pages/home/ForYou';
 import { Profile } from '../pages/home/Profile';
-import { ProfileEdit } from '../pages/home/ProfileEdit';
 import { Matches } from '../pages/matches/Matches';
 import { Register } from '../pages/auth/Register';
 import { Login } from '../pages/auth/Login';
@@ -27,6 +26,7 @@ import { onGetUserExperiences } from '../app/experience/thunks';
 import { onGetUserSkills } from '../app/skill/thunks';
 import LandingPage from '../pages/home/LandingPage';
 import { SocketContext } from '../context/SocketContext';
+import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../app/match/thunks';
 
 
 export const AppRouter = () => {
@@ -84,6 +84,18 @@ export const AppRouter = () => {
     }, [access]);
 
     useEffect(() => {
+        if (user_data){
+            if (user_data.user){
+                dispatch(onRetrieveUserMatchesList());
+            }
+            else {
+                dispatch(onRetrieveCompanyMatchesList());
+            }
+        }
+
+    }, [user_data]);
+
+    useEffect(() => {
         if (access){
             socket?.connect()
         }
@@ -113,7 +125,12 @@ export const AppRouter = () => {
                     </PrivateRoute>
                 } />
 
-                <Route path='/matches' element={ <Matches /> } />
+                <Route path='/matches' element={ 
+                    <PrivateRoute>
+                        <Matches />
+                    </PrivateRoute>
+                } />
+
                 <Route path='/register' element={
                     <PublicRoute>
                         <Register />
@@ -156,9 +173,8 @@ export const AppRouter = () => {
                     <PrivateRoute>
                         <Profile />
                     </PrivateRoute>
-                 } />
+                } />
 
-                <Route path='/profile/edit' element={ <ProfileEdit /> } />
 
                 <Route path='/profile/form' element={ 
                     <ProfileForm />

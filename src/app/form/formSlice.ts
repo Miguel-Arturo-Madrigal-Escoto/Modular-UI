@@ -13,7 +13,11 @@ const initialState: IFormData = {
 const formSlice = createSlice({
     name: 'form',
     initialState,
-    reducers: {},
+    reducers: {
+        clearFormSlice: () => {
+            return initialState;
+        }
+    },
     extraReducers(builder) {
         builder.addCase(fetchFormData.fulfilled, (state, { payload }) => {
             return {
@@ -27,5 +31,6 @@ const formSlice = createSlice({
     },
 })
 
+export const { clearFormSlice } = formSlice.actions;
 
 export default formSlice.reducer

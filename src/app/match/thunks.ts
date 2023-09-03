@@ -80,3 +80,50 @@ export const onMatchUser = createAsyncThunk(
         }
     }
 )
+
+export const onRetrieveUserMatchesList = createAsyncThunk(
+    'match/onRetrieveUserMatchesList',
+    async (data = undefined,  { dispatch, getState }) => {
+        try {
+            const { auth } = getState() as RootState;
+            const resp = await axios_base.get<ICompanyProfile[]>(`match/retrieve_user_matches_list/`, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
+                }
+            });
+            const companies: ICompanyProfile[] = resp.data.map(company => ({
+                ...company,
+                image: company.image && `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + company.image
+            }))
+            return companies;   
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+
+export const onRetrieveCompanyMatchesList = createAsyncThunk(
+    'match/onRetrieveCompanyMatchesList',
+    async (data = undefined,  { dispatch, getState }) => {
+        try {
+            const { auth } = getState() as RootState;
+            const resp = await axios_base.get<IUserProfile[]>(`match/retrieve_company_matches_list/`, {
+                headers: {
+                    Authorization: `JWT ${ auth.access }`
+                }
+            });
+            const users: IUserProfile[] = resp.data.map(user => ({
+                ...user,
+                image: user.image && `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + user.image
+            }))
+            return users;   
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
+        }
+    }
+)

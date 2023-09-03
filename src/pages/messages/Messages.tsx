@@ -4,10 +4,11 @@ import {  useAppDispatch, useAppSelector } from '../../app/hooks'
 import '../../styles/messages.css'
 import Chat from './Chat'
 import SideBarChat from './SideBarChat'
-import { onGetBaseUserMatches, onGetUserDataSocket, onLoadUserMessagesHistory } from '../../app/chat/thunks'
+import { onGetUserDataSocket, onLoadUserMessagesHistory } from '../../app/chat/thunks'
 import { setActiveUserChatData } from '../../app/chat/chatSlice'
 import { NotActiveUser } from './NotActiveUser'
 import { scrollToBottom } from '../../utils/scrollToBottom'
+import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../../app/match/thunks'
 
 
 export const Messages = () => {
@@ -34,8 +35,8 @@ export const Messages = () => {
 
     useEffect(() => {
         if (access && user_data?.user || user_data?.company){
-            if (user_data.user) dispatch(onGetBaseUserMatches('user'));
-            else dispatch(onGetBaseUserMatches('company'));
+            if (user_data.user) dispatch(onRetrieveUserMatchesList());
+            else dispatch(onRetrieveCompanyMatchesList());
         }
 
     }, [access]);

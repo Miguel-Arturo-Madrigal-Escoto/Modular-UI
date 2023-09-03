@@ -58,6 +58,9 @@ export const rolesSlice = createSlice({
               ...state,
               errors: payload
             }
+        },
+        clearRolesSlice: () => {
+          return initialState;
         }
     },
     extraReducers(builder) {
@@ -134,6 +137,6 @@ export const rolesSlice = createSlice({
     }
 })
 
-export const { addRole, removeRole, editRole, clearRoles, setErrors } = rolesSlice.actions;
+export const { addRole, removeRole, editRole, clearRoles, setErrors, clearRolesSlice } = rolesSlice.actions;
 
 export default rolesSlice.reducer;
