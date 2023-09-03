@@ -6,6 +6,11 @@ import { setErrors } from './authSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
 import { RootState } from '../store';
 import { axios_socket } from '../../api/axios_socket';
+import { clearChatSlice } from '../chat/chatSlice';
+import { clearFormSlice } from '../form/formSlice';
+import { clearMatchSlice } from '../match/matchSlice';
+import { clearModalSlice } from '../extra/modalSlice';
+import { clearRolesSlice } from '../roles/rolesSlice';
 
 
 export const onSocialLogin = createAsyncThunk(
@@ -42,10 +47,17 @@ export const onLogin = createAsyncThunk(
 
 export const onLogout = createAsyncThunk(
     'auth/onLogout',
-    async () => {
+    async (data = undefined, { dispatch }) => {
         sessionStorage.removeItem('access');
         sessionStorage.removeItem('refresh');
         sessionStorage.removeItem('user');
+
+        // Clear data from all slices (dispatch clearSliceAction)
+        dispatch(clearChatSlice());
+        dispatch(clearFormSlice());
+        dispatch(clearMatchSlice());
+        dispatch(clearModalSlice()); 
+        dispatch(clearRolesSlice()); 
     }
 )
 

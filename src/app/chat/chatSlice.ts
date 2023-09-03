@@ -65,6 +65,9 @@ const chatSlice = createSlice({
             else{
                 return state;
             }
+        },
+        clearChatSlice: () => {
+            return initialState;
         }
     },
     extraReducers(builder) {
@@ -95,6 +98,6 @@ const chatSlice = createSlice({
     },
 })
 
-export const { clearErrors, setErrors, setChatUsers, setActiveUserChat, setActiveUserChatData, addIncommingMessage } = chatSlice.actions;
+export const { clearErrors, setErrors, setChatUsers, setActiveUserChat, setActiveUserChatData, addIncommingMessage, clearChatSlice } = chatSlice.actions;
 
 export default chatSlice.reducer

@@ -25,7 +25,7 @@ export interface IProfileOrCompany {
 export interface IProfile {
     name: string;
     lastname: string;
-    position: string;
+    position: number;
     expected_salary: number;
     modality: string;
     location: string;

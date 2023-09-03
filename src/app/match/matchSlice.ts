@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { ICompanyProfile, IUserProfile } from '../types/interfaces';
-import { onGetCompanyMatch, onGetUserMatch } from './thunks';
+import { onGetCompanyMatch, onGetUserMatch, onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from './thunks';
 
 
 
@@ -9,15 +9,19 @@ import { onGetCompanyMatch, onGetUserMatch } from './thunks';
 export interface MatchesState {
     errors: any;
     loading: boolean;
-    user: IUserProfile | null
-    company: ICompanyProfile | null
+    user: IUserProfile | null;
+    company: ICompanyProfile | null;
+    userMatches: ICompanyProfile[];
+    companyMatches: IUserProfile[];
 }
 
 export const initialState: MatchesState = {
     errors: {},
     company: null,
     user: null, 
-    loading: false
+    loading: false,
+    userMatches: [],
+    companyMatches: [],
 }
 
 export const matchesSlice = createSlice({
@@ -29,11 +33,13 @@ export const matchesSlice = createSlice({
               ...state,
               errors: payload
             }
+        },
+        clearMatchSlice: () => {
+          return initialState;
         }
     },
     extraReducers(builder) {
  
-  
         builder.addCase(onGetCompanyMatch.rejected, (state) => {
           return {
             ...state,
@@ -82,10 +88,60 @@ export const matchesSlice = createSlice({
             company: payload
           }
         })
+
+
+        builder.addCase(onRetrieveUserMatchesList.rejected, (state) => {
+          return {
+            ...state,
+            loading: false
+          }
+        })
+
+        builder.addCase(onRetrieveUserMatchesList.pending, (state) => {
+          return {
+            ...state,
+            loading: true,
+            errors: {},
+          }
+        })
+    
+        builder.addCase(onRetrieveUserMatchesList.fulfilled, (state, { payload }) => {
+          return {
+            ...state,
+            errors: {},
+            loading: false,
+            userMatches: payload
+          }
+        })
+
+
+        builder.addCase(onRetrieveCompanyMatchesList.rejected, (state) => {
+          return {
+            ...state,
+            loading: false
+          }
+        })
+
+        builder.addCase(onRetrieveCompanyMatchesList.pending, (state) => {
+          return {
+            ...state,
+            loading: true,
+            errors: {},
+          }
+        })
+    
+        builder.addCase(onRetrieveCompanyMatchesList.fulfilled, (state, { payload }) => {
+          return {
+            ...state,
+            errors: {},
+            loading: false,
+            companyMatches: payload
+          }
+        })
   
     }
 })
 
-export const { setErrors } = matchesSlice.actions;
+export const { setErrors, clearMatchSlice } = matchesSlice.actions;
 
 export default matchesSlice.reducer;
