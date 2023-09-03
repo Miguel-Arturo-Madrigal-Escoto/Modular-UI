@@ -26,6 +26,7 @@ import { onGetUserExperiences } from '../app/experience/thunks';
 import { onGetUserSkills } from '../app/skill/thunks';
 import LandingPage from '../pages/home/LandingPage';
 import { SocketContext } from '../context/SocketContext';
+import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../app/match/thunks';
 
 
 export const AppRouter = () => {
@@ -81,6 +82,18 @@ export const AppRouter = () => {
             dispatch(fetchFormData());
         }
     }, [access]);
+
+    useEffect(() => {
+        if (user_data){
+            if (user_data.user){
+                dispatch(onRetrieveUserMatchesList());
+            }
+            else {
+                dispatch(onRetrieveCompanyMatchesList());
+            }
+        }
+
+    }, [user_data]);
 
     useEffect(() => {
         if (access){

@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { ICompanyProfile, IMessageMatch, IUserMatch, IUserProfile } from '../types/interfaces';
-import { onGetBaseUserMatches, onLoadUserMessagesHistory } from './thunks';
+import { onLoadUserMessagesHistory } from './thunks';
 
 interface ChatInitialState {
     errors: any;
     activeUserChat: number | null;
     activeUserChatData: IUserProfile | ICompanyProfile | null;
     chatUsers: IUserMatch[];
-    matchedUsers: number[];
     messages: IMessageMatch[];
 }
 
@@ -16,7 +15,6 @@ const initialState: ChatInitialState = {
     activeUserChat: null,
     activeUserChatData: null,
     chatUsers: [],
-    matchedUsers: [],
     messages: [],
 }
 
@@ -86,15 +84,6 @@ const chatSlice = createSlice({
                 messages: payload.messages
             }
         })
-
-        builder.addCase(onGetBaseUserMatches.fulfilled, (state, { payload }) => {
-            return {
-                ...state,
-                errors: {},
-                matchedUsers: payload
-            }
-        })
-
     },
 })
 

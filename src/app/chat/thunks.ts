@@ -6,7 +6,6 @@ import { IUserProfile, IFindByBaseUser, IMessageMatchHistory, IBaseUserMatches, 
 import { RootState } from '../store';
 import { axios_socket } from '../../api/axios_socket';
 import { neutralNotification } from '../../components/common/Alerts';
-import { scrollToBottomAnimated } from '../../utils/scrollToBottom';
 
 export const onGetUserDataSocket = createAsyncThunk(
     'chat/onGetUserDataSocket',
@@ -37,25 +36,6 @@ export const onLoadUserMessagesHistory = createAsyncThunk(
                 }
             });
             return resp.data;   
-        } catch (error) {
-            const err = error as AxiosError;
-            dispatch(setErrors(err.response?.data));
-            throw new Error(`${err.response?.data}`)
-        }
-    }
-)
-
-export const onGetBaseUserMatches = createAsyncThunk(
-    'chat/onGetBaseUserMatches',
-    async (role: 'user' | 'company',  { dispatch, getState }) => {
-        try {    
-            const { auth } = getState() as RootState;
-            const resp = await axios_base.get<IBaseUserMatches>(`match/retrieve_${ role }_matches/`, {
-                headers: {
-                    Authorization: `JWT ${ auth.access }`
-                }
-            });
-            return resp.data.matches;      
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
