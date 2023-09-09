@@ -1,27 +1,13 @@
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { useAppSelector } from '../../app/hooks'
 import { UserMatch } from './UserMatch'
 import { CompanyMatch } from './CompanyMatch';
-import { useEffect } from 'react';
-import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../../app/match/thunks';
+
 
 
 export const Matches = () => {
 
     const { user_data } = useAppSelector(state => state.auth);
     const { userMatches, companyMatches } = useAppSelector(state => state.match);
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        if (user_data){
-            if (user_data.user){
-                dispatch(onRetrieveUserMatchesList());
-            }
-            else {
-                dispatch(onRetrieveCompanyMatchesList());
-            }
-        }
-
-    }, [user_data]);
 
     return (
         <>

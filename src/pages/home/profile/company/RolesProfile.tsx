@@ -4,18 +4,23 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { RolesModal } from "../../../auth/RolesModal";
 import { onGetCompanyRoles } from "../../../../app/roles/thunks";
 import dayjs from 'dayjs'
-// import { useTimeAgo } from '../../hooks/useTimeAgo';
 
 export const RolesProfile = () => {
     
     const { openRolesModal } = useAppSelector(state => state.modal);
     const { company_roles } = useAppSelector(state => state.roles);
-    const { access } = useAppSelector(state => state.auth);
+    const { access, user_data } = useAppSelector(state => state.auth);
+    const storageRecommendedCompany = JSON.parse(localStorage.getItem('recommendedCompany') || 'null') || null
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (access){
-            dispatch(onGetCompanyRoles());
+            // Check if i'm the company or the user is viewing my profile
+            const company_id = user_data?.company?.id || storageRecommendedCompany?.company?.id
+
+            dispatch(onGetCompanyRoles({
+                company_id: company_id!
+            }));
         }
         
     }, [access]);
@@ -26,10 +31,14 @@ export const RolesProfile = () => {
                 { openRolesModal && <RolesModal /> }
             </div>
             <h4 className="text-xl text-gray-900 font-bold">Roles que buscamos</h4>
-            <button className="flex items-center px-6 py-1.5 space-x-2 hover:bg-pink-50" onClick={ () => dispatch( setModalOpenRoles()) }>
-                <svg className="feather feather-edit h-4 w-4 text-gray-400" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                <span className="text-sm text-gray-500">Modificar roles</span>
-            </button>
+            {
+                user_data?.company?.id && (
+                    <button className="flex items-center px-6 py-1.5 space-x-2 hover:bg-pink-50" onClick={ () => dispatch( setModalOpenRoles()) }>
+                        <svg className="feather feather-edit h-4 w-4 text-gray-400" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        <span className="text-sm text-gray-500">Modificar roles</span>
+                    </button>
+                )
+            } 
             <div className="relative px-4 divide-y-2 divide-gray-100">
                 {
                     company_roles.map(role => (

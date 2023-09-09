@@ -2,7 +2,7 @@ import { useAppSelector } from "../../app/hooks"
 import { UserChat } from "./UserChat";
 
 export const UserChatList = () => {
-    const { chatUsers } = useAppSelector(state => state.chat);
+    const { chatUsers } = useAppSelector(state => state.chat); // socket users
     const { userMatches, companyMatches } = useAppSelector(state => state.match);
     const { user_data } = useAppSelector(state => state.auth);
 

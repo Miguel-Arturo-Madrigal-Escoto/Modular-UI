@@ -48,9 +48,14 @@ export const onLogin = createAsyncThunk(
 export const onLogout = createAsyncThunk(
     'auth/onLogout',
     async (data = undefined, { dispatch }) => {
+        // Clear auth data
         sessionStorage.removeItem('access');
         sessionStorage.removeItem('refresh');
         sessionStorage.removeItem('user');
+
+        // Clear current recommended user/profile
+        localStorage.removeItem('recommendedUser');
+        localStorage.removeItem('recommendedCompany');
 
         // Clear data from all slices (dispatch clearSliceAction)
         dispatch(clearChatSlice());

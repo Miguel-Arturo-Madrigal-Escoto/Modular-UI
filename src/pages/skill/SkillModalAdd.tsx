@@ -28,7 +28,9 @@ export const SkillModalAdd = () => {
 
             })).unwrap();
             dispatch(setModalClosedSkill());
-            dispatch(onGetUserSkills());
+            dispatch(onGetUserSkills({
+                user_id: user_data!.user!.id
+            }));
         } catch (error) {
             
         }

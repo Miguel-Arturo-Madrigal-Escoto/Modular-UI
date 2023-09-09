@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { ICompanyProfile, IUserProfile } from '../types/interfaces';
+import { ICompanyProfile, ICurrentUser, IUserProfile } from '../types/interfaces';
 import { onGetCompanyMatch, onGetUserMatch, onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from './thunks';
 
 
@@ -9,17 +9,27 @@ import { onGetCompanyMatch, onGetUserMatch, onRetrieveCompanyMatchesList, onRetr
 export interface MatchesState {
     errors: any;
     loading: boolean;
-    user: IUserProfile | null;
-    company: ICompanyProfile | null;
+
+    usersQueue: ICurrentUser[]; // queue
+    currentUser: ICurrentUser | null; //
+
+    companiesQueue: ICurrentUser[];
+    currentCompany: ICurrentUser | null;
+
     userMatches: ICompanyProfile[];
     companyMatches: IUserProfile[];
 }
 
 export const initialState: MatchesState = {
     errors: {},
-    company: null,
-    user: null, 
     loading: false,
+    
+    usersQueue: [],
+    currentUser: null, 
+
+    companiesQueue: [],
+    currentCompany: null,
+
     userMatches: [],
     companyMatches: [],
 }
@@ -36,6 +46,22 @@ export const matchesSlice = createSlice({
         },
         clearMatchSlice: () => {
           return initialState;
+        },
+        dequeueCompany: (state) => {
+            const [currentCompany, ...companies] = state.companiesQueue;
+            return {
+              ...state,
+              companiesQueue: companies,
+              currentCompany
+            }
+        },
+        dequeueUser: (state) => {
+            const [currentUser, ...users] = state.usersQueue;
+            return {
+              ...state,
+              usersQueue: users,
+              currentUser
+            }
         }
     },
     extraReducers(builder) {
@@ -60,7 +86,7 @@ export const matchesSlice = createSlice({
             ...state,
             errors: {},
             loading: false,
-            user: payload
+            usersQueue: payload
           }
         })
 
@@ -80,12 +106,12 @@ export const matchesSlice = createSlice({
           }
         })
     
-        builder.addCase(onGetUserMatch.fulfilled, (state, { payload }) => {
+        builder.addCase(onGetUserMatch.fulfilled, (state, { payload }) => { 
           return {
             ...state,
             errors: {},
             loading: false,
-            company: payload
+            companiesQueue: payload
           }
         })
 
@@ -142,6 +168,6 @@ export const matchesSlice = createSlice({
     }
 })
 
-export const { setErrors, clearMatchSlice } = matchesSlice.actions;
+export const { setErrors, clearMatchSlice, dequeueCompany, dequeueUser} = matchesSlice.actions;
 
 export default matchesSlice.reducer;
