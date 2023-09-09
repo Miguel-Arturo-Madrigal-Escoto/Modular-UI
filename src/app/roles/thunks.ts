@@ -3,7 +3,7 @@ import { axios_base } from '../../api/axios_base';
 import { AxiosError } from 'axios';
 import { setErrors } from './rolesSlice';
 import { errorNotification, successNotification } from '../../components/common/Alerts';
-import { ICompanyRoles, ICompanyRolesById, INewRole, IOnSaveNewRole } from '../types/interfaces';
+import { ICompanyRoles, ICompanyRolesById, INewRole, IOnGetCompanyRolesQueryParams, IOnSaveNewRole } from '../types/interfaces';
 import { RootState } from '../store';
 
 export const onAddCompanyRoles = createAsyncThunk(
@@ -29,10 +29,13 @@ export const onAddCompanyRoles = createAsyncThunk(
 
 export const onGetCompanyRoles = createAsyncThunk(
     'roles/onGetCompanyRoles',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (data: IOnGetCompanyRolesQueryParams,  { dispatch, getState }) => {
         try {
+            // Added query params to get roles in match click view
             const { auth } = getState() as RootState;
+            const { company_id } = data;
             const resp = await axios_base.get<ICompanyRolesById[]>(`company-roles/`, {
+                params: { company_id },
                 headers: {
                     Authorization: `JWT ${ auth.access }`
                 }

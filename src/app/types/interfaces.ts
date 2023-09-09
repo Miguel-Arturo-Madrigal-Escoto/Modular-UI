@@ -58,6 +58,10 @@ export interface ICompanyRoles {
     roles: Role[];
 }
 
+export interface IOnGetCompanyRolesQueryParams {
+    company_id: number;
+}
+
 export interface ICompanyRolesById {
     id:          number;
     link:        string;
@@ -146,6 +150,10 @@ export interface IUserExperience {
     user: number;
 }
 
+export interface IOnGetUserExperiences {
+    user_id: number;
+}
+
 export interface ExperienceAdded {
     id:          number;
     role:        number;
@@ -171,6 +179,10 @@ export interface ISkill {
     name: string;
     description: string;
     user: number;
+}
+
+export interface IOnGetUserSkills {
+    user_id: number;
 }
 
 export interface SkillAdded {

@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { errorNotification, successNotification } from "../../components/common/Alerts";
 import { axios_base } from "../../api/axios_base";
 import { AxiosError } from "axios";
-import {  SkillAdded, IUserSkillById, ISkill } from "../types/interfaces";
+import {  SkillAdded, IUserSkillById, ISkill, IOnGetUserSkills } from "../types/interfaces";
 import { setErrors } from "./skillSlice";
 
 export const onAddUserSkill = createAsyncThunk(
@@ -30,10 +30,14 @@ export const onAddUserSkill = createAsyncThunk(
 
 export const onGetUserSkills = createAsyncThunk(
     'skills/onGetUserSkills',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (data: IOnGetUserSkills,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
+            const { user_id } = data;
             const resp = await axios_base.get<IUserSkillById>(`skills/`, {
+                params: {
+                    user_id
+                },
                 headers: {
                     Authorization: `JWT ${ auth.access }`
                 }

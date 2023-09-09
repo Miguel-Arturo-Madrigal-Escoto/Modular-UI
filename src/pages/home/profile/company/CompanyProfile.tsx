@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { HeaderProfile } from "../HeaderProfile";
-import { ConnectionsProfile } from "../ConnectionsProfile";
 import { RolesProfile } from "./RolesProfile";
 import { ICurrentUser } from "../../../../app/types/interfaces";
 

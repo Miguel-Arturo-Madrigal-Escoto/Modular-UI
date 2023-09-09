@@ -4,12 +4,14 @@ export interface ModalState {
     openProfileModal: boolean;
     openRolesModal: boolean;
     openExperienceModal: boolean;
+    openSkillModal: boolean;
 }
 
 export const initialState: ModalState = {
     openProfileModal: false,
     openRolesModal: false,
     openExperienceModal: false,
+    openSkillModal: false
 }
 
 export const modalSlice = createSlice({

@@ -26,6 +26,8 @@ import { onGetUserExperiences } from '../app/experience/thunks';
 import { onGetUserSkills } from '../app/skill/thunks';
 import LandingPage from '../pages/home/LandingPage';
 import { SocketContext } from '../context/SocketContext';
+import { RecommendedProfile } from '../pages/matches/RecommendedProfile';
+import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../app/match/thunks';
 
 
 export const AppRouter = () => {
@@ -38,11 +40,15 @@ export const AppRouter = () => {
     const regex = new RegExp('\/(login|register|profile\/form)\/?', 'g');
     const [isNavBarShown, setisNavBarShown] = useState(false);
 
+    //const storageRecommendedCompany = JSON.parse(localStorage.getItem('recommendedCompany') || 'null') || null
+    const storageRecommendedUser = JSON.parse(localStorage.getItem('recommendedUser') || 'null') || null
 
+    // update the auth variables in sessionStorage
     useEffect(() => {
         saveSessionStorageState({ user, access, refresh });
     }, [user, access, refresh]);
 
+    //  Retrieve user/company data
     useEffect(() => {
         if (access){
             dispatch(onGetCurrentUserData({ access }));
@@ -50,24 +56,49 @@ export const AppRouter = () => {
 
     }, [access]);
 
+    // Authenticated user - skills & experiences
     useEffect(() => {
         if (user_data && user_data.user !== null){
-            dispatch(onGetUserExperiences());
+            dispatch(onGetUserSkills({
+                user_id: user_data.user.id
+            }));
+            dispatch(onGetUserExperiences({
+                user_id: user_data.user.id
+            }));
         }
-
     }, [user_data]);
 
+    // Current recommended user - skills & experiences
     useEffect(() => {
-        if (user_data && user_data.user !== null){
-            dispatch(onGetUserSkills());
+        if (storageRecommendedUser){
+            dispatch(onGetUserSkills({
+                user_id: storageRecommendedUser.user.id
+            }));
+            dispatch(onGetUserExperiences({
+                user_id: storageRecommendedUser.user.id
+            }));
+        }
+    }, [storageRecommendedUser]);
+
+    // Current user/company matches list
+    useEffect(() => {
+        if (user_data || location.pathname.includes('matches')){
+            if (user_data?.user){
+                dispatch(onRetrieveUserMatchesList());
+            }
+            else {
+                dispatch(onRetrieveCompanyMatchesList());
+            }
         }
 
-    }, [user_data]);
+    }, [user_data, location.pathname]);
 
+    // Hide/show navbar
     useEffect(() => {
         setisNavBarShown(!regex.test(location.pathname));
     }, [location.pathname]);
 
+    // Refresh JWT
     useEffect(() => {
         if (refresh){
             dispatch(onRefreshJWT({
@@ -76,13 +107,14 @@ export const AppRouter = () => {
         }
     }, [refresh]);
 
+    // Fetch data to fill form components such as <select>
     useEffect(() => {
         if (access){
             dispatch(fetchFormData());
         }
     }, [access]);
 
-
+    // Websockets connect & disconnect events
     useEffect(() => {
         if (access){
             socket?.connect()
@@ -124,11 +156,13 @@ export const AppRouter = () => {
                         <Register />
                     </PublicRoute>
                 } />
+
                 <Route path='/login' element={
                     <PublicRoute>
                         <Login />
                     </PublicRoute>
                 } />
+
                 <Route path='/messages' element={ 
                     <PrivateRoute>
                         <Messages />
@@ -140,11 +174,13 @@ export const AppRouter = () => {
                         <GoogleOAuth2 />
                     </PublicRoute>
                 } />
+
                 <Route path='/auth/oauth2/linkedin' element={ 
                     <PublicRoute>
                         <LinkedinOAuth2 />
                     </PublicRoute>
                 } />
+
                 <Route path='/auth/oauth2/github' element={ 
                     <PublicRoute>
                         <GithubOAuth2 />
@@ -163,10 +199,16 @@ export const AppRouter = () => {
                     </PrivateRoute>
                 } />
 
+                <Route path='/recommended-profile' element={ 
+                    <PrivateRoute>
+                        <RecommendedProfile />
+                    </PrivateRoute>
+                } />
 
                 <Route path='/profile/form' element={ 
                     <ProfileForm />
                 } />
+                
             </Routes>
         </>
     )

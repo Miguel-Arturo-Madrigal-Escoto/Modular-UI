@@ -10,15 +10,15 @@ export default function Chat() {
             <section className="flex flex-col flex-auto border-l ">
                 {/* Header con quién es el chat */}
                 <HeaderPersonChat />
-                {/* FIN header con quién es el chat */}
+                {/* fin header con quién es el chat */}
 
                 <div className="chat-body p-4 flex-1 overflow-y-scroll" id="messages">
                     <ChatMessagesBody />                          
                 </div>
 
-                {/* FOOTER CHAT */}
+                {/* Footer chat */}
                 <NewMessage />
-                {/* END FOOTER CHAT */}
+                {/* End footer chat */}
             </section>
         </>
   )
