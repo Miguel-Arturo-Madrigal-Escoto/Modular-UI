@@ -13,9 +13,9 @@ export interface AuthState {
 }
 
 export const initialState: AuthState = {
-  access: sessionStorage.getItem('access'),
-  refresh: sessionStorage.getItem('refresh'),
-  user: sessionStorage.getItem('user'),
+  access: localStorage.getItem('access'),
+  refresh: localStorage.getItem('refresh'),
+  user: localStorage.getItem('user'),
   user_data: null,
   errors: {},
   loading: false

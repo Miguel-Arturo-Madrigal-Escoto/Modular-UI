@@ -17,7 +17,6 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useEffect, useState, useContext } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
-import { saveSessionStorageState } from '../app/helpers/saveSessionStorageState';
 import { UserActivation } from '../pages/auth/UserActivation';
 import { onGetCurrentUserData, onRefreshJWT } from '../app/auth/thunks';
 import { NavBar } from '../pages/home/NavBar';
@@ -26,8 +25,10 @@ import { onGetUserExperiences } from '../app/experience/thunks';
 import { onGetUserSkills } from '../app/skill/thunks';
 import LandingPage from '../pages/home/LandingPage';
 import { SocketContext } from '../context/SocketContext';
-import { RecommendedProfile } from '../pages/matches/RecommendedProfile';
+
 import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../app/match/thunks';
+import { RecommendedProfile } from '../pages/matches/RecommendedProfile';
+import { saveLocalStorageState } from '../app/helpers/saveLocalStorageState';
 
 
 export const AppRouter = () => {
@@ -45,7 +46,7 @@ export const AppRouter = () => {
 
     // update the auth variables in sessionStorage
     useEffect(() => {
-        saveSessionStorageState({ user, access, refresh });
+        saveLocalStorageState({ user, access, refresh });
     }, [user, access, refresh]);
 
     //  Retrieve user/company data
@@ -58,27 +59,16 @@ export const AppRouter = () => {
 
     // Authenticated user - skills & experiences
     useEffect(() => {
-        if (user_data && user_data.user !== null){
-            dispatch(onGetUserSkills({
-                user_id: user_data.user.id
-            }));
-            dispatch(onGetUserExperiences({
-                user_id: user_data.user.id
-            }));
-        }
-    }, [user_data]);
+        const user_id = user_data?.user?.id || storageRecommendedUser?.user?.id;
 
-    // Current recommended user - skills & experiences
-    useEffect(() => {
-        if (storageRecommendedUser){
-            dispatch(onGetUserSkills({
-                user_id: storageRecommendedUser.user.id
-            }));
-            dispatch(onGetUserExperiences({
-                user_id: storageRecommendedUser.user.id
-            }));
-        }
-    }, [storageRecommendedUser]);
+        dispatch(onGetUserSkills({
+            user_id: user_id 
+        }));
+        dispatch(onGetUserExperiences({
+            user_id: user_id 
+        }));
+    }, [user_data, storageRecommendedUser]);
+
 
     // Current user/company matches list
     useEffect(() => {
