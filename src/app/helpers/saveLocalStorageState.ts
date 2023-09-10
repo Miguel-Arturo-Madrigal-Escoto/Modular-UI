@@ -1,11 +1,11 @@
 
-export const saveSessionStorageState = (state: object) => {
+export const saveLocalStorageState = (state: object) => {
     Object.entries(state).forEach(([key, value]) => {
         if (value) {
-            sessionStorage.setItem(key, value);
+            localStorage.setItem(key, value);
         }
         else if (!value && localStorage.getItem(key)) {
-            sessionStorage.removeItem(key);
+            localStorage.removeItem(key);
         }
     })
 }

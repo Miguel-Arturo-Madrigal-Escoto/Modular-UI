@@ -180,9 +180,10 @@ export const Card = () => {
         if (user_data?.user){
             localStorage.setItem('recommendedCompany', JSON.stringify(currentCompany));
         }
-        else {
+        else if (user_data?.company){
             localStorage.setItem('recommendedUser', JSON.stringify(currentUser));
         }
+       
         navigate('/recommended-profile');
     }
 
