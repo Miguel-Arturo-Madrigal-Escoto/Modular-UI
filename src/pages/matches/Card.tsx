@@ -10,17 +10,16 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { onGetCompanyMatch, onGetUserMatch, onMatchCompany, onMatchUser, onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../../app/match/thunks';
+import { onMatchCompany, onMatchUser, onRetrieveCompanyMatchesList, onRetrieveNextRecommendations, onRetrieveUserMatchesList } from '../../app/match/thunks';
 import { defaultImageProfile } from '../../components/common/constants';
 import { setActiveUserChat } from '../../app/chat/chatSlice';
 import { neutralNotification } from '../../components/common/Alerts';
-import { dequeueCompany, dequeueUser } from '../../app/match/matchSlice';
 import { ICompanyProfile, IUserProfile } from '../../app/types/interfaces';
 
 export const Card = () => {
     
     const { user_data } =  useAppSelector(state => state.auth);
-    const { currentUser, currentCompany, companiesQueue, usersQueue } =  useAppSelector(state => state.match);
+    const { currentUser, currentCompany } =  useAppSelector(state => state.match);
     const { userMatches, companyMatches } =  useAppSelector(state => state.match);
     const { positions, sectors } =  useAppSelector(state => state.form);
 
@@ -33,15 +32,6 @@ export const Card = () => {
 
 
     useEffect(() => {
-        if (user_data?.user && !currentCompany){
-            onNextMatch();
-        }       
-        else if (user_data?.company && !currentUser){
-            onNextMatch();
-        }       
-    }, [user_data]);
-
-    useEffect(() => {
         if (currentUser){
             setUser(currentUser.user);
         }
@@ -52,22 +42,6 @@ export const Card = () => {
             setCompany(currentCompany.company);
         }
     }, [currentCompany]);
-
-
-    const onNextMatch = async () => {
-        if (user_data?.user){   
-            if (companiesQueue.length === 0){
-                await dispatch(onGetUserMatch()).unwrap();
-            }
-            dispatch(dequeueCompany());
-        }
-        else if (user_data?.company){
-            if (usersQueue.length === 0){
-                await dispatch(onGetCompanyMatch()).unwrap();
-            }
-            dispatch(dequeueUser());
-        }
-    }
 
     const onMatchLikeCompany = async() => {   
         try {
@@ -145,7 +119,7 @@ export const Card = () => {
         else{
             onMatchLikeCompany();
         }
-        onNextMatch();
+        dispatch(onRetrieveNextRecommendations());
     }
 
     const swipeMatchDislike = () => {
@@ -155,7 +129,7 @@ export const Card = () => {
         else{
             onMatchDislikeCompany();
         }
-        onNextMatch();
+        dispatch(onRetrieveNextRecommendations());
     }
 
     const leadingActions = () => (

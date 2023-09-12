@@ -1,36 +1,58 @@
-import { useState, useEffect } from 'react';
-import { useAppSelector } from "../../app/hooks";
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { CompanyProfile } from "../home/profile/company/CompanyProfile";
 import { UserProfile } from "../home/profile/user/UserProfile";
-import { ICurrentUser } from '../../app/types/interfaces';
+import { setRecommendedProfileCompany, setRecommendedProfileUser } from '../../app/match/matchSlice';
+import { onGetUserSkills } from '../../app/skill/thunks';
+import { onGetUserExperiences } from '../../app/experience/thunks';
+import { onGetCompanyRoles } from '../../app/roles/thunks';
 
 
 export const RecommendedProfile = () => {
     // const { currentUser, currentCompany } =  useAppSelector(state => state.match);
     const { user_data } =  useAppSelector(state => state.auth);
-    const [storageRecommendedUser, setStorageRecommendedUser] = useState<ICurrentUser|null>(null);
-    const [storageRecommendedCompany, setStorageRecommendedCompany] = useState<ICurrentUser|null>(null);
-    
-    useEffect(() => {
-        // Persist recommended user/company in localStorage
-        if (!localStorage.getItem('recommendedUser') && !localStorage.getItem('recommendedCompany')) return;
+    const { recommendedProfileUser, recommendedProfileCompany } =  useAppSelector(state => state.match);
 
-        if (user_data?.company){
-            setStorageRecommendedUser(JSON.parse(localStorage.getItem('recommendedUser')!));
+    const dispatch = useAppDispatch();
+
+    const usr = JSON.parse(localStorage.getItem('recommendedUser') || 'null');
+    const com = JSON.parse(localStorage.getItem('recommendedCompany') || 'null');
+    
+    useEffect(() => {    
+        if (usr && user_data?.company){
+            dispatch(setRecommendedProfileUser(usr));           
         }
-        else if (user_data?.user){
-            setStorageRecommendedCompany(JSON.parse(localStorage.getItem('recommendedCompany')!));
+        else if (com && user_data?.user){
+            dispatch(setRecommendedProfileCompany(com));         
         }
 
     }, [user_data]);
 
+    useEffect(() => {
+        if (recommendedProfileUser){
+            dispatch(onGetUserSkills({
+                user_id: recommendedProfileUser.user!.id
+            }));
+            dispatch(onGetUserExperiences({
+                user_id: recommendedProfileUser.user!.id
+            }));
+        }
+        else if (recommendedProfileCompany){
+            dispatch(onGetCompanyRoles({
+                company_id: recommendedProfileCompany.company!.id
+            }));
+        }
+
+    }, [recommendedProfileUser, recommendedProfileCompany]);
+
+    
     return (
-        <>
+        <div>
             {
-                storageRecommendedCompany?.company
-                        ? <CompanyProfile user={storageRecommendedCompany!} />
-                        : storageRecommendedUser?.user && <UserProfile user={storageRecommendedUser!} />
+                recommendedProfileCompany?.company
+                        ? <CompanyProfile user={recommendedProfileCompany!} />
+                        : recommendedProfileUser?.user && <UserProfile user={recommendedProfileUser!} />
             }
-        </>
+        </div>
     )
 }

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { ICompanyProfile, ICurrentUser, IUserProfile } from '../types/interfaces';
 import { onGetCompanyMatch, onGetUserMatch, onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from './thunks';
@@ -11,13 +11,16 @@ export interface MatchesState {
     loading: boolean;
 
     usersQueue: ICurrentUser[]; // queue
-    currentUser: ICurrentUser | null; //
+    currentUser: ICurrentUser | null; 
 
-    companiesQueue: ICurrentUser[];
+    companiesQueue: ICurrentUser[]; // queue
     currentCompany: ICurrentUser | null;
 
     userMatches: ICompanyProfile[];
     companyMatches: IUserProfile[];
+
+    recommendedProfileUser: ICurrentUser | null; 
+    recommendedProfileCompany: ICurrentUser | null; 
 }
 
 export const initialState: MatchesState = {
@@ -32,6 +35,9 @@ export const initialState: MatchesState = {
 
     userMatches: [],
     companyMatches: [],
+
+    recommendedProfileUser: null,
+    recommendedProfileCompany: null
 }
 
 export const matchesSlice = createSlice({
@@ -61,6 +67,18 @@ export const matchesSlice = createSlice({
               ...state,
               usersQueue: users,
               currentUser
+            }
+        },
+        setRecommendedProfileUser: (state, { payload }: PayloadAction<ICurrentUser>) => {
+            return {
+              ...state,
+              recommendedProfileUser: payload
+            }
+        },
+        setRecommendedProfileCompany: (state, { payload }: PayloadAction<ICurrentUser>) => {
+            return {
+              ...state,
+              recommendedProfileCompany: payload
             }
         }
     },
@@ -168,6 +186,6 @@ export const matchesSlice = createSlice({
     }
 })
 
-export const { setErrors, clearMatchSlice, dequeueCompany, dequeueUser} = matchesSlice.actions;
+export const { setErrors, clearMatchSlice, dequeueCompany, dequeueUser, setRecommendedProfileUser, setRecommendedProfileCompany } = matchesSlice.actions;
 
 export default matchesSlice.reducer;

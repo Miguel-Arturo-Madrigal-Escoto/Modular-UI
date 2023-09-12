@@ -2,6 +2,8 @@ import { FC } from "react";
 import { HeaderProfile } from "../HeaderProfile";
 import { RolesProfile } from "./RolesProfile";
 import { ICurrentUser } from "../../../../app/types/interfaces";
+import { useLocation } from "react-router-dom";
+import { ConnectionsProfile } from "../ConnectionsProfile";
 
 interface Props {
   user: ICurrentUser;
@@ -9,7 +11,7 @@ interface Props {
 
 export const CompanyProfile: FC<Props> = ({ user }) => {
 
-  
+  const { pathname } = useLocation();
 
   return (
     <>
@@ -50,7 +52,10 @@ export const CompanyProfile: FC<Props> = ({ user }) => {
 
           </div>
         </div>
-        {/* <ConnectionsProfile /> */}
+        {
+            // Show recommended profiles (users or companies) if the pathname is '/recommended-profile'
+            pathname.includes('recommended-profile') && <ConnectionsProfile />
+        } 
       </div>
     </>
   );

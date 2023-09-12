@@ -16,7 +16,7 @@ export const SettingsProfile = () => {
 
     return (
         !pathname.includes('recommended-profile') ? (       
-            <div className="absolute right-12 mt-4 rounded">
+            <div className="absolute right-12 mt-4 rounded" id="header-profile">
                 <div>
                     { open && user_data?.company && <EditCompanyModal /> }
                     { open && user_data?.user && <EditUserModal /> }
