@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { ICompanyProfile, IUserProfile, IOnMatchCompany, IOnMatchUser, IsMatch, ICurrentUser } from '../types/interfaces';
 import { axios_base } from "../../api/axios_base";
-import { setErrors } from "./matchSlice";
+import { dequeueCompany, dequeueUser, setErrors } from "./matchSlice";
 import { AxiosError } from "axios";
 
 export const onGetCompanyMatch = createAsyncThunk(
@@ -151,6 +151,31 @@ export const onRetrieveCompanyMatchesList = createAsyncThunk(
                 image: user.image && `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + user.image
             }))
             return users;   
+        } catch (error) {
+            const err = error as AxiosError;
+            dispatch(setErrors(err.response?.data));
+            throw new Error(`${err.response?.data}`)
+        }
+    }
+)
+
+export const onRetrieveNextRecommendations = createAsyncThunk(
+    'match/onNextRecommendations',
+    async (data = undefined,  { dispatch, getState }) => {
+        try {
+            const { auth, match } = getState() as RootState;
+            if (auth.user_data?.user){   
+                if (match.companiesQueue.length === 0){
+                    await dispatch(onGetUserMatch()).unwrap();
+                }
+                dispatch(dequeueCompany());
+            }
+            else if (auth.user_data?.company){
+                if (match.usersQueue.length === 0){
+                    await dispatch(onGetCompanyMatch()).unwrap();
+                }
+                dispatch(dequeueUser());
+            }
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));

@@ -26,7 +26,7 @@ import { onGetUserSkills } from '../app/skill/thunks';
 import LandingPage from '../pages/home/LandingPage';
 import { SocketContext } from '../context/SocketContext';
 
-import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../app/match/thunks';
+import { onRetrieveCompanyMatchesList, onRetrieveNextRecommendations, onRetrieveUserMatchesList } from '../app/match/thunks';
 import { RecommendedProfile } from '../pages/matches/RecommendedProfile';
 import { saveLocalStorageState } from '../app/helpers/saveLocalStorageState';
 
@@ -41,10 +41,20 @@ export const AppRouter = () => {
     const regex = new RegExp('\/(login|register|profile\/form)\/?', 'g');
     const [isNavBarShown, setisNavBarShown] = useState(false);
 
-    //const storageRecommendedCompany = JSON.parse(localStorage.getItem('recommendedCompany') || 'null') || null
+    // const storageRecommendedCompany = JSON.parse(localStorage.getItem('recommendedCompany') || 'null') || null
     const storageRecommendedUser = JSON.parse(localStorage.getItem('recommendedUser') || 'null') || null
 
-    // update the auth variables in sessionStorage
+
+    
+    
+    // Get next recommendations (users/company)
+    useEffect(() => {
+        if (user_data?.user|| user_data?.company){
+            dispatch(onRetrieveNextRecommendations());
+        }            
+    }, [user_data]);
+
+    // update the auth variables in localStorage
     useEffect(() => {
         saveLocalStorageState({ user, access, refresh });
     }, [user, access, refresh]);
@@ -57,6 +67,7 @@ export const AppRouter = () => {
 
     }, [access]);
 
+
     // Authenticated user - skills & experiences
     useEffect(() => {
         const user_id = user_data?.user?.id || storageRecommendedUser?.user?.id;
@@ -67,7 +78,7 @@ export const AppRouter = () => {
         dispatch(onGetUserExperiences({
             user_id: user_id 
         }));
-    }, [user_data, storageRecommendedUser]);
+    }, [user_data, localStorage.getItem('recommendedUser')]);
 
 
     // Current user/company matches list

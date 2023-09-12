@@ -5,6 +5,7 @@ import { SkillsProfile } from "./SkillsProfile";
 import { ConnectionsProfile } from "../ConnectionsProfile";
 import { HeaderProfile } from "../HeaderProfile";
 import { ICurrentUser } from "../../../../app/types/interfaces";
+import { useLocation } from "react-router-dom";
 
 
 interface Props {
@@ -13,35 +14,40 @@ interface Props {
 
 export const UserProfile: FC<Props> = ({ user }) => {
 
-  return (
-    <>
-      <div className="h-full bg-gray-200 p-8">
-        <HeaderProfile
-          name={user!.user!.name}
-          location={user!.user!.location}
-          position={user!.user!.position}
-          image={ user!.user!.image }
-        />
+    const { pathname } = useLocation();
 
-        <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
-          <div className="w-full flex flex-col 2xl:w-1/3">
-            <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
-              <h4 className="text-xl text-gray-900 font-bold">Acerca de mí</h4>
-              <p className="mt-2 text-gray-700 break-all capitalize">
-                {user!.user!.about}
-              </p>
+    return (
+      <>
+        <div className="h-full bg-gray-200 p-8">
+          <HeaderProfile
+            name={user!.user!.name}
+            location={user!.user!.location}
+            position={user!.user!.position}
+            image={ user!.user!.image }
+          />
+
+          <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
+            <div className="w-full flex flex-col 2xl:w-1/3">
+              <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
+                <h4 className="text-xl text-gray-900 font-bold">Acerca de mí</h4>
+                <p className="mt-2 text-gray-700 break-all capitalize">
+                  {user!.user!.about}
+                </p>
+              </div>
+
+              <InfoProfile user={user} />
             </div>
+            <div className="flex flex-col w-full 2xl:w-2/3">
+              <ExperienceProfile />
 
-            <InfoProfile user={user} />
+              <SkillsProfile />
+            </div>
           </div>
-          <div className="flex flex-col w-full 2xl:w-2/3">
-            <ExperienceProfile />
-
-            <SkillsProfile />
-          </div>
+          {
+              // Show recommended profiles if the pathname is '/recommended-profile'
+              pathname.includes('recommended-profile') && <ConnectionsProfile />
+          }        
         </div>
-        {/* <ConnectionsProfile /> */}
-      </div>
-    </>
+      </>
   );
 };
