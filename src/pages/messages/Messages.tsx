@@ -9,6 +9,7 @@ import { setActiveUserChatData } from '../../app/chat/chatSlice'
 import { NotActiveUser } from './NotActiveUser'
 import { scrollToBottom } from '../../utils/scrollToBottom'
 import { onRetrieveCompanyMatchesList, onRetrieveUserMatchesList } from '../../app/match/thunks'
+import { EmptyTemplate } from '../templates/EmptyTemplate'
 
 
 export const Messages = () => {
@@ -48,7 +49,7 @@ export const Messages = () => {
                     <main className="flex-grow flex flex-row min-h-0">
                         <SideBarChat />
                         
-                        { activeUserChat ? <Chat /> : <NotActiveUser /> }
+                        { chatUsers.length > 0 ? activeUserChat ? <Chat /> : <NotActiveUser /> : <EmptyTemplate scope={'mensajes'}/> }
                                           
                     </main>
                 </div>
