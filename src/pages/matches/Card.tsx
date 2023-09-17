@@ -8,13 +8,13 @@ import {
   } from 'react-swipeable-list';
   import 'react-swipeable-list/dist/styles.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { onMatchCompany, onMatchUser, onRetrieveCompanyMatchesList, onRetrieveNextRecommendations, onRetrieveUserMatchesList } from '../../app/match/thunks';
 import { defaultImageProfile } from '../../components/common/constants';
 import { setActiveUserChat } from '../../app/chat/chatSlice';
-import { neutralNotification } from '../../components/common/Alerts';
 import { ICompanyProfile, IUserProfile } from '../../app/types/interfaces';
+import { SocketContext } from '../../context/SocketContext';
 
 export const Card = () => {
     
@@ -26,6 +26,7 @@ export const Card = () => {
     const [user, setUser] = useState<IUserProfile | null>(null);
     const [company, setCompany] = useState<ICompanyProfile | null>(null);
 
+    const { socket } = useContext(SocketContext);
 
     const dispatch =  useAppDispatch();
     const navigate = useNavigate();
@@ -57,8 +58,13 @@ export const Card = () => {
                 if (!companyMatches.find(u => u.base_user === matchData.user)){
                     dispatch(onRetrieveCompanyMatchesList());
                 }
-                neutralNotification('Felicidades, haz hecho una nueva conexión 🥳');
-                navigate('/messages');
+
+                // emit match event (socket)
+                const newMatch = {
+                    from: matchData.company,
+                    to: matchData.user,
+                }
+                socket?.emit('new-match', newMatch);
             }
         } catch (error) {
             console.log(error);
@@ -92,8 +98,13 @@ export const Card = () => {
                 if (!userMatches.find(c => c.base_user === matchData.company)){
                     dispatch(onRetrieveUserMatchesList());
                 }
-                neutralNotification('Felicidades, haz hecho una nueva conexión  🥳 ');
-                navigate('/messages');
+
+                // emit match event (socket)
+                const newMatch = {
+                    from: matchData.user,
+                    to: matchData.company,
+                }
+                socket?.emit('new-match', newMatch);
             }
 
         } catch (error) {
