@@ -129,7 +129,7 @@ export const onCreateProfile = createAsyncThunk(
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            await axios_socket.post('/api/auth/sign-up/', { email: auth.user, role: option }, {
+            await axios_socket.post('/api/auth/sign-up/', { name: data.name, email: auth.user, role: option }, {
                 headers: {
                     Authorization: `${ auth.access }`
                 }
@@ -139,6 +139,7 @@ export const onCreateProfile = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
+            console.log(err.response?.data)
             errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
         }

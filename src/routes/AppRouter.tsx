@@ -72,12 +72,15 @@ export const AppRouter = () => {
     useEffect(() => {
         const user_id = user_data?.user?.id || storageRecommendedUser?.user?.id;
 
-        dispatch(onGetUserSkills({
-            user_id: user_id 
-        }));
-        dispatch(onGetUserExperiences({
-            user_id: user_id 
-        }));
+        if (user_id){
+            dispatch(onGetUserSkills({
+                user_id: user_id 
+            }));
+            dispatch(onGetUserExperiences({
+                user_id: user_id 
+            }));
+        }
+
     }, [user_data, localStorage.getItem('recommendedUser')]);
 
 

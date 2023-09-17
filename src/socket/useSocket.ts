@@ -51,8 +51,8 @@ export const useSocket = (serverPath: string) => {
             dispatch(setChatUsers(userList));
         })
 
-        socket?.on('new-match', _ => {
-            neutralNotification('Felicidades, haz hecho una nueva conexión  🥳 ');
+        socket?.on('new-match', data => {
+            neutralNotification(`Felicidades, haz hecho una nueva conexión con ${data.name} 🥳 `);
         })
 
     }, [socket]);
