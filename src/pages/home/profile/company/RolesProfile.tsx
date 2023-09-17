@@ -18,9 +18,12 @@ export const RolesProfile = () => {
             // Check if i'm the company or the user is viewing my profile
             const company_id = user_data?.company?.id || storageRecommendedCompany?.company?.id
 
-            dispatch(onGetCompanyRoles({
-                company_id: company_id!
-            }));
+            if (company_id){
+                dispatch(onGetCompanyRoles({
+                    company_id: company_id!
+                }));
+            }
+
         }
         
     }, [access]);

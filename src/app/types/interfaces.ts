@@ -234,6 +234,7 @@ export interface IMessageMatch {
     from: number;
     to: number;
     text: string;
+    name?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

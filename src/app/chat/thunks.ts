@@ -49,7 +49,7 @@ export const onDisplayNewMessageNotification = createAsyncThunk(
     async (data: IMessageMatch,  { getState }) => {
         const { auth } = getState() as RootState;
         if (auth.user_data?.id !== data.from){
-            neutralNotification('Has recibido un nuevo mensaje 👾');
+            neutralNotification(`Has recibido un nuevo mensaje de ${ data.name }👾`);
         }
     }
 )

@@ -53,15 +53,16 @@ export const matchesSlice = createSlice({
         clearMatchSlice: () => {
           return initialState;
         },
-        dequeueCompany: (state) => {
+        dequeueCompany: (state: MatchesState) => {
             const [currentCompany, ...companies] = state.companiesQueue;
+            
             return {
               ...state,
               companiesQueue: companies,
               currentCompany
             }
         },
-        dequeueUser: (state) => {
+        dequeueUser: (state: MatchesState) => {
             const [currentUser, ...users] = state.usersQueue;
             return {
               ...state,
