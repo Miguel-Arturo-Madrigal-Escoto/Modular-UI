@@ -27,7 +27,7 @@ export const OtherPersonMessage: FC<Props> = ({ message }) => {
                         { message.text }
                     </p>
                 </div>
-                <p className="text-center text-sm text-gray-500">
+                <p className="text-start text-sm text-gray-500">
                     { formatMessageDate(message.createdAt!)  }
                 </p>   
             </div>

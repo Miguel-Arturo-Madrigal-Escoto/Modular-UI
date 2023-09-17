@@ -5,6 +5,7 @@ import { addIncommingMessage, setChatUsers } from '../app/chat/chatSlice';
 import { IMessageMatch } from '../app/types/interfaces';
 import { onDisplayNewMessageNotification } from '../app/chat/thunks';
 import { scrollToBottomAnimated } from '../utils/scrollToBottom';
+import { neutralNotification } from '../components/common/Alerts';
 
 
 export const useSocket = (serverPath: string) => {
@@ -49,6 +50,11 @@ export const useSocket = (serverPath: string) => {
         socket?.on('user-list', userList => {
             dispatch(setChatUsers(userList));
         })
+
+        socket?.on('new-match', _ => {
+            neutralNotification('Felicidades, haz hecho una nueva conexión  🥳 ');
+        })
+
     }, [socket]);
 
     return {
