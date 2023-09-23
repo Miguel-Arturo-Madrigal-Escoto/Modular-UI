@@ -216,6 +216,7 @@ export interface INewSector extends IOnSaveNewSector {}
 export interface IUserMatch {
     _id:       string;
     base_user: number;
+    name: string;
     email:     string;
     online:    boolean;
     role:      'user' | 'company';

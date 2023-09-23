@@ -13,11 +13,11 @@ export const ChatMessagesBody = () => {
             <div className="chat-body p-4 flex-1 h-full" >
                 {
                     // check if I sent the current message (or if this the others person message)
-                    messages.map((message) => (
+                    messages.map((message, idx) => (
                         
                         message.from === user_data?.id
-                        ?  <MyMessage key={ message._id } message={ message } />
-                        :  <OtherPersonMessage key={ message._id } message={ message }  />
+                        ?  <MyMessage key={ idx } message={ message } />
+                        :  <OtherPersonMessage key={ idx } message={ message }  />
                     ))
                 }
                
