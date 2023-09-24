@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { ICompanyProfile, IMessageMatch, IUserMatch, IUserProfile } from '../types/interfaces';
 import { onLoadUserMessagesHistory } from './thunks';
 
@@ -8,6 +8,7 @@ interface ChatInitialState {
     activeUserChatData: IUserProfile | ICompanyProfile | null;
     chatUsers: IUserMatch[];
     messages: IMessageMatch[];
+    search: string
 }
 
 const initialState: ChatInitialState = {
@@ -16,6 +17,7 @@ const initialState: ChatInitialState = {
     activeUserChatData: null,
     chatUsers: [],
     messages: [],
+    search: ''
 }
 
 const chatSlice = createSlice({
@@ -64,6 +66,12 @@ const chatSlice = createSlice({
                 return state;
             }
         },
+        setSearchText: (state, { payload }: PayloadAction<string>) => {
+            return {
+                ...state,
+                search: payload.toLowerCase()
+            }
+        },
         clearChatSlice: () => {
             return initialState;
         }
@@ -87,6 +95,6 @@ const chatSlice = createSlice({
     },
 })
 
-export const { clearErrors, setErrors, setChatUsers, setActiveUserChat, setActiveUserChatData, addIncommingMessage, clearChatSlice } = chatSlice.actions;
+export const { clearErrors, setErrors, setChatUsers, setActiveUserChat, setActiveUserChatData, addIncommingMessage, setSearchText, clearChatSlice } = chatSlice.actions;
 
 export default chatSlice.reducer

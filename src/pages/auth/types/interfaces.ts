@@ -56,4 +56,7 @@ export interface IRolesFormEdit {
     description: string;
 }
 
+export interface ISearchForm {
+    search: string;
+}
 
