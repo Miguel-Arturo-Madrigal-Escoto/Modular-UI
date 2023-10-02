@@ -1,4 +1,3 @@
-
 import {
     LeadingActions,
     SwipeableList,
@@ -22,18 +21,29 @@ import { LoadingScreen } from '../../components/common/LoadingScreen';
 export const Card = () => {
     
     const { user_data } =  useAppSelector(state => state.auth);
-    const { currentUser, currentCompany } =  useAppSelector(state => state.match);
-    const { userMatches, companyMatches, loading } =  useAppSelector(state => state.match);
+    const { currentUser, currentCompany, userMatches, companyMatches, usersQueue, companiesQueue  } =  useAppSelector(state => state.match);
     const { positions, sectors } =  useAppSelector(state => state.form);
 
     const [user, setUser] = useState<IUserProfile | null>(null);
     const [company, setCompany] = useState<ICompanyProfile | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     const { socket } = useContext(SocketContext);
 
     const dispatch =  useAppDispatch();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const detectionTimeout = setTimeout(() => {
+            if ( usersQueue.length === 0 ||  companiesQueue.length === 0) {
+                setIsLoading(false);
+            }
+        }, 5000); 
+    
+        return () => {
+          clearTimeout(detectionTimeout);
+        };
+      }, []); 
 
     useEffect(() => {
         if (currentUser){
@@ -48,6 +58,13 @@ export const Card = () => {
         } 
         else setCompany(null);
     }, [currentCompany]);
+
+    useEffect(() => {
+        // When data loading is complete, set isLoading to false
+        if ( usersQueue.length > 0 ||  companiesQueue.length > 0) {
+            setIsLoading(false);
+        }
+    }, [usersQueue, companiesQueue]);
 
     const onMatchLikeCompany = async() => {   
         try {
@@ -177,14 +194,16 @@ export const Card = () => {
         navigate('/recommended-profile');
     }
 
-    if (loading) {
+    if (isLoading) {
         return <LoadingScreen />
     }
 
     return (
         <div className="h-screen bg-gray-200 flex justify-center items-center p-4">
             {
-                (user || company) && !loading ? (
+                isLoading ? (
+                    <LoadingScreen />
+                ) : user || company ? (
                 <SwipeableList fullSwipe>
                 <SwipeableListItem leadingActions={leadingActions()} trailingActions={trailingActions()} maxSwipe={1.0}>
                     <div className="max-w-md mx-auto md:max-w-2xl mt-16 min-w-0 break-words bg-white w-full shadow-lg rounded-xl">
@@ -236,8 +255,7 @@ export const Card = () => {
                     </div>
                 </SwipeableListItem>
                 </SwipeableList>
-                ) : 
-                !user && !company && !loading && <EmptyCard/>
+                ) :  <EmptyCard/> 
             }
         </div> 
     )
