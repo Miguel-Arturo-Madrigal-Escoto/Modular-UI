@@ -171,7 +171,6 @@ export const onUpdateProfile = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
-            alert('error')
             errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
 
