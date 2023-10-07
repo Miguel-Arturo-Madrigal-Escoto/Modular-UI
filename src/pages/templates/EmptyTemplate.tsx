@@ -6,7 +6,7 @@ export const EmptyTemplate = ({scope}) => {
              <div className="px-6 py-4 ">
                 <p className="text-gray-700 text-base">
                     Parece que aún no tienes {scope}. ¡Comienza tu busqueda&nbsp;
-                   <Link to="for-you"
+                   <Link to="/for-you"
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                         aquí!
                     </Link>
