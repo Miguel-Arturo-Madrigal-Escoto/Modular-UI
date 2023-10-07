@@ -159,11 +159,11 @@ export const onUpdateProfile = createAsyncThunk(
             });
 
             // update the user's name in socket server database (MongoDB) by base_user_id (inside JWT access token)
-            // await axios_socket.patch('/api/auth/user/', { name: data?.name }, {
-            //     headers: {
-            //         Authorization: `${ auth.access }` // Express (JWT header not required)
-            //     }
-            // });
+            await axios_socket.patch('/api/auth/user/', { name: data?.name }, {
+                headers: {
+                    Authorization: `${ auth.access }` // Express (JWT header not required)
+                }
+            });
         
             successNotification('Perfil actualizado correctamente.');
             return resp.data;
