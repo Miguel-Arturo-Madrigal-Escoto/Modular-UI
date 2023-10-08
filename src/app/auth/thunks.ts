@@ -154,9 +154,17 @@ export const onUpdateProfile = createAsyncThunk(
             const { auth } = getState() as RootState;
             const resp = await axios_base.patch(`/auth/${ option }/${ id }/`, data, {
                 headers: {
-                    Authorization: `JWT ${ auth.access }`
+                    Authorization: `JWT ${ auth.access }` // Django JWT
                 }
             });
+
+            // update the user's name in socket server database (MongoDB) by base_user_id (inside JWT access token)
+            await axios_socket.patch('/api/auth/user/', { name: data?.name }, {
+                headers: {
+                    Authorization: `${ auth.access }` // Express (JWT header not required)
+                }
+            });
+        
             successNotification('Perfil actualizado correctamente.');
             return resp.data;
 
