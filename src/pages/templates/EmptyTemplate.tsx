@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom"
+import { FC } from 'react'
 
-export const EmptyTemplate = ({scope}) => {
+interface Props {
+    scope: string;
+}
+
+export const EmptyTemplate: FC<Props> = ({ scope }) => {
     return (
         <div className="flex flex-col  justify-center items-center w-full">
              <div className="px-6 py-4 ">

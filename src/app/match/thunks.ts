@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 
 export const onGetCompanyMatch = createAsyncThunk(
     'match/onGetCompanyMatch',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (_ = undefined,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
             const resp = await axios_base.get<ICurrentUser[]>(`match/get_company_match/`, {
@@ -42,7 +42,7 @@ export const onGetCompanyMatch = createAsyncThunk(
 
 export const onGetUserMatch = createAsyncThunk(
     'match/onGetUserMatch',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (_ = undefined,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
             const resp = await axios_base.get<ICurrentUser[]>(`match/get_user_match/`, {
@@ -114,7 +114,7 @@ export const onMatchUser = createAsyncThunk(
 
 export const onRetrieveUserMatchesList = createAsyncThunk(
     'match/onRetrieveUserMatchesList',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (_ = undefined,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
             const resp = await axios_base.get<ICompanyProfile[]>(`match/retrieve_user_matches_list/`, {
@@ -138,7 +138,7 @@ export const onRetrieveUserMatchesList = createAsyncThunk(
 
 export const onRetrieveCompanyMatchesList = createAsyncThunk(
     'match/onRetrieveCompanyMatchesList',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (_ = undefined,  { dispatch, getState }) => {
         try {
             const { auth } = getState() as RootState;
             const resp = await axios_base.get<IUserProfile[]>(`match/retrieve_company_matches_list/`, {
@@ -161,7 +161,7 @@ export const onRetrieveCompanyMatchesList = createAsyncThunk(
 
 export const onRetrieveNextRecommendations = createAsyncThunk(
     'match/onNextRecommendations',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (_ = undefined,  { dispatch, getState }) => {
         try {
             const { auth, match } = getState() as RootState;
             if (auth.user_data?.user){   

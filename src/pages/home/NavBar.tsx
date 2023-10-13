@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { onLogout } from '../../app/auth/thunks';
 import { defaultImageProfile } from '../../components/common/constants';

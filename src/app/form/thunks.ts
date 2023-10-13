@@ -6,7 +6,7 @@ import { RootState } from '../store';
 
 export const fetchFormData = createAsyncThunk(
     'form/fetchFormData',
-    async (data = undefined, { getState }) => {
+    async (_ = undefined, { getState }) => {
         try {
             const { auth } = getState() as RootState;
             const response = await axios_base.get<IFormData>('form/data/', {

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setErrors } from './chatSlice';
 import { AxiosError } from 'axios';
 import { axios_base } from '../../api/axios_base';
-import { IUserProfile, IFindByBaseUser, IMessageMatchHistory, IBaseUserMatches, ICompanyProfile, IMessageMatch } from '../types/interfaces';
+import { IUserProfile, IFindByBaseUser, IMessageMatchHistory, ICompanyProfile, IMessageMatch } from '../types/interfaces';
 import { RootState } from '../store';
 import { axios_socket } from '../../api/axios_socket';
 import { neutralNotification } from '../../components/common/Alerts';
@@ -27,7 +27,7 @@ export const onGetUserDataSocket = createAsyncThunk(
 
 export const onLoadUserMessagesHistory = createAsyncThunk(
     'chat/onLoadUserMessagesHistory',
-    async (data = undefined,  { dispatch, getState }) => {
+    async (_ = undefined,  { dispatch, getState }) => {
         try {    
             const { auth, chat } = getState() as RootState;
             const resp = await axios_socket.get<IMessageMatchHistory>(`/api/messages/${chat.activeUserChat}`, {

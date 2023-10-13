@@ -25,7 +25,7 @@ export const UserFormEdit: FC<Props> = ({ option }) => {
             location: user_data!.user!.location,
             modality: user_data!.user!.modality,
             name: user_data!.user!.name,
-            position: user_data!.user!.position,
+            position: String(user_data!.user!.position),
             about: user_data!.user!.about,
         }
     });

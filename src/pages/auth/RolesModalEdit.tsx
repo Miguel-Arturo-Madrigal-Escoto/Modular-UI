@@ -24,7 +24,7 @@ export const RolesModalEdit = () => {
     const dispatch = useAppDispatch();
 
     
-    const onSubmit: SubmitHandler<IRolesForm> = async data => {
+    const onSubmit: SubmitHandler<IRolesForm> = async _ => {
         try {
             await dispatch(onAddCompanyRoles({
                 roles

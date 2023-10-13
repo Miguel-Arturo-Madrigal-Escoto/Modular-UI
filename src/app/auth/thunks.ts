@@ -47,7 +47,7 @@ export const onLogin = createAsyncThunk(
 
 export const onLogout = createAsyncThunk(
     'auth/onLogout',
-    async (data = undefined, { dispatch }) => {
+    async (_ = undefined, { dispatch }) => {
         // Clear auth data
         sessionStorage.removeItem('access');
         sessionStorage.removeItem('refresh');
