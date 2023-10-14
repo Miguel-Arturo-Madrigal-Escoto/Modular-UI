@@ -21,6 +21,7 @@ export const onSocialLogin = createAsyncThunk(
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
+            console.log('err: ', err.response?.data)
             dispatch(setErrors(err.response?.data));
             throw new Error(`${err.response?.data}`)
         }

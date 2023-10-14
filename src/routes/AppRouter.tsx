@@ -44,7 +44,7 @@ export const AppRouter = () => {
     // const storageRecommendedCompany = JSON.parse(localStorage.getItem('recommendedCompany') || 'null') || null
     const storageRecommendedUser = JSON.parse(localStorage.getItem('recommendedUser') || 'null') || null
 
-
+    console.log('location: ', location);
     
     
     // Get next recommendations (users/company)
@@ -212,6 +212,7 @@ export const AppRouter = () => {
                 <Route path='/profile/form' element={ 
                     <ProfileForm />
                 } />
+                
                 
             </Routes>
         </>
