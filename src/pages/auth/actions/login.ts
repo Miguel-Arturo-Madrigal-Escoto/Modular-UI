@@ -3,8 +3,6 @@ import { IAuthorizationRedirect } from '../types/interfaces';
 
 export const host = window.location.origin;
 
-console.log('host: ',host)
-
 export const onGoogleAuthenticate = async () => {
     const resp = await axios_base.get<IAuthorizationRedirect>(`auth/o/google-oauth2/?redirect_uri=${host}/auth/oauth2/google/`)
     window.location.replace(resp.data.authorization_url)
