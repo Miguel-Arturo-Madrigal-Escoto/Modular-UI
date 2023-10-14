@@ -18,9 +18,11 @@ export const onSocialLogin = createAsyncThunk(
     async ({ provider, params }: ISocialOnLogin,  { dispatch }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
+            console.log('ok: ', resp.data)
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
+            console.log('err: ', err.response?.data)
             dispatch(setErrors(err.response?.data));
             throw new Error(`${err.response?.data}`)
         }
@@ -47,7 +49,7 @@ export const onLogin = createAsyncThunk(
 
 export const onLogout = createAsyncThunk(
     'auth/onLogout',
-    async (data = undefined, { dispatch }) => {
+    async (_ = undefined, { dispatch }) => {
         // Clear auth data
         sessionStorage.removeItem('access');
         sessionStorage.removeItem('refresh');
