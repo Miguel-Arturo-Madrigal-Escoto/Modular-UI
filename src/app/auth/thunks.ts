@@ -18,6 +18,7 @@ export const onSocialLogin = createAsyncThunk(
     async ({ provider, params }: ISocialOnLogin,  { dispatch }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
+            console.log('ok: ', resp.data)
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
