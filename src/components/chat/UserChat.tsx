@@ -30,7 +30,6 @@ export const UserChat: FC<Props> = ({ user }) => {
     }, [user]);
 
 
-
     const setActiveUser = async () => {
         const prevActiveUserChat = activeUserChat;
         dispatch(setActiveUserChat(user.base_user));

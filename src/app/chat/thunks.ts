@@ -16,7 +16,12 @@ export const onGetUserDataSocket = createAsyncThunk(
                     base_user: data.base_user
                 }
             });
-            return resp.data[0];   
+            // users/companies (depending on data.role)
+            const users = resp.data.map(usr => ({
+                ...usr,
+                image: usr.image ? import.meta.env.VITE_CLOUDINARY_URL + usr.image : null
+            }))
+            return users[0];  
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));

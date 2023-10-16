@@ -26,8 +26,6 @@ export const ProfileForm = () => {
         return <Navigate to="/for-you" />
     }
 
-
-
     return (
         <>
             <div className="relative min-h-screen flex ">

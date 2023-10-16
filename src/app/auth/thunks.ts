@@ -18,7 +18,6 @@ export const onSocialLogin = createAsyncThunk(
     async ({ provider, params }: ISocialOnLogin,  { dispatch }) => {
         try {
             const resp = await axios_base.get<ISocialLoginSuccess>(`auth/oauth2/${provider}/`, { params });
-            console.log('ok: ', resp.data)
             return resp.data;   
         } catch (error) {
             const err = error as AxiosError;
@@ -141,7 +140,6 @@ export const onCreateProfile = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
-            console.log(err.response?.data)
             errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
         }
@@ -189,7 +187,31 @@ export const onGetCurrentUserData = createAsyncThunk(
                     Authorization: `JWT ${access}`
                 }
             });
-            return resp.data;   
+            if (resp.data.user){
+                const profilePic = resp.data.user.image;
+                const response: ICurrentUser = {
+                    ...resp.data,
+                    user: {
+                        ...resp.data.user,
+                        image: profilePic ? import.meta.env.VITE_CLOUDINARY_URL + profilePic : null
+                    }
+                }
+                return response;
+            }
+            else if (resp.data.company) {
+                const profilePic = resp.data.company.image;
+                const response: ICurrentUser = {
+                    ...resp.data,
+                    company: {
+                        ...resp.data.company,
+                        image: profilePic ? import.meta.env.VITE_CLOUDINARY_URL + profilePic : null
+                    }
+                }
+                return response;
+            }
+            return resp.data;
+
+             
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));

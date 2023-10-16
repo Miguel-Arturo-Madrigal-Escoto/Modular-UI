@@ -28,7 +28,9 @@ export const onGetCompanyMatch = createAsyncThunk(
                     location: base_user.user!.location,
                     modality: base_user.user!.modality,
                     position: base_user.user!.position,
-                    image: base_user?.user?.image ? `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + base_user?.user?.image : null
+                    image: base_user?.user?.image 
+                            ? `${ import.meta.env.VITE_CLOUDINARY_URL }` + base_user?.user?.image 
+                            : null
                 },
             }));
             return baseUsers;   
@@ -62,7 +64,9 @@ export const onGetUserMatch = createAsyncThunk(
                     location:  base_user.company!.location,
                     sector:    base_user.company!.sector,
                     base_user: base_user.company!.base_user,
-                    image: base_user?.company?.image ? `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + base_user.company.image : null
+                    image: base_user?.company?.image 
+                            ? `${ import.meta.env.VITE_CLOUDINARY_URL }` + base_user.company.image 
+                            : null
                 }
             }));
             return baseUsers;   
@@ -124,7 +128,7 @@ export const onRetrieveUserMatchesList = createAsyncThunk(
             });
             const companies: ICompanyProfile[] = resp.data.map(company => ({
                 ...company,
-                image: company.image && `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + company.image
+                image: company.image && `${ import.meta.env.VITE_CLOUDINARY_URL }` + company.image
             }))
             return companies;   
         } catch (error) {
@@ -148,7 +152,7 @@ export const onRetrieveCompanyMatchesList = createAsyncThunk(
             });
             const users: IUserProfile[] = resp.data.map(user => ({
                 ...user,
-                image: user.image && `${ import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD }`.slice(0, -1) + user.image
+                image: user.image && `${ import.meta.env.VITE_CLOUDINARY_URL }` + user.image
             }))
             return users;   
         } catch (error) {
