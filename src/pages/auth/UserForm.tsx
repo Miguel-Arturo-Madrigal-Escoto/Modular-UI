@@ -20,7 +20,10 @@ export const UserForm: FC<Props> = ({ option }) => {
         watch
     } = useForm<IProfile>({
         defaultValues: {
-            new_position: ''
+            new_position: '',
+            modality: 'presencial',
+            location: 'aguascalientes',
+            position: '1'
         }
     })
     
