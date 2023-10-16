@@ -53,7 +53,6 @@ export const HeaderProfile: FC<Props> = ({ name, position, location, image }) =>
     const onMatchConnect = () => {
         // auth user/company is being sent in onMatchCompany/onMatchUser Authorization header
         if (user_data?.user){
-            console.log(storageRecommendedCompany?.company?.id)
             dispatch(onMatchUser({
                 like: true,
                 company_id: storageRecommendedCompany?.company?.id
