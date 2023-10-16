@@ -140,6 +140,7 @@ export const onCreateProfile = createAsyncThunk(
         } catch (error) {
             const err = error as AxiosError;
             dispatch(setErrors(err.response?.data));
+            console.log('err.response?.data', err.response?.data)
             errorNotification('Verifique los campos del formulario.');
             throw new Error(`${err.response?.data}`)
         }
