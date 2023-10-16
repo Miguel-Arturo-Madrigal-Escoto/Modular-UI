@@ -19,7 +19,9 @@ export const CompanyForm: FC<Props> = ({ option }) => {
         watch
     } = useForm<ICompany>({
         defaultValues: {
-            new_sector: ''
+            new_sector: '',
+            location: 'aguascalientes',
+            sector: '1'
         }
     })
 
