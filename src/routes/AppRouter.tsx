@@ -18,7 +18,7 @@ import { useEffect, useState, useContext } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { UserActivation } from '../pages/auth/UserActivation';
-import { onGetCurrentUserData, onRefreshJWT } from '../app/auth/thunks';
+import { onGetCurrentUserData } from '../app/auth/thunks';
 import { NavBar } from '../pages/home/NavBar';
 import { fetchFormData } from '../app/form/thunks';
 import { onGetUserExperiences } from '../app/experience/thunks';
