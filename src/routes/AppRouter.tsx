@@ -54,6 +54,7 @@ export const AppRouter = () => {
     // update the auth variables in localStorage
     useEffect(() => {
         saveLocalStorageState({ user, access, refresh });
+        console.log(access, refresh)
     }, [user, access, refresh]);
 
     //  Retrieve user/company data
@@ -100,13 +101,13 @@ export const AppRouter = () => {
     }, [location.pathname]);
 
     // Refresh JWT
-    useEffect(() => {
-        if (refresh){
-            dispatch(onRefreshJWT({
-                refresh,
-            }))
-        }
-    }, [refresh]);
+    // useEffect(() => {
+    //     if (refresh){
+    //         dispatch(onRefreshJWT({
+    //             refresh,
+    //         }))
+    //     }
+    // }, [refresh]);
 
     // Fetch data to fill form components such as <select>
     useEffect(() => {
