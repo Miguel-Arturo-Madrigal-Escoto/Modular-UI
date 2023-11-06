@@ -32,7 +32,7 @@ export const onLogin = createAsyncThunk(
     'auth/onLogin',
     async (credentials: IOnLogin, { dispatch }) => {
         try {
-            const resp = await axios_base.post<ILoginSuccess>(`auth/jwt/create`, credentials);
+            const resp = await axios_base.post<ILoginSuccess>(`auth/jwt/create/`, credentials);
             return {
                 access: resp.data.access,
                 refresh: resp.data.refresh,
