@@ -109,7 +109,7 @@ export const AppRouter = () => {
     
     // Refresh JWT
     useEffect(() => {
-        if (refresh){
+        if (refresh && access && user){
             dispatch(onRefreshJWT({
                 refresh,
             }))
