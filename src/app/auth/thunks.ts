@@ -105,7 +105,7 @@ export const onRefreshJWT = createAsyncThunk(
             // check if refresh JWT is valid and refresh token (new access JWT)
             const { auth } = getState() as RootState;
             
-            const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh`, { refresh }, {
+            const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh/`, { refresh }, {
                 headers: {
                     Authorization: `JWT ${ auth.access }`
                 }
