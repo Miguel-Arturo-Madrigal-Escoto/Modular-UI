@@ -100,10 +100,13 @@ export const onRegisterActivate = createAsyncThunk(
 
 export const onRefreshJWT = createAsyncThunk(
     'auth/onRefreshJWT',
-    async (data: IOnRefreshJWT,  { dispatch }) => {
+    async (_: IOnRefreshJWT,  { dispatch, getState }) => {
         try {
             // check if refresh JWT is valid and refresh token (new access JWT)
-            const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh`, data);
+            const { auth } = getState() as RootState;
+            const resp = await axios_base.post<IJWTRefreshSuccess>(`auth/jwt/refresh`, {
+                refresh: auth.refresh
+            });
 
             // check if access JWT is still valid
             // const { auth } = getState() as RootState;
