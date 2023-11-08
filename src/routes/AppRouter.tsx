@@ -18,7 +18,7 @@ import { useEffect, useState, useContext } from 'react';
 import { PrivateRoute } from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { UserActivation } from '../pages/auth/UserActivation';
-import { onGetCurrentUserData } from '../app/auth/thunks';
+import { onGetCurrentUserData, onRefreshJWT } from '../app/auth/thunks';
 import { NavBar } from '../pages/home/NavBar';
 import { fetchFormData } from '../app/form/thunks';
 import { onGetUserExperiences } from '../app/experience/thunks';
@@ -54,7 +54,6 @@ export const AppRouter = () => {
     // update the auth variables in localStorage
     useEffect(() => {
         saveLocalStorageState({ user, access, refresh });
-        console.log(access, refresh)
     }, [user, access, refresh]);
 
     //  Retrieve user/company data
@@ -100,21 +99,22 @@ export const AppRouter = () => {
         setisNavBarShown(!regex.test(location.pathname));
     }, [location.pathname]);
 
-    // Refresh JWT
-    // useEffect(() => {
-    //     if (refresh){
-    //         dispatch(onRefreshJWT({
-    //             refresh,
-    //         }))
-    //     }
-    // }, [refresh]);
-
+    
     // Fetch data to fill form components such as <select>
     useEffect(() => {
         if (access){
             dispatch(fetchFormData());
         }
     }, [access]);
+    
+    // Refresh JWT
+    useEffect(() => {
+        if (refresh){
+            dispatch(onRefreshJWT({
+                refresh,
+            }))
+        }
+    }, [refresh]);
 
     // Websockets connect & disconnect events
     useEffect(() => {
