@@ -38,7 +38,7 @@ export const Card = () => {
             if ( usersQueue.length === 0 ||  companiesQueue.length === 0) {
                 setIsLoading(false);
             }
-        }, 5000); 
+        }, 20000); 
     
         return () => {
           clearTimeout(detectionTimeout);
